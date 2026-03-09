@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>RepairPro - نظام إدارة الصيانة</title>
+<meta name="theme-color" content="#1a1a2e"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="RepairPro"/>
+<link rel="manifest" href="manifest.json"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:#F1F5F9;overscroll-behavior:none}
+input,select,textarea,button{font-family:'Segoe UI',Tahoma,sans-serif}
+::-webkit-scrollbar{display:none}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+// ====== QR CODE ======
+function QRCode({ value, size=120 }) {
+  const url = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(value)}&bgcolor=ffffff&color=1a1a2e&margin=4`;
+  return <img src={url} alt="QR" width={size} height={size} style={{borderRadius:8,display:"block",margin:"0 auto"}} onError={e=>e.target.style.display="none"}/>;
+}
+
+// ====== CONFIG ======
+const STATUSES = {
+  "قيد الانتظار":  {color:"#F59E0B",bg:"#FEF3C7",icon:"⏳",step:0},
+  "قيد الإصلاح":  {color:"#3B82F6",bg:"#DBEAFE",icon:"🔧",step:1},
+  "جاهز للتسليم": {color:"#10B981",bg:"#D1FAE5",icon:"✅",step:2},
+  "تم التسليم":   {color:"#6B7280",bg:"#F3F4F6",icon:"📦",step:3},
+  "ملغى":         {color:"#EF4444",bg:"#FEE2E2",icon:"❌",step:-1},
+};
+const PROBLEMS = ["شاشة مكسورة","بطارية","شحن","كاميرا","مكبر صوت","ميكروفون","سوفتوير","مياه","لا يشتغل","أخرى"];
+const BRANDS   = ["Samsung","iPhone","Huawei","Xiaomi","Oppo","Vivo","Realme","Tecno","Nokia","Infinix","أخرى"];
+
+// ====== STORAGE ======
+const getOrders  = () => { try{return JSON.parse(localStorage.getItem("rp_orders")||"[]")}catch{return[]} };
+const saveOrders = o  => localStorage.setItem("rp_orders",JSON.stringify(o));
+const getUsers   = () => { try{return JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin","password":"1234","name":"المدير","role":"admin"}]')}catch{return[]} };
+const saveUsers  = u  => localStorage.setItem("rp_users",JSON.stringify(u));
+const getSession = () => { try{return JSON.parse(sessionStorage.getItem("rp_sess")||"null")}catch{return null} };
+const saveSession= s  => sessionStorage.setItem("rp_sess",JSON.stringify(s));
+let _cnt = parseInt(localStorage.getItem("rp_cnt")||"1000");
+const nextId = () => { _cnt++; localStorage.setItem("rp_cnt",_cnt); return `REP-${_cnt}`; };
+
+// ====== WHATSAPP ======
+const sendWA = (phone, msg) => {
+  const c = phone.replace(/\D/g,"");
+  const n = c.startsWith("0") ? "964"+c.slice(1) : c.startsWith("964") ? c : "964"+c;
+  window.open(`https://wa.me/${n}?text=${encodeURIComponent(msg)}`,"_blank");
+};
+const waMsgs = {
+  "قيد الإصلاح":  o=>`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n🔧 جهازك قيد الإصلاح حالياً\nسنخبرك فور الانتهاء 🙏`,
+  "جاهز للتسليم": o=>`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${o.cost} IQD*\nيمكنك الحضور لاستلامه 🎉`,
+  "تم التسليم":   o=>`مرحباً ${o.customerName} 👋\nشكراً لثقتك بمركز الصيانة 🙏\nنتمنى رضاك عن خدمتنا 😊`,
+};
+
+// ====== PRINT ======
+const printReceipt = order => {
+  const qr = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent("طلب:"+order.ticketId+"|"+order.customerName)}&bgcolor=ffffff&color=1a1a2e&margin=4`;
+  const w = window.open("","_blank");
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>وصل ${order.ticketId}</title>
+  <style>body{font-family:'Segoe UI',sans-serif;direction:rtl;padding:20px;max-width:400px;margin:auto}
+  h2{text-align:center;color:#1a1a2e;margin-bottom:4px}.sub{text-align:center;color:#888;font-size:12px;margin-bottom:16px}
+  .qr{text-align:center;border:1px dashed #ccc;border-radius:12px;padding:12px;margin:12px 0;background:#fafafa}
+  .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
+  .lbl{color:#888}.val{font-weight:700}.cost{color:#e94560;font-size:17px;font-weight:800}
+  .badge{background:#1a1a2e;color:#fff;border-radius:20px;padding:2px 12px;font-size:11px}
+  .foot{text-align:center;margin-top:16px;font-size:11px;color:#aaa;border-top:1px dashed #ddd;padding-top:10px}
+  @media print{button{display:none}}</style></head><body>
+  <h2>🔧 مركز الصيانة</h2><div class="sub">وصل استلام جهاز للصيانة</div>
+  <div class="qr"><img src="${qr}" width="110"/><div style="font-size:15px;font-weight:800;letter-spacing:2px;margin-top:5px">${order.ticketId}</div>
+  <div style="font-size:10px;color:#888;margin-top:2px">امسح الكود لمتابعة الطلب</div></div>
+  <div class="row"><span class="lbl">الزبون</span><span class="val">${order.customerName}</span></div>
+  <div class="row"><span class="lbl">الهاتف</span><span class="val">${order.customerPhone}</span></div>
+  <div class="row"><span class="lbl">الجهاز</span><span class="val">${order.deviceBrand} ${order.deviceModel}</span></div>
+  <div class="row"><span class="lbl">اللون/السعة</span><span class="val">${order.deviceColor||"-"}</span></div>
+  <div class="row"><span class="lbl">IMEI</span><span class="val">${order.imei||"-"}</span></div>
+  <div class="row"><span class="lbl">العطل</span><span class="val">${order.problemType} - ${order.problemDesc}</span></div>
+  <div class="row"><span class="lbl">ملاحظات</span><span class="val">${order.deviceNotes||"لا يوجد"}</span></div>
+  <div class="row"><span class="lbl">التكلفة</span><span class="cost">${parseFloat(order.cost||0).toLocaleString()} IQD</span></div>
+  <div class="row"><span class="lbl">الاستلام</span><span class="val">${order.receivedDate}</span></div>
+  <div class="row"><span class="lbl">التسليم المتوقع</span><span class="val">${order.deliveryDate||"سيتم الإخبار"}</span></div>
+  <div class="row"><span class="lbl">الحالة</span><span class="badge">${order.status}</span></div>
+  <div class="foot">احتفظ بهذا الوصل لاستلام جهازك 🙏<br/>شكراً لثقتكم</div>
+  <script>window.onload=()=>window.print()<\/script></body></html>`);
+  w.document.close();
+};
+
+// ====== TRACKING ======
+function TrackingPage({onBack}) {
+  const [tid,setTid]=useState("");
+  const [order,setOrder]=useState(null);
+  const [notFound,setNotFound]=useState(false);
+  const steps=["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
+  const search=()=>{
+    const o=getOrders().find(o=>o.ticketId.toLowerCase()===tid.toLowerCase());
+    if(o){setOrder(o);setNotFound(false);}else{setOrder(null);setNotFound(true);}
+  };
+  return (
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#0f0c29,#302b63,#24243e)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+      <div style={{width:"100%",maxWidth:420}}>
+        <div style={{textAlign:"center",marginBottom:28}}>
+          <div style={{fontSize:48}}>🔧</div>
+          <h1 style={{color:"white",fontSize:22,fontWeight:800,margin:"8px 0 4px"}}>تتبع طلب الصيانة</h1>
+          <p style={{color:"rgba(255,255,255,0.6)",fontSize:13}}>أدخل رقم الطلب لمعرفة حالة جهازك</p>
+        </div>
+        <div style={{background:"rgba(255,255,255,0.1)",backdropFilter:"blur(10px)",borderRadius:20,padding:20,marginBottom:14}}>
+          <div style={{display:"flex",gap:10}}>
+            <input value={tid} onChange={e=>setTid(e.target.value)} onKeyDown={e=>e.key==="Enter"&&search()}
+              placeholder="مثال: REP-1001"
+              style={{flex:1,border:"2px solid rgba(255,255,255,0.3)",borderRadius:12,padding:"12px 14px",fontSize:15,background:"rgba(255,255,255,0.15)",color:"white",outline:"none",textAlign:"center",letterSpacing:2,fontWeight:700}}/>
+            <button onClick={search} style={{background:"#e94560",color:"white",border:"none",borderRadius:12,padding:"12px 18px",fontWeight:800,cursor:"pointer",fontSize:14}}>بحث</button>
+          </div>
+        </div>
+        {notFound&&<div style={{background:"rgba(239,68,68,0.2)",border:"1px solid rgba(239,68,68,0.5)",borderRadius:16,padding:20,textAlign:"center",color:"#fca5a5"}}>
+          <div style={{fontSize:30}}>😕</div>
+          <div style={{fontWeight:700,marginTop:8}}>لم يتم العثور على الطلب</div>
+          <div style={{fontSize:12,marginTop:4,opacity:0.8}}>تأكد من رقم الطلب في وصلك</div>
+        </div>}
+        {order&&<div style={{background:"rgba(255,255,255,0.97)",borderRadius:20,padding:22,color:"#1a1a2e"}}>
+          <div style={{textAlign:"center",marginBottom:18}}>
+            <div style={{fontSize:38}}>{STATUSES[order.status]?.icon}</div>
+            <div style={{fontWeight:800,fontSize:20,marginTop:6}}>{order.status}</div>
+            <div style={{color:"#888",fontSize:13}}>{order.ticketId}</div>
+          </div>
+          <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:22,position:"relative"}}>
+            <div style={{position:"absolute",top:"40%",left:0,right:0,height:3,background:"#e5e7eb",zIndex:0}}/>
+            {steps.map((s,i)=>{
+              const cur=STATUSES[order.status]?.step??0;
+              const done=i<=cur&&order.status!=="ملغى";
+              return <div key={s} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,zIndex:1}}>
+                <div style={{width:30,height:30,borderRadius:"50%",background:done?"#10B981":"#e5e7eb",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,border:"3px solid white",color:done?"white":"#9ca3af",fontWeight:700}}>{done?"✓":i+1}</div>
+                <div style={{fontSize:8,color:done?"#10B981":"#9ca3af",fontWeight:done?700:400,textAlign:"center",maxWidth:55}}>{s}</div>
+              </div>;
+            })}
+          </div>
+          {[["📱 الجهاز",`${order.deviceBrand} ${order.deviceModel}`],["⚠️ العطل",order.problemType],["💰 التكلفة",`${parseFloat(order.cost||0).toLocaleString()} IQD`],["📅 الاستلام",order.receivedDate],["📅 التسليم المتوقع",order.deliveryDate||"سيتم الإخبار"]].map(([l,v])=>
+            <div key={l} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #f3f4f6",fontSize:13}}>
+              <span style={{color:"#6b7280"}}>{l}</span><span style={{fontWeight:700}}>{v}</span>
+            </div>
+          )}
+        </div>}
+        {onBack&&<button onClick={onBack} style={{width:"100%",marginTop:14,background:"rgba(255,255,255,0.15)",color:"white",border:"1px solid rgba(255,255,255,0.3)",borderRadius:12,padding:"12px",cursor:"pointer",fontWeight:600}}>← رجوع للإدارة</button>}
+      </div>
+    </div>
+  );
+}
+
+// ====== LOGIN ======
+function LoginPage({onLogin}) {
+  const [mode,setMode]=useState("login");
+  const [form,setForm]=useState({username:"",password:"",name:"",confirmPass:""});
+  const [err,setErr]=useState("");
+  const set=(k,v)=>setForm(p=>({...p,[k]:v}));
+  const inp={width:"100%",border:"1px solid rgba(255,255,255,0.15)",borderRadius:12,padding:"12px 16px",fontSize:14,background:"rgba(255,255,255,0.1)",color:"white",outline:"none",marginBottom:12,boxSizing:"border-box"};
+  const doLogin=()=>{
+    const u=getUsers().find(u=>u.username===form.username&&u.password===form.password);
+    if(u){saveSession(u);onLogin(u);}else setErr("اسم المستخدم أو كلمة المرور غلط ❌");
+  };
+  const doRegister=()=>{
+    if(!form.name||!form.username||!form.password){setErr("يرجى ملء جميع الحقول");return;}
+    if(form.password!==form.confirmPass){setErr("كلمة المرور غير متطابقة");return;}
+    const users=getUsers();
+    if(users.find(u=>u.username===form.username)){setErr("اسم المستخدم موجود مسبقاً");return;}
+    const u={username:form.username,password:form.password,name:form.name,role:"tech"};
+    saveUsers([...users,u]);saveSession(u);onLogin(u);
+  };
+  if(mode==="track") return <TrackingPage onBack={()=>setMode("login")}/>;
+  return (
+    <div style={{minHeight:"100vh",background:"linear-gradient(135deg,#1a1a2e,#16213e,#0f3460)",display:"flex",alignItems:"center",justifyContent:"center",padding:20}}>
+      <div style={{width:"100%",maxWidth:370}}>
+        <div style={{textAlign:"center",marginBottom:28}}>
+          <div style={{width:68,height:68,background:"#e94560",borderRadius:20,display:"flex",alignItems:"center",justifyContent:"center",fontSize:34,margin:"0 auto 14px",boxShadow:"0 8px 30px rgba(233,69,96,0.4)"}}>🔧</div>
+          <h1 style={{color:"white",fontSize:25,fontWeight:900,margin:0}}>RepairPro</h1>
+          <p style={{color:"rgba(255,255,255,0.5)",fontSize:13,marginTop:4}}>نظام إدارة الصيانة المتكامل</p>
+        </div>
+        <div style={{background:"rgba(255,255,255,0.06)",backdropFilter:"blur(20px)",border:"1px solid rgba(255,255,255,0.1)",borderRadius:22,padding:26}}>
+          <div style={{display:"flex",gap:6,marginBottom:22,background:"rgba(0,0,0,0.3)",borderRadius:12,padding:4}}>
+            {[["login","تسجيل الدخول"],["register","حساب جديد"]].map(([v,l])=>
+              <button key={v} onClick={()=>{setMode(v);setErr("");}} style={{flex:1,border:"none",borderRadius:10,padding:"9px",fontWeight:700,fontSize:13,cursor:"pointer",background:mode===v?"white":"transparent",color:mode===v?"#1a1a2e":"rgba(255,255,255,0.5)",transition:"all 0.2s"}}>{l}</button>
+            )}
+          </div>
+          {err&&<div style={{background:"rgba(239,68,68,0.2)",border:"1px solid rgba(239,68,68,0.4)",color:"#fca5a5",borderRadius:10,padding:"10px 14px",fontSize:13,marginBottom:14,textAlign:"center"}}>{err}</div>}
+          {mode==="register"&&<input value={form.name} onChange={e=>set("name",e.target.value)} placeholder="الاسم الكامل" style={inp}/>}
+          <input value={form.username} onChange={e=>set("username",e.target.value)} placeholder="اسم المستخدم" style={inp}/>
+          <input value={form.password} onChange={e=>set("password",e.target.value)} placeholder="كلمة المرور" type="password" style={inp}/>
+          {mode==="register"&&<input value={form.confirmPass} onChange={e=>set("confirmPass",e.target.value)} placeholder="تأكيد كلمة المرور" type="password" style={inp}/>}
+          <button onClick={mode==="login"?doLogin:doRegister} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0392b)",color:"white",border:"none",borderRadius:14,padding:"14px",fontWeight:800,cursor:"pointer",fontSize:15,boxShadow:"0 4px 18px rgba(233,69,96,0.4)"}}>
+            {mode==="login"?"دخول ←":"إنشاء الحساب ←"}
+          </button>
+          <div style={{textAlign:"center",marginTop:14}}>
+            <button onClick={()=>setMode("track")} style={{background:"none",border:"1px solid rgba(255,255,255,0.2)",color:"rgba(255,255,255,0.7)",borderRadius:10,padding:"8px 18px",cursor:"pointer",fontSize:12}}>🔍 تتبع طلب (للزبائن)</button>
+          </div>
+          {mode==="login"&&<div style={{textAlign:"center",marginTop:10,color:"rgba(255,255,255,0.3)",fontSize:11}}>افتراضي: admin / 1234</div>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ====== ORDER FORM ======
+function OrderForm({initial,onSave,onClose}) {
+  const [form,setForm]=useState({
+    customerName:initial?.customerName||"",customerPhone:initial?.customerPhone||"",
+    deviceBrand:initial?.deviceBrand||"",deviceModel:initial?.deviceModel||"",
+    deviceColor:initial?.deviceColor||"",imei:initial?.imei||"",
+    problemType:initial?.problemType||PROBLEMS[0],problemDesc:initial?.problemDesc||"",
+    deviceNotes:initial?.deviceNotes||"",cost:initial?.cost||"",
+    deliveryDate:initial?.deliveryDate||"",technician:initial?.technician||"",
+    status:initial?.status||"قيد الانتظار",
+  });
+  const set=(k,v)=>setForm(p=>({...p,[k]:v}));
+  const inp={width:"100%",border:"1.5px solid #e5e7eb",borderRadius:10,padding:"11px 14px",fontSize:14,boxSizing:"border-box",outline:"none",background:"#fafafa",marginBottom:12,fontFamily:"inherit"};
+  const lbl={fontSize:12,fontWeight:700,color:"#374151",marginBottom:4,display:"block"};
+  const Sec=({bg,tc,t})=><div style={{background:bg,color:tc,borderRadius:10,padding:"8px 14px",marginBottom:12,fontSize:12,fontWeight:700}}>{t}</div>;
+  return (
+    <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,0.65)",zIndex:1000,display:"flex",alignItems:"flex-end",justifyContent:"center"}} onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <div style={{background:"white",borderRadius:"22px 22px 0 0",width:"100%",maxWidth:480,maxHeight:"92vh",overflowY:"auto",padding:20,boxShadow:"0 -8px 40px rgba(0,0,0,0.3)"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:18}}>
+          <div style={{fontWeight:900,fontSize:17}}>{initial?"✏️ تعديل الطلب":"➕ طلب صيانة جديد"}</div>
+          <button onClick={onClose} style={{background:"#f3f4f6",border:"none",borderRadius:"50%",width:32,height:32,cursor:"pointer",fontSize:16}}>✕</button>
+        </div>
+        <Sec bg="#FEF3C7" tc="#92400E" t="👤 معلومات الزبون"/>
+        <label style={lbl}>اسم الزبون *</label>
+        <input style={inp} value={form.customerName} onChange={e=>set("customerName",e.target.value)} placeholder="الاسم الكامل"/>
+        <label style={lbl}>رقم الهاتف * (للواتساب)</label>
+        <input style={inp} value={form.customerPhone} onChange={e=>set("customerPhone",e.target.value)} placeholder="07xxxxxxxx" type="tel"/>
+        <Sec bg="#DBEAFE" tc="#1E40AF" t="📱 معلومات الجهاز"/>
+        <label style={lbl}>الماركة *</label>
+        <select style={inp} value={form.deviceBrand} onChange={e=>set("deviceBrand",e.target.value)}>
+          <option value="">اختر الماركة</option>
+          {BRANDS.map(b=><option key={b}>{b}</option>)}
+        </select>
+        <label style={lbl}>الموديل *</label>
+        <input style={inp} value={form.deviceModel} onChange={e=>set("deviceModel",e.target.value)} placeholder="Galaxy S23, iPhone 14..."/>
+        <label style={lbl}>اللون / السعة</label>
+        <input style={inp} value={form.deviceColor} onChange={e=>set("deviceColor",e.target.value)} placeholder="أسود 128GB"/>
+        <label style={lbl}>IMEI</label>
+        <input style={inp} value={form.imei} onChange={e=>set("imei",e.target.value)} placeholder="اختياري"/>
+        <label style={lbl}>حالة الجهاز الظاهرية</label>
+        <input style={inp} value={form.deviceNotes} onChange={e=>set("deviceNotes",e.target.value)} placeholder="خدوش، شاشة مشققة..."/>
+        <Sec bg="#D1FAE5" tc="#065F46" t="⚠️ العطل والإصلاح"/>
+        <label style={lbl}>نوع العطل *</label>
+        <select style={inp} value={form.problemType} onChange={e=>set("problemType",e.target.value)}>
+          {PROBLEMS.map(p=><option key={p}>{p}</option>)}
+        </select>
+        <label style={lbl}>وصف العطل *</label>
+        <textarea style={{...inp,height:75,resize:"none"}} value={form.problemDesc} onChange={e=>set("problemDesc",e.target.value)} placeholder="اشرح المشكلة بتفصيل..."/>
+        <label style={lbl}>اسم الفني</label>
+        <input style={inp} value={form.technician} onChange={e=>set("technician",e.target.value)} placeholder="الفني المسؤول"/>
+        <Sec bg="#FEE2E2" tc="#991B1B" t="💰 التكلفة والتسليم"/>
+        <label style={lbl}>تكلفة الإصلاح (IQD) *</label>
+        <input style={inp} value={form.cost} onChange={e=>set("cost",e.target.value)} placeholder="25000" type="number"/>
+        <label style={lbl}>تاريخ التسليم المتوقع</label>
+        <input style={inp} value={form.deliveryDate} onChange={e=>set("deliveryDate",e.target.value)} type="date"/>
+        <label style={lbl}>الحالة</label>
+        <select style={inp} value={form.status} onChange={e=>set("status",e.target.value)}>
+          {Object.keys(STATUSES).map(s=><option key={s}>{s}</option>)}
+        </select>
+        <button onClick={()=>{
+          if(!form.customerName||!form.customerPhone||!form.deviceBrand||!form.deviceModel||!form.problemDesc||!form.cost){alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)");return;}
+          onSave(form);
+        }} style={{width:"100%",background:"linear-gradient(135deg,#e94560,#c0392b)",color:"white",border:"none",borderRadius:14,padding:"14px",fontWeight:800,cursor:"pointer",fontSize:15,marginTop:6,boxShadow:"0 4px 18px rgba(233,69,96,0.35)"}}>
+          {initial?"💾 حفظ التعديلات":"✅ إضافة الطلب"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// ====== DASHBOARD ======
+function Dashboard({user,onLogout}) {
+  const [orders,setOrders]=useState(getOrders);
+  const [page,setPage]=useState("home");
+  const [selected,setSelected]=useState(null);
+  const [showForm,setShowForm]=useState(false);
+  const [editOrder,setEditOrder]=useState(null);
+  const [search,setSearch]=useState("");
+  const [filterStatus,setFilterStatus]=useState("الكل");
+  const [toast,setToast]=useState(null);
+  useEffect(()=>{saveOrders(orders);},[orders]);
+  const showToast=(msg,type="ok")=>{setToast({msg,type});setTimeout(()=>setToast(null),3000);};
+  const saveOrder=data=>{
+    if(editOrder){
+      setOrders(p=>p.map(o=>o.ticketId===editOrder.ticketId?{...o,...data}:o));
+      if(selected?.ticketId===editOrder.ticketId)setSelected(p=>({...p,...data}));
+      showToast("تم التحديث ✅");
+    }else{
+      const o={...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")};
+      setOrders(p=>[o,...p]);showToast("تم إضافة الطلب 🎉");
+    }
+    setShowForm(false);setEditOrder(null);
+  };
+  const updateStatus=(ticketId,status)=>{
+    setOrders(p=>p.map(o=>o.ticketId===ticketId?{...o,status}:o));
+    setSelected(p=>p?{...p,status}:p);
+    showToast("تم تحديث الحالة");
+    if(waMsgs[status]){
+      const order=orders.find(o=>o.ticketId===ticketId);
+      if(order&&window.confirm(`إرسال إشعار واتساب للزبون بأن الحالة: "${status}"؟`)){
+        sendWA(order.customerPhone,waMsgs[status]({...order,status}));
+      }
+    }
+  };
+  const deleteOrder=tid=>{
+    if(!window.confirm("هل تريد حذف هذا الطلب نهائياً؟"))return;
+    setOrders(p=>p.filter(o=>o.ticketId!==tid));
+    setSelected(null);setPage("home");showToast("تم الحذف","err");
+  };
+  const filtered=orders.filter(o=>{
+    const q=search.toLowerCase();
+    const ms=!q||[o.customerName,o.ticketId,o.customerPhone,o.deviceModel,o.deviceBrand].some(v=>v?.toLowerCase().includes(q));
+    const mf=filterStatus==="الكل"||o.status===filterStatus;
+    return ms&&mf;
+  });
+  const stats={
+    total:orders.length,
+    pending:orders.filter(o=>o.status==="قيد الانتظار").length,
+    inProgress:orders.filter(o=>o.status==="قيد الإصلاح").length,
+    ready:orders.filter(o=>o.status==="جاهز للتسليم").length,
+    delivered:orders.filter(o=>o.status==="تم التسليم").length,
+    revenue:orders.filter(o=>o.status==="تم التسليم").reduce((s,o)=>s+(parseFloat(o.cost)||0),0),
+  };
+  if(page==="tracking") return <TrackingPage onBack={()=>setPage("home")}/>;
+
+  return (
+    <div style={{fontFamily:"'Segoe UI',Tahoma,sans-serif",direction:"rtl",background:"#F1F5F9",minHeight:"100vh",maxWidth:480,margin:"0 auto",paddingBottom:80}}>
+      {toast&&<div style={{position:"fixed",top:16,left:"50%",transform:"translateX(-50%)",background:toast.type==="err"?"#EF4444":"#10B981",color:"white",padding:"10px 22px",borderRadius:30,zIndex:9999,fontSize:13,fontWeight:700,boxShadow:"0 4px 20px rgba(0,0,0,0.2)",whiteSpace:"nowrap"}}>{toast.msg}</div>}
+
+      {/* HEADER */}
+      <div style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)",color:"white",padding:"15px 18px"}}>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div>
+            <div style={{fontWeight:900,fontSize:18}}>🔧 RepairPro</div>
+            <div style={{fontSize:11,color:"rgba(255,255,255,0.5)",marginTop:1}}>مرحباً {user.name} 👋</div>
+          </div>
+          <div style={{display:"flex",gap:8,alignItems:"center"}}>
+            <button onClick={()=>{setEditOrder(null);setShowForm(true);}} style={{background:"#e94560",color:"white",border:"none",borderRadius:12,padding:"8px 14px",fontWeight:800,cursor:"pointer",fontSize:13}}>+ جديد</button>
+            <button onClick={onLogout} style={{background:"rgba(255,255,255,0.1)",color:"white",border:"none",borderRadius:10,padding:"8px 12px",cursor:"pointer",fontSize:12}}>خروج</button>
+          </div>
+        </div>
+      </div>
+
+      {/* HOME */}
+      {page==="home"&&<div style={{padding:14}}>
+        <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:8,marginBottom:14}}>
+          {[{l:"الكل",v:stats.total,c:"#1a1a2e",i:"📋"},{l:"انتظار",v:stats.pending,c:"#F59E0B",i:"⏳"},{l:"إصلاح",v:stats.inProgress,c:"#3B82F6",i:"🔧"},{l:"جاهز",v:stats.ready,c:"#10B981",i:"✅"},{l:"مسلّم",v:stats.delivered,c:"#6B7280",i:"📦"},{l:"الإيراد",v:`${(stats.revenue/1000).toFixed(0)}k`,c:"#e94560",i:"💰"}].map((s,i)=>
+            <div key={i} style={{background:"white",borderRadius:14,padding:"11px 8px",textAlign:"center",boxShadow:"0 2px 8px rgba(0,0,0,0.07)"}}>
+              <div style={{fontSize:18}}>{s.i}</div>
+              <div style={{fontSize:19,fontWeight:900,color:s.c,marginTop:2}}>{s.v}</div>
+              <div style={{fontSize:10,color:"#9CA3AF",marginTop:1}}>{s.l}</div>
+            </div>
+          )}
+        </div>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="🔍 بحث بالاسم، رقم الطلب، الهاتف..."
+          style={{width:"100%",border:"none",borderRadius:14,padding:"12px 16px",fontSize:13,boxSizing:"border-box",background:"white",boxShadow:"0 2px 8px rgba(0,0,0,0.08)",outline:"none",marginBottom:10}}/>
+        <div style={{display:"flex",gap:7,overflowX:"auto",paddingBottom:6,marginBottom:12,scrollbarWidth:"none"}}>
+          {["الكل",...Object.keys(STATUSES)].map(s=>
+            <button key={s} onClick={()=>setFilterStatus(s)} style={{border:"none",borderRadius:20,padding:"6px 13px",fontSize:11,cursor:"pointer",whiteSpace:"nowrap",fontWeight:filterStatus===s?800:400,background:filterStatus===s?"#1a1a2e":"white",color:filterStatus===s?"white":"#6B7280"}}>{s}</button>
+          )}
+        </div>
+        {filtered.length===0?<div style={{textAlign:"center",padding:"40px 20px",color:"#9CA3AF"}}>
+          <div style={{fontSize:44,marginBottom:10}}>📭</div>
+          <div style={{fontWeight:700}}>لا توجد طلبات</div>
+          <div style={{fontSize:12,marginTop:4}}>اضغط "+ جديد" لإضافة طلب</div>
+        </div>:filtered.map(o=>{
+          const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
+          return <div key={o.ticketId} onClick={()=>{setSelected(o);setPage("detail");}}
+            style={{background:"white",borderRadius:16,padding:"14px 15px",marginBottom:9,boxShadow:"0 2px 10px rgba(0,0,0,0.07)",cursor:"pointer",borderRight:`4px solid ${sc.color}`}}>
+            <div style={{display:"flex",justifyContent:"space-between"}}>
+              <div style={{flex:1}}>
+                <div style={{fontWeight:800,fontSize:15,marginBottom:2}}>{o.customerName}</div>
+                <div style={{color:"#6B7280",fontSize:12}}>{o.deviceBrand} {o.deviceModel}</div>
+                <div style={{color:"#9CA3AF",fontSize:11,marginTop:2}}>📞 {o.customerPhone}</div>
+              </div>
+              <div style={{textAlign:"left",display:"flex",flexDirection:"column",alignItems:"flex-end",gap:5}}>
+                <div style={{background:sc.bg,color:sc.color,borderRadius:10,padding:"3px 9px",fontSize:11,fontWeight:700}}>{sc.icon} {o.status}</div>
+                <div style={{fontWeight:800,color:"#e94560",fontSize:14}}>{parseFloat(o.cost||0).toLocaleString()} IQD</div>
+              </div>
+            </div>
+            <div style={{marginTop:8,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+              <span style={{background:"#F3F4F6",borderRadius:8,padding:"3px 9px",fontSize:11,color:"#374151",fontWeight:700}}>{o.ticketId}</span>
+              <span style={{color:"#9CA3AF",fontSize:11}}>📅 {o.receivedDate}</span>
+            </div>
+          </div>;
+        })}
+      </div>}
+
+      {/* DETAIL */}
+      {page==="detail"&&selected&&(()=>{
+        const sc=STATUSES[selected.status]||STATUSES["قيد الانتظار"];
+        const steps=["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
+        return <div style={{padding:14}}>
+          <button onClick={()=>setPage("home")} style={{background:"none",border:"none",color:"#1a1a2e",fontWeight:800,fontSize:14,cursor:"pointer",marginBottom:12,padding:0}}>← رجوع</button>
+          {/* TOP */}
+          <div style={{background:"linear-gradient(135deg,#1a1a2e,#16213e)",color:"white",borderRadius:20,padding:18,marginBottom:12}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:14}}>
+              <div>
+                <div style={{fontSize:19,fontWeight:900}}>{selected.customerName}</div>
+                <div style={{color:"rgba(255,255,255,0.6)",fontSize:12,marginTop:2}}>📞 {selected.customerPhone}</div>
+              </div>
+              <div style={{background:sc.bg,color:sc.color,borderRadius:12,padding:"5px 12px",fontWeight:800,fontSize:12}}>{sc.icon} {selected.status}</div>
+            </div>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",position:"relative"}}>
+              <div style={{position:"absolute",top:"40%",left:0,right:0,height:2,background:"rgba(255,255,255,0.2)"}}/>
+              {steps.map((s,i)=>{
+                const done=i<=(sc.step??0)&&selected.status!=="ملغى";
+                return <div key={s} style={{display:"flex",flexDirection:"column",alignItems:"center",gap:5,zIndex:1,flex:1}}>
+                  <div style={{width:26,height:26,borderRadius:"50%",background:done?"#10B981":"rgba(255,255,255,0.15)",display:"flex",alignItems:"center",justifyContent:"center",fontSize:11,border:"2px solid "+(done?"#10B981":"rgba(255,255,255,0.3)"),color:done?"white":"rgba(255,255,255,0.5)",fontWeight:700}}>{done?"✓":i+1}</div>
+                  <div style={{fontSize:8,color:done?"#6EE7B7":"rgba(255,255,255,0.3)",textAlign:"center",fontWeight:done?700:400}}>{s}</div>
+                </div>;
+              })}
+            </div>
+          </div>
+          {/* QR */}
+          <div style={{background:"white",borderRadius:16,padding:18,marginBottom:12,textAlign:"center",boxShadow:"0 2px 10px rgba(0,0,0,0.08)"}}>
+            <div style={{fontSize:12,fontWeight:700,color:"#6B7280",marginBottom:8}}>رمز QR للتتبع</div>
+            <QRCode value={`${selected.ticketId}|${selected.customerName}|${selected.deviceBrand} ${selected.deviceModel}|${selected.status}`} size={120}/>
+            <div style={{fontWeight:800,fontSize:15,letterSpacing:3,marginTop:8,color:"#1a1a2e"}}>{selected.ticketId}</div>
+            <div style={{fontSize:11,color:"#9CA3AF",marginTop:2}}>الزبون يمسح الكود لمتابعة طلبه</div>
+          </div>
+          {/* INFO */}
+          <div style={{background:"white",borderRadius:16,padding:14,marginBottom:12,boxShadow:"0 2px 10px rgba(0,0,0,0.08)"}}>
+            {[["📱 الجهاز",`${selected.deviceBrand} ${selected.deviceModel}`],["🎨 اللون/السعة",selected.deviceColor||"-"],["🔢 IMEI",selected.imei||"-"],["⚠️ نوع العطل",selected.problemType],["📝 وصف العطل",selected.problemDesc],["🔍 حالة الجهاز",selected.deviceNotes||"لا يوجد"],["💰 التكلفة",`${parseFloat(selected.cost||0).toLocaleString()} IQD`],["📅 الاستلام",selected.receivedDate],["📅 التسليم المتوقع",selected.deliveryDate||"سيتم الإخبار"],["👨‍🔧 الفني",selected.technician||"-"]].map(([l,v])=>
+              <div key={l} style={{display:"flex",justifyContent:"space-between",padding:"8px 0",borderBottom:"1px solid #F3F4F6"}}>
+                <span style={{color:"#6B7280",fontSize:13}}>{l}</span>
+                <span style={{fontWeight:700,color:"#1a1a2e",fontSize:13,textAlign:"left",maxWidth:"60%"}}>{v}</span>
+              </div>
+            )}
+          </div>
+          {/* STATUS */}
+          <div style={{background:"white",borderRadius:16,padding:14,marginBottom:12}}>
+            <div style={{fontWeight:800,fontSize:13,marginBottom:10}}>🔄 تحديث الحالة</div>
+            <div style={{display:"flex",gap:7,flexWrap:"wrap"}}>
+              {Object.entries(STATUSES).map(([s,sc2])=>
+                <button key={s} onClick={()=>updateStatus(selected.ticketId,s)}
+                  style={{border:"2px solid "+(selected.status===s?sc2.color:"#E5E7EB"),borderRadius:20,padding:"6px 12px",fontSize:11,cursor:"pointer",background:selected.status===s?sc2.bg:"white",color:selected.status===s?sc2.color:"#6B7280",fontWeight:selected.status===s?800:400}}>
+                  {sc2.icon} {s}
+                </button>
+              )}
+            </div>
+          </div>
+          {/* WHATSAPP */}
+          <div style={{background:"#DCFCE7",borderRadius:16,padding:14,marginBottom:12}}>
+            <div style={{fontWeight:800,fontSize:13,marginBottom:10,color:"#065F46"}}>💬 إرسال واتساب للزبون</div>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:7}}>
+              {Object.entries(waMsgs).map(([status,fn])=>
+                <button key={status} onClick={()=>sendWA(selected.customerPhone,fn(selected))}
+                  style={{background:"#25D366",color:"white",border:"none",borderRadius:12,padding:"10px 6px",fontSize:11,cursor:"pointer",fontWeight:700}}>📲 {status}</button>
+              )}
+              <button onClick={()=>sendWA(selected.customerPhone,`مرحباً ${selected.customerName}،\nبخصوص جهازك ${selected.deviceBrand} ${selected.deviceModel}\nرقم طلبك: ${selected.ticketId}`)}
+                style={{background:"#128C7E",color:"white",border:"none",borderRadius:12,padding:"10px 6px",fontSize:11,cursor:"pointer",fontWeight:700}}>💬 رسالة عامة</button>
+            </div>
+          </div>
+          {/* ACTIONS */}
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:9}}>
+            <button onClick={()=>printReceipt(selected)} style={{background:"#1a1a2e",color:"white",border:"none",borderRadius:14,padding:"13px",fontWeight:800,cursor:"pointer",fontSize:13}}>🖨️ طباعة الوصل</button>
+            <button onClick={()=>{setEditOrder(selected);setShowForm(true);}} style={{background:"#3B82F6",color:"white",border:"none",borderRadius:14,padding:"13px",fontWeight:800,cursor:"pointer",fontSize:13}}>✏️ تعديل</button>
+            <button onClick={()=>deleteOrder(selected.ticketId)} style={{background:"#EF4444",color:"white",border:"none",borderRadius:14,padding:"13px",fontWeight:800,cursor:"pointer",fontSize:13,gridColumn:"span 2"}}>🗑️ حذف الطلب</button>
+          </div>
+        </div>;
+      })()}
+
+      {/* STATS */}
+      {page==="stats"&&<div style={{padding:14}}>
+        <div style={{fontWeight:900,fontSize:19,marginBottom:14}}>📊 الإحصائيات</div>
+        <div style={{background:"linear-gradient(135deg,#e94560,#c0392b)",color:"white",borderRadius:18,padding:18,marginBottom:14,display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+          <div>
+            <div style={{fontSize:12,opacity:0.7}}>إجمالي الإيرادات</div>
+            <div style={{fontSize:28,fontWeight:900}}>{stats.revenue.toLocaleString()}</div>
+            <div style={{fontSize:12,opacity:0.7}}>دينار عراقي</div>
+          </div>
+          <div style={{fontSize:44}}>💰</div>
+        </div>
+        {Object.entries(STATUSES).map(([status,sc])=>{
+          const count=orders.filter(o=>o.status===status).length;
+          const pct=orders.length?Math.round((count/orders.length)*100):0;
+          return <div key={status} style={{background:"white",borderRadius:14,padding:14,marginBottom:9,boxShadow:"0 2px 8px rgba(0,0,0,0.07)"}}>
+            <div style={{display:"flex",justifyContent:"space-between",marginBottom:8}}>
+              <span style={{fontWeight:700}}>{sc.icon} {status}</span>
+              <span style={{fontWeight:900,color:sc.color}}>{count} طلب ({pct}%)</span>
+            </div>
+            <div style={{background:"#F3F4F6",borderRadius:20,height:8}}>
+              <div style={{background:sc.color,width:`${pct}%`,height:8,borderRadius:20}}/>
+            </div>
+          </div>;
+        })}
+      </div>}
+
+      {/* BOTTOM NAV */}
+      <div style={{position:"fixed",bottom:0,left:"50%",transform:"translateX(-50%)",width:"100%",maxWidth:480,background:"white",borderTop:"1px solid #E5E7EB",display:"flex",justifyContent:"space-around",padding:"8px 0 12px",zIndex:100,boxShadow:"0 -4px 20px rgba(0,0,0,0.08)"}}>
+        {[{i:"🏠",l:"الرئيسية",p:"home"},{i:"📊",l:"إحصائيات",p:"stats"},{i:"🔍",l:"تتبع طلب",p:"tracking"}].map(n=>
+          <button key={n.p} onClick={()=>setPage(n.p)} style={{background:"none",border:"none",cursor:"pointer",display:"flex",flexDirection:"column",alignItems:"center",gap:2,color:page===n.p?"#e94560":"#9CA3AF",padding:"3px 14px"}}>
+            <span style={{fontSize:21}}>{n.i}</span>
+            <span style={{fontSize:10,fontWeight:page===n.p?800:400}}>{n.l}</span>
+          </button>
+        )}
+      </div>
+      {showForm&&<OrderForm initial={editOrder} onSave={saveOrder} onClose={()=>{setShowForm(false);setEditOrder(null);}}/>}
+    </div>
+  );
+}
+
+// ====== ROOT ======
+function App() {
+  const [user,setUser]=useState(getSession);
+  if(!user) return <LoginPage onLogin={u=>{saveSession(u);setUser(u);}}/>;
+  return <Dashboard user={user} onLogout={()=>{saveSession(null);setUser(null);}}/>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
