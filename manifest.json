@@ -1,0 +1,29 @@
+{
+  "name": "RepairPro - نظام إدارة الصيانة",
+  "short_name": "RepairPro",
+  "description": "نظام إدارة صيانة الهواتف المتكامل",
+  "start_url": "/repair-pro/",
+  "scope": "/repair-pro/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1a1a2e",
+  "theme_color": "#e94560",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "https://api.iconify.design/twemoji:wrench.svg?width=192&height=192",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://api.iconify.design/twemoji:wrench.svg?width=512&height=512",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "screenshots": []
+}

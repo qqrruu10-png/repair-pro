@@ -10,6 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="RepairPro"/>
 <link rel="manifest" href="manifest.json"/>
+<meta name="description" content="نظام إدارة صيانة الهواتف المتكامل"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -92,7 +93,8 @@ const printReceipt = order => {
   <div class="row"><span class="lbl">التسليم المتوقع</span><span class="val">${order.deliveryDate||"سيتم الإخبار"}</span></div>
   <div class="row"><span class="lbl">الحالة</span><span class="badge">${order.status}</span></div>
   <div class="foot">احتفظ بهذا الوصل لاستلام جهازك 🙏<br/>شكراً لثقتكم</div>
-  <script>window.onload=()=>window.print()<\/script></body></html>`);
+  <script>window.onload=()=>window.print()<\/script><script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/repair-pro/sw.js");}</script>
+</body></html>`);
   w.document.close();
 };
 
@@ -520,5 +522,6 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
+<script>if("serviceWorker" in navigator){navigator.serviceWorker.register("/repair-pro/sw.js");}</script>
 </body>
 </html>
