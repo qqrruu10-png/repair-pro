@@ -16,354 +16,452 @@ body{background:#f1f5f9;direction:rtl;min-height:100vh}
 input,select,textarea,button{font-family:inherit;font-size:14px}
 ::-webkit-scrollbar{display:none}
 .hidden{display:none!important}
-.page{display:none;padding:14px;padding-bottom:80px}
+.page{display:none;padding:14px;padding-bottom:90px}
 .page.active{display:block}
-
-/* HEADER */
-.header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;padding:15px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
-.header h1{font-size:18px;font-weight:900}
-.header .sub{font-size:11px;color:rgba(255,255,255,0.5);margin-top:2px}
-.btn-new{background:#e94560;color:white;border:none;border-radius:12px;padding:8px 14px;font-weight:800;cursor:pointer;font-size:13px}
-.btn-logout{background:rgba(255,255,255,0.1);color:white;border:none;border-radius:10px;padding:8px 12px;cursor:pointer;font-size:12px}
-
-/* BOTTOM NAV */
-.nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0 12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.08);max-width:480px;margin:0 auto}
-.nav-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;color:#9ca3af;padding:3px 14px;font-size:10px;font-weight:400}
+.header{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.btn-new{background:#e94560;color:white;border:none;border-radius:10px;padding:7px 13px;font-weight:800;cursor:pointer;font-size:12px}
+.btn-logout{background:rgba(255,255,255,0.1);color:white;border:none;border-radius:10px;padding:7px 10px;cursor:pointer;font-size:11px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:6px 0 12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.08);max-width:480px;margin:0 auto}
+.nav-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9ca3af;padding:3px 10px;font-size:9px}
 .nav-btn.active{color:#e94560;font-weight:800}
-.nav-btn span:first-child{font-size:21px}
-
-/* STATS */
-.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.stat-card{background:white;border-radius:14px;padding:11px 8px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
-.stat-icon{font-size:18px}
-.stat-val{font-size:19px;font-weight:900;margin-top:2px}
-.stat-lbl{font-size:10px;color:#9ca3af;margin-top:1px}
-
-/* SEARCH */
-.search-input{width:100%;border:none;border-radius:14px;padding:12px 16px;font-size:13px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.08);outline:none;margin-bottom:10px}
-
-/* FILTERS */
-.filters{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:none}
-.filter-btn{border:none;border-radius:20px;padding:6px 13px;font-size:11px;cursor:pointer;white-space:nowrap;font-weight:400;background:white;color:#6b7280}
+.nav-btn span:first-child{font-size:19px}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.stat-card{background:white;border-radius:12px;padding:10px 6px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.search-input{width:100%;border:none;border-radius:12px;padding:11px 14px;font-size:13px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.08);outline:none;margin-bottom:9px}
+.filters{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px;scrollbar-width:none}
+.filter-btn{border:none;border-radius:20px;padding:5px 12px;font-size:11px;cursor:pointer;white-space:nowrap;background:white;color:#6b7280}
 .filter-btn.active{font-weight:800;background:#1a1a2e;color:white}
-
-/* ORDER CARDS */
-.order-card{background:white;border-radius:16px;padding:14px 15px;margin-bottom:9px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;border-right:4px solid #e94560;transition:transform 0.1s}
+.order-card{background:white;border-radius:14px;padding:13px 14px;margin-bottom:8px;box-shadow:0 2px 10px rgba(0,0,0,0.07);cursor:pointer;border-right:4px solid #e94560;transition:transform 0.1s}
 .order-card:active{transform:scale(0.98)}
-.order-name{font-weight:800;font-size:15px;margin-bottom:2px}
-.order-device{color:#6b7280;font-size:12px}
-.order-phone{color:#9ca3af;font-size:11px;margin-top:2px}
-.order-footer{margin-top:8px;display:flex;justify-content:space-between;align-items:center}
-.ticket-badge{background:#f3f4f6;border-radius:8px;padding:3px 9px;font-size:11px;color:#374151;font-weight:700}
-.order-date{color:#9ca3af;font-size:11px}
-.status-badge{border-radius:10px;padding:3px 9px;font-size:11px;font-weight:700}
-.cost-badge{font-weight:800;color:#e94560;font-size:14px}
-.empty-state{text-align:center;padding:40px 20px;color:#9ca3af}
-.empty-state .emoji{font-size:44px;margin-bottom:10px}
-
-/* DETAIL */
+.late-badge{background:#FEE2E2;color:#991B1B;border-radius:7px;padding:2px 7px;font-size:9px;font-weight:700;margin-top:3px;display:inline-block}
 .back-btn{background:none;border:none;color:#1a1a2e;font-weight:800;font-size:14px;cursor:pointer;margin-bottom:12px;padding:0}
-.top-card{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:20px;padding:18px;margin-bottom:12px}
-.top-card-name{font-size:19px;font-weight:900}
-.top-card-phone{color:rgba(255,255,255,0.6);font-size:12px;margin-top:2px}
-.progress-steps{display:flex;justify-content:space-between;align-items:center;position:relative;margin-top:16px}
+.top-card{background:linear-gradient(135deg,#1a1a2e,#16213e);color:white;border-radius:18px;padding:16px;margin-bottom:10px}
+.progress-steps{display:flex;justify-content:space-between;align-items:center;position:relative;margin-top:14px}
 .progress-line{position:absolute;top:40%;left:0;right:0;height:2px;background:rgba(255,255,255,0.2)}
-.step{display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1;flex:1}
-.step-circle{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;border:2px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.5);font-weight:700;background:rgba(255,255,255,0.15)}
+.step{display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1;flex:1}
+.step-circle{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;border:2px solid rgba(255,255,255,0.3);color:rgba(255,255,255,0.5);font-weight:700;background:rgba(255,255,255,0.15)}
 .step-circle.done{background:#10b981;border-color:#10b981;color:white}
-.step-label{font-size:8px;color:rgba(255,255,255,0.3);text-align:center;font-weight:400}
+.step-label{font-size:7px;color:rgba(255,255,255,0.3);text-align:center}
 .step-label.done{color:#6ee7b7;font-weight:700}
-
-.white-card{background:white;border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
-.info-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f3f4f6}
-.info-label{color:#6b7280;font-size:13px}
-.info-val{font-weight:700;color:#1a1a2e;font-size:13px;text-align:left;max-width:60%}
-.section-title{font-weight:800;font-size:13px;margin-bottom:10px}
-
-/* STATUS BUTTONS */
-.status-btns{display:flex;gap:7px;flex-wrap:wrap}
-.status-btn{border:2px solid #e5e7eb;border-radius:20px;padding:6px 12px;font-size:11px;cursor:pointer;background:white;color:#6b7280;font-weight:400;transition:all 0.2s}
-.status-btn.active{font-weight:800}
-
-/* WHATSAPP */
-.wa-card{background:#dcfce7;border-radius:16px;padding:14px;margin-bottom:12px}
-.wa-title{font-weight:800;font-size:13px;margin-bottom:10px;color:#065f46}
-.wa-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.wa-btn{background:#25d366;color:white;border:none;border-radius:12px;padding:10px 6px;font-size:11px;cursor:pointer;font-weight:700}
-.wa-btn.general{background:#128c7e}
-
-/* ACTION BUTTONS */
-.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.action-btn{border:none;border-radius:14px;padding:13px;font-weight:800;cursor:pointer;font-size:13px;color:white}
-.action-btn.dark{background:#1a1a2e}
-.action-btn.blue{background:#3b82f6}
-.action-btn.red{background:#ef4444;grid-column:span 2}
-
-/* QR */
-.qr-card{background:white;border-radius:16px;padding:18px;margin-bottom:12px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
-.qr-title{font-size:12px;font-weight:700;color:#6b7280;margin-bottom:8px}
-.qr-code{display:block;margin:0 auto;border-radius:8px}
-.qr-id{font-weight:800;font-size:15px;letter-spacing:3px;margin-top:8px;color:#1a1a2e}
-.qr-hint{font-size:11px;color:#9ca3af;margin-top:2px}
-
-/* MODAL */
+.white-card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.info-row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f3f4f6;align-items:flex-start}
+.info-label{color:#6b7280;font-size:12px;flex-shrink:0}
+.info-val{font-weight:700;color:#1a1a2e;font-size:12px;text-align:left;max-width:58%;word-break:break-word}
+.section-title{font-weight:800;font-size:13px;margin-bottom:9px}
+.status-btns{display:flex;gap:6px;flex-wrap:wrap}
+.status-btn{border:2px solid #e5e7eb;border-radius:18px;padding:5px 10px;font-size:10px;cursor:pointer;background:white;color:#6b7280}
+.wa-card{background:#dcfce7;border-radius:14px;padding:12px;margin-bottom:10px}
+.wa-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.wa-btn{background:#25d366;color:white;border:none;border-radius:10px;padding:9px 5px;font-size:10px;cursor:pointer;font-weight:700}
+.wa-btn.gen{background:#128c7e}
+.action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.action-btn{border:none;border-radius:12px;padding:12px;font-weight:800;cursor:pointer;font-size:12px;color:white}
+.qr-card{background:white;border-radius:14px;padding:16px;margin-bottom:10px;text-align:center;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.photos-card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.photo-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;cursor:pointer}
+.photo-add{width:100%;aspect-ratio:1;border:2px dashed #d1d5db;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#f9fafb;color:#6b7280;font-size:10px;gap:3px}
+.parts-card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
+.part-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f3f4f6}
+.part-name{font-size:12px;font-weight:700}
+.part-qty{background:#f3f4f6;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;color:#1a1a2e}
+.part-price{color:#e94560;font-weight:800;font-size:12px}
+.late-alert{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border:1px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:10px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;display:flex;align-items:flex-end;justify-content:center}
-.modal-overlay.hidden{display:none!important}
-.modal{background:white;border-radius:22px 22px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:20px;box-shadow:0 -8px 40px rgba(0,0,0,0.3)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-.modal-title{font-weight:900;font-size:17px}
-.modal-close{background:#f3f4f6;border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px}
-.form-section{border-radius:10px;padding:8px 14px;margin-bottom:12px;font-size:12px;font-weight:700}
+.modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:18px}
+.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.modal-close{background:#f3f4f6;border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:15px}
+.form-section{border-radius:9px;padding:7px 12px;margin-bottom:10px;font-size:11px;font-weight:700}
 .form-label{font-size:12px;font-weight:700;color:#374151;margin-bottom:4px;display:block}
-.form-input{width:100%;border:1.5px solid #e5e7eb;border-radius:10px;padding:11px 14px;font-size:14px;outline:none;background:#fafafa;margin-bottom:12px}
+.form-input{width:100%;border:1.5px solid #e5e7eb;border-radius:9px;padding:10px 13px;font-size:13px;outline:none;background:#fafafa;margin-bottom:10px}
 .form-input:focus{border-color:#e94560}
-.form-textarea{resize:none;height:75px}
-.submit-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:14px;padding:14px;font-weight:800;cursor:pointer;font-size:15px;margin-top:6px;box-shadow:0 4px 18px rgba(233,69,96,0.35)}
+.submit-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:12px;padding:13px;font-weight:800;cursor:pointer;font-size:14px;margin-top:5px}
 
 /* LOGIN */
 .login-page{min-height:100vh;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:center;padding:20px}
-.login-box{width:100%;max-width:370px}
-.login-logo{width:68px;height:68px;background:#e94560;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;box-shadow:0 8px 30px rgba(233,69,96,0.4)}
-.login-title{color:white;font-size:25px;font-weight:900;text-align:center;margin:0}
-.login-sub{color:rgba(255,255,255,0.5);font-size:13px;text-align:center;margin-top:4px;margin-bottom:28px}
-.login-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:22px;padding:26px}
-.tab-container{display:flex;gap:6px;margin-bottom:22px;background:rgba(0,0,0,0.3);border-radius:12px;padding:4px}
-.tab-btn{flex:1;border:none;border-radius:10px;padding:9px;font-weight:700;font-size:13px;cursor:pointer;background:transparent;color:rgba(255,255,255,0.5);transition:all 0.2s}
+.login-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:22px;width:100%;max-width:370px}
+.tab-container{display:flex;gap:5px;margin-bottom:18px;background:rgba(0,0,0,0.3);border-radius:10px;padding:4px}
+.tab-btn{flex:1;border:none;border-radius:8px;padding:8px;font-weight:700;font-size:12px;cursor:pointer;background:transparent;color:rgba(255,255,255,0.5)}
 .tab-btn.active{background:white;color:#1a1a2e}
-.login-input{width:100%;border:1px solid rgba(255,255,255,0.15);border-radius:12px;padding:12px 16px;font-size:14px;background:rgba(255,255,255,0.1);color:white;outline:none;margin-bottom:12px;box-sizing:border-box}
+.login-input{width:100%;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:11px 14px;font-size:13px;background:rgba(255,255,255,0.1);color:white;outline:none;margin-bottom:10px;box-sizing:border-box}
 .login-input::placeholder{color:rgba(255,255,255,0.4)}
-.login-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:14px;padding:14px;font-weight:800;cursor:pointer;font-size:15px;box-shadow:0 4px 18px rgba(233,69,96,0.4)}
-.track-btn{background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:10px;padding:8px 18px;cursor:pointer;font-size:12px;width:100%;margin-top:14px}
-.login-hint{text-align:center;margin-top:10px;color:rgba(255,255,255,0.3);font-size:11px}
-.error-msg{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);color:#fca5a5;border-radius:10px;padding:10px 14px;font-size:13px;margin-bottom:14px;text-align:center}
+.login-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:12px;padding:13px;font-weight:800;cursor:pointer;font-size:14px}
+.error-msg{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);color:#fca5a5;border-radius:9px;padding:9px 12px;font-size:12px;margin-bottom:12px;text-align:center}
+.success-msg{background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#6ee7b7;border-radius:9px;padding:9px 12px;font-size:12px;margin-bottom:12px;text-align:center}
 
-/* TRACKING PAGE */
+/* OTP */
+.otp-grid{display:flex;gap:8px;justify-content:center;margin:14px 0}
+.otp-input{width:44px;height:52px;border:2px solid rgba(255,255,255,0.2);border-radius:10px;background:rgba(255,255,255,0.1);color:white;font-size:22px;font-weight:800;text-align:center;outline:none}
+.otp-input:focus{border-color:#e94560}
+
+/* TRACKING */
 .track-page{min-height:100vh;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;align-items:center;justify-content:center;padding:20px}
-.track-box{width:100%;max-width:420px}
-.track-search{background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);border-radius:20px;padding:20px;margin-bottom:14px}
-.track-input-row{display:flex;gap:10px}
-.track-input{flex:1;border:2px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px 14px;font-size:15px;background:rgba(255,255,255,0.15);color:white;outline:none;text-align:center;letter-spacing:2px;font-weight:700}
+.track-input{flex:1;border:2px solid rgba(255,255,255,0.3);border-radius:10px;padding:11px 13px;font-size:14px;background:rgba(255,255,255,0.15);color:white;outline:none;text-align:center;letter-spacing:2px;font-weight:700}
 .track-input::placeholder{color:rgba(255,255,255,0.4);letter-spacing:0;font-weight:400}
-.track-search-btn{background:#e94560;color:white;border:none;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer;font-size:14px}
-.track-result{background:rgba(255,255,255,0.97);border-radius:20px;padding:22px;color:#1a1a2e}
-.track-not-found{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:16px;padding:20px;text-align:center;color:#fca5a5}
-.track-steps{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;position:relative}
-.track-line{position:absolute;top:40%;left:0;right:0;height:3px;background:#e5e7eb;z-index:0}
-.track-step{display:flex;flex-direction:column;align-items:center;gap:5px;z-index:1}
-.track-circle{width:30px;height:30px;border-radius:50%;background:#e5e7eb;display:flex;align-items:center;justify-content:center;font-size:13px;border:3px solid white;color:#9ca3af;font-weight:700}
-.track-circle.done{background:#10b981;color:white}
-.track-step-label{font-size:8px;color:#9ca3af;text-align:center;font-weight:400}
-.track-step-label.done{color:#10b981;font-weight:700}
-.track-back-btn{width:100%;margin-top:14px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:12px;padding:12px;cursor:pointer;font-weight:600}
-
-/* TOAST */
-.toast{position:fixed;top:16px;left:50%;transform:translateX(-50%);color:white;padding:10px 22px;border-radius:30px;z-index:9999;font-size:13px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.2);white-space:nowrap;transition:opacity 0.3s}
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);color:white;padding:9px 20px;border-radius:28px;z-index:9999;font-size:12px;font-weight:700;box-shadow:0 4px 20px rgba(0,0,0,0.2);white-space:nowrap;max-width:90vw;text-align:center}
 .toast.success{background:#10b981}
 .toast.error{background:#ef4444}
-.toast.hidden{opacity:0;pointer-events:none}
-
-/* STATS PAGE */
-.revenue-card{background:linear-gradient(135deg,#e94560,#c0392b);color:white;border-radius:18px;padding:18px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
-.stat-bar-card{background:white;border-radius:14px;padding:14px;margin-bottom:9px;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
-.stat-bar-bg{background:#f3f4f6;border-radius:20px;height:8px}
-.stat-bar-fill{height:8px;border-radius:20px;transition:width 0.5s ease}
-
-/* WRAP */
+.toast.info{background:#3b82f6}
+.photo-viewer{position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:2000;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.photo-viewer img{max-width:95vw;max-height:80vh;border-radius:10px;object-fit:contain}
+.revenue-card{background:linear-gradient(135deg,#e94560,#c0392b);color:white;border-radius:16px;padding:16px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.stat-bar-bg{background:#f3f4f6;border-radius:20px;height:7px}
+.stat-bar-fill{height:7px;border-radius:20px}
 .app-wrap{max-width:480px;margin:0 auto;min-height:100vh;background:#f1f5f9;position:relative}
+
+/* INVENTORY PAGE */
+.inv-card{background:white;border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center}
+.inv-name{font-weight:800;font-size:13px}
+.inv-model{color:#6b7280;font-size:11px;margin-top:2px}
+.inv-qty{font-weight:900;font-size:18px;color:#1a1a2e}
+.inv-low{color:#ef4444}
+.badge-chip{border-radius:8px;padding:3px 9px;font-size:10px;font-weight:700;display:inline-block}
 </style>
 </head>
 <body>
 <div class="app-wrap" id="app">
-  <!-- LOGIN -->
-  <div id="loginPage" class="login-page">
-    <div class="login-box">
-      <div class="login-logo">🔧</div>
-      <h1 class="login-title">RepairPro</h1>
-      <p class="login-sub">نظام إدارة الصيانة المتكامل</p>
-      <div class="login-card">
-        <div class="tab-container">
-          <button class="tab-btn active" onclick="switchTab('login')">تسجيل الدخول</button>
-          <button class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-page">
+  <div style="width:100%;max-width:370px">
+    <div style="text-align:center;margin-bottom:22px">
+      <div style="width:62px;height:62px;background:#e94560;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;box-shadow:0 8px 30px rgba(233,69,96,0.4)">🔧</div>
+      <h1 style="color:white;font-size:22px;font-weight:900;margin:0">RepairPro</h1>
+      <p style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:3px">نظام إدارة الصيانة المتكامل</p>
+    </div>
+    <div class="login-card">
+      <!-- TABS: login / register / otp -->
+      <div class="tab-container" id="authTabs">
+        <button class="tab-btn active" onclick="switchTab('login')">دخول</button>
+        <button class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
+      </div>
+      <div id="loginError" class="error-msg hidden"></div>
+      <div id="loginSuccess" class="success-msg hidden"></div>
+
+      <!-- LOGIN FORM -->
+      <div id="loginForm">
+        <input id="loginUser" class="login-input" placeholder="البريد الإلكتروني أو اسم المستخدم" type="text" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <input id="loginPass" class="login-input" placeholder="كلمة المرور" type="password" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <button class="login-btn" onclick="doLogin()">دخول ←</button>
+        <div style="text-align:center;margin-top:12px">
+          <button onclick="showTrackingPage()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:9px;padding:7px 16px;cursor:pointer;font-size:11px">🔍 تتبع طلب (للزبائن)</button>
         </div>
-        <div id="loginError" class="error-msg hidden"></div>
-        <input id="regName" class="login-input hidden" placeholder="الاسم الكامل" type="text"/>
-        <input id="loginUser" class="login-input" placeholder="اسم المستخدم" type="text"/>
-        <input id="loginPass" class="login-input" placeholder="كلمة المرور" type="password"/>
-        <input id="regConfirm" class="login-input hidden" placeholder="تأكيد كلمة المرور" type="password"/>
-        <button class="login-btn" id="loginSubmitBtn" onclick="doLogin()">دخول ←</button>
-        <button class="track-btn" onclick="showTrackingPage()">🔍 تتبع طلب (للزبائن)</button>
-        <div class="login-hint">افتراضي: admin / 1234</div>
+        <div style="text-align:center;margin-top:8px;color:rgba(255,255,255,0.3);font-size:10px">افتراضي: admin / 1234</div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="registerForm" class="hidden">
+        <input id="regEmail" class="login-input" placeholder="البريد الإلكتروني *" type="email"/>
+        <input id="regUsername" class="login-input" placeholder="اسم المستخدم *" type="text"/>
+        <input id="regPass" class="login-input" placeholder="كلمة المرور *" type="password"/>
+        <input id="regConfirm" class="login-input" placeholder="تأكيد كلمة المرور *" type="password"/>
+        <button class="login-btn" onclick="doRegister()">إنشاء الحساب ←</button>
+      </div>
+
+      <!-- OTP FORM -->
+      <div id="otpForm" class="hidden">
+        <div style="text-align:center;margin-bottom:14px">
+          <div style="font-size:36px">📧</div>
+          <div style="color:white;font-weight:800;font-size:15px;margin-top:8px">تأكيد البريد الإلكتروني</div>
+          <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:4px" id="otpEmailHint">أدخل الرمز المرسل إلى بريدك</div>
+        </div>
+        <div class="otp-grid">
+          <input class="otp-input" id="otp1" maxlength="1" oninput="otpNext(this,'otp2')" type="tel"/>
+          <input class="otp-input" id="otp2" maxlength="1" oninput="otpNext(this,'otp3')" onkeydown="otpBack(event,this,'otp1')" type="tel"/>
+          <input class="otp-input" id="otp3" maxlength="1" oninput="otpNext(this,'otp4')" onkeydown="otpBack(event,this,'otp2')" type="tel"/>
+          <input class="otp-input" id="otp4" maxlength="1" oninput="otpNext(this,'otp5')" onkeydown="otpBack(event,this,'otp3')" type="tel"/>
+          <input class="otp-input" id="otp5" maxlength="1" oninput="otpNext(this,'otp6')" onkeydown="otpBack(event,this,'otp4')" type="tel"/>
+          <input class="otp-input" id="otp6" maxlength="1" onkeydown="otpBack(event,this,'otp5')" type="tel"/>
+        </div>
+        <button class="login-btn" onclick="verifyOTP()">تأكيد الرمز ✓</button>
+        <div style="text-align:center;margin-top:12px">
+          <button onclick="resendOTP()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer">إعادة إرسال الرمز</button>
+        </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- TRACKING PAGE -->
-  <div id="trackingPage" class="track-page hidden">
-    <div class="track-box">
-      <div style="text-align:center;margin-bottom:28px">
-        <div style="font-size:48px">🔧</div>
-        <h1 style="color:white;font-size:22px;font-weight:800;margin:8px 0 4px">تتبع طلب الصيانة</h1>
-        <p style="color:rgba(255,255,255,0.6);font-size:13px">أدخل رقم الطلب لمعرفة حالة جهازك</p>
+<!-- TRACKING PAGE -->
+<div id="trackingPage" class="track-page hidden">
+  <div style="width:100%;max-width:420px">
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:44px">🔧</div>
+      <h1 style="color:white;font-size:20px;font-weight:800;margin:7px 0 3px">تتبع طلب الصيانة</h1>
+      <p style="color:rgba(255,255,255,0.6);font-size:12px">أدخل رقم الطلب لمعرفة حالة جهازك</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.1);border-radius:18px;padding:18px;margin-bottom:12px">
+      <div style="display:flex;gap:9px">
+        <input id="trackInput" class="track-input" placeholder="مثال: REP-1001" onkeydown="if(event.key==='Enter')searchOrder()"/>
+        <button onclick="searchOrder()" style="background:#e94560;color:white;border:none;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer;font-size:13px">بحث</button>
       </div>
-      <div class="track-search">
-        <div class="track-input-row">
-          <input id="trackInput" class="track-input" placeholder="مثال: REP-1001" onkeydown="if(event.key==='Enter')searchOrder()"/>
-          <button class="track-search-btn" onclick="searchOrder()">بحث</button>
-        </div>
-      </div>
-      <div id="trackNotFound" class="track-not-found hidden">
-        <div style="font-size:30px">😕</div>
-        <div style="font-weight:700;margin-top:8px">لم يتم العثور على الطلب</div>
-        <div style="font-size:12px;margin-top:4px;opacity:0.8">تأكد من رقم الطلب في وصلك</div>
-      </div>
-      <div id="trackResult" class="track-result hidden"></div>
-      <button class="track-back-btn" onclick="hideTrackingPage()">← رجوع للإدارة</button>
+    </div>
+    <div id="trackNotFound" class="hidden" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:14px;padding:18px;text-align:center;color:#fca5a5">
+      <div style="font-size:28px">😕</div>
+      <div style="font-weight:700;margin-top:6px">لم يتم العثور على الطلب</div>
+    </div>
+    <div id="trackResult" class="hidden" style="background:rgba(255,255,255,0.97);border-radius:18px;padding:20px;color:#1a1a2e"></div>
+    <button onclick="hideTrackingPage()" style="width:100%;margin-top:12px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:11px;cursor:pointer;font-weight:600;font-size:13px">← رجوع</button>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="mainApp" class="hidden">
+  <div class="header">
+    <div>
+      <div style="font-size:16px;font-weight:900">🔧 RepairPro</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.5);margin-top:1px" id="welcomeMsg">مرحباً 👋</div>
+    </div>
+    <div style="display:flex;gap:7px">
+      <button class="btn-new" onclick="openForm()">+ جديد</button>
+      <button class="btn-logout" onclick="doLogout()">خروج</button>
     </div>
   </div>
 
-  <!-- MAIN APP -->
-  <div id="mainApp" class="hidden">
-    <div class="header">
+  <!-- HOME -->
+  <div id="homePage" class="page active">
+    <div id="lateAlerts"></div>
+    <div class="stats-grid" id="statsGrid"></div>
+    <input class="search-input" id="searchInput" placeholder="🔍 بحث بالاسم، رقم الطلب، الهاتف..." oninput="renderOrders()"/>
+    <div class="filters" id="filterBtns"></div>
+    <div id="ordersList"></div>
+  </div>
+
+  <!-- DETAIL -->
+  <div id="detailPage" class="page">
+    <button class="back-btn" onclick="goHome()">← رجوع</button>
+    <div id="detailContent"></div>
+  </div>
+
+  <!-- INVENTORY -->
+  <div id="inventoryPage" class="page">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-weight:900;font-size:17px">🔩 قطع الغيار</div>
+      <button onclick="openPartForm()" style="background:#e94560;color:white;border:none;border-radius:10px;padding:7px 13px;font-weight:800;cursor:pointer;font-size:12px">+ إضافة</button>
+    </div>
+    <input class="search-input" id="partSearch" placeholder="🔍 بحث في قطع الغيار..." oninput="renderInventory()"/>
+    <div id="partFilterRow" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px"></div>
+    <div id="inventoryList"></div>
+  </div>
+
+  <!-- STATS -->
+  <div id="statsPage" class="page">
+    <div style="font-weight:900;font-size:17px;margin-bottom:12px">📊 الإحصائيات</div>
+    <div class="revenue-card">
       <div>
-        <div class="header h1" style="font-size:18px;font-weight:900">🔧 RepairPro</div>
-        <div class="sub" id="welcomeMsg">مرحباً 👋</div>
+        <div style="font-size:11px;opacity:0.7">إجمالي الإيرادات</div>
+        <div style="font-size:26px;font-weight:900" id="totalRevenue">0</div>
+        <div style="font-size:11px;opacity:0.7">دينار عراقي</div>
       </div>
-      <div style="display:flex;gap:8px">
-        <button class="btn-new" onclick="openForm()">+ جديد</button>
-        <button class="btn-logout" onclick="doLogout()">خروج</button>
-      </div>
+      <div style="font-size:40px">💰</div>
     </div>
-
-    <!-- HOME PAGE -->
-    <div id="homePage" class="page active">
-      <div class="stats-grid" id="statsGrid"></div>
-      <input class="search-input" id="searchInput" placeholder="🔍 بحث بالاسم، رقم الطلب، الهاتف..." oninput="renderOrders()"/>
-      <div class="filters" id="filterBtns"></div>
-      <div id="ordersList"></div>
-    </div>
-
-    <!-- DETAIL PAGE -->
-    <div id="detailPage" class="page">
-      <button class="back-btn" onclick="goHome()">← رجوع</button>
-      <div id="detailContent"></div>
-    </div>
-
-    <!-- STATS PAGE -->
-    <div id="statsPage" class="page">
-      <div style="font-weight:900;font-size:19px;margin-bottom:14px">📊 الإحصائيات</div>
-      <div class="revenue-card">
-        <div>
-          <div style="font-size:12px;opacity:0.7">إجمالي الإيرادات</div>
-          <div style="font-size:28px;font-weight:900" id="totalRevenue">0</div>
-          <div style="font-size:12px;opacity:0.7">دينار عراقي</div>
-        </div>
-        <div style="font-size:44px">💰</div>
-      </div>
-      <div id="statsBars"></div>
-    </div>
-
-    <!-- NAV -->
-    <nav class="nav">
-      <button class="nav-btn active" id="navHome" onclick="showPage('home')"><span>🏠</span><span>الرئيسية</span></button>
-      <button class="nav-btn" id="navStats" onclick="showPage('stats')"><span>📊</span><span>إحصائيات</span></button>
-      <button class="nav-btn" id="navTrack" onclick="showTrackingPage()"><span>🔍</span><span>تتبع طلب</span></button>
-    </nav>
+    <div id="statsBars"></div>
   </div>
 
-  <!-- FORM MODAL -->
-  <div class="modal-overlay hidden" id="formModal" onclick="if(event.target===this)closeForm()">
-    <div class="modal">
-      <div class="modal-header">
-        <div class="modal-title" id="formTitle">➕ طلب صيانة جديد</div>
-        <button class="modal-close" onclick="closeForm()">✕</button>
-      </div>
-      <div class="form-section" style="background:#fef3c7;color:#92400e">👤 معلومات الزبون</div>
-      <label class="form-label">اسم الزبون *</label>
-      <input class="form-input" id="fName" placeholder="الاسم الكامل"/>
-      <label class="form-label">رقم الهاتف * (للواتساب)</label>
-      <input class="form-input" id="fPhone" placeholder="07xxxxxxxx" type="tel"/>
-      <div class="form-section" style="background:#dbeafe;color:#1e40af">📱 معلومات الجهاز</div>
-      <label class="form-label">الماركة *</label>
-      <select class="form-input" id="fBrand">
-        <option value="">اختر الماركة</option>
-        <option>Samsung</option><option>iPhone</option><option>Huawei</option>
-        <option>Xiaomi</option><option>Oppo</option><option>Vivo</option>
-        <option>Realme</option><option>Tecno</option><option>Nokia</option>
-        <option>Infinix</option><option>أخرى</option>
-      </select>
-      <label class="form-label">الموديل *</label>
-      <input class="form-input" id="fModel" placeholder="Galaxy S23, iPhone 14..."/>
-      <label class="form-label">اللون / السعة</label>
-      <input class="form-input" id="fColor" placeholder="أسود 128GB"/>
-      <label class="form-label">IMEI</label>
-      <input class="form-input" id="fImei" placeholder="اختياري"/>
-      <label class="form-label">حالة الجهاز الظاهرية</label>
-      <input class="form-input" id="fNotes" placeholder="خدوش، شاشة مشققة..."/>
-      <div class="form-section" style="background:#d1fae5;color:#065f46">⚠️ العطل والإصلاح</div>
-      <label class="form-label">نوع العطل *</label>
-      <select class="form-input" id="fProblemType">
-        <option>شاشة مكسورة</option><option>بطارية</option><option>شحن</option>
-        <option>كاميرا</option><option>مكبر صوت</option><option>ميكروفون</option>
-        <option>سوفتوير</option><option>مياه</option><option>لا يشتغل</option><option>أخرى</option>
-      </select>
-      <label class="form-label">وصف العطل *</label>
-      <textarea class="form-input form-textarea" id="fProblemDesc" placeholder="اشرح المشكلة بتفصيل..."></textarea>
-      <label class="form-label">اسم الفني</label>
-      <input class="form-input" id="fTech" placeholder="الفني المسؤول"/>
-      <div class="form-section" style="background:#fee2e2;color:#991b1b">💰 التكلفة والتسليم</div>
-      <label class="form-label">تكلفة الإصلاح (IQD) *</label>
-      <input class="form-input" id="fCost" placeholder="25000" type="number"/>
-      <label class="form-label">تاريخ التسليم المتوقع</label>
-      <input class="form-input" id="fDelivery" type="date"/>
-      <label class="form-label">الحالة</label>
-      <select class="form-input" id="fStatus">
-        <option>قيد الانتظار</option><option>قيد الإصلاح</option>
-        <option>جاهز للتسليم</option><option>تم التسليم</option><option>ملغى</option>
-      </select>
-      <button class="submit-btn" id="formSubmitBtn" onclick="submitForm()">✅ إضافة الطلب</button>
-    </div>
-  </div>
+  <nav class="nav">
+    <button class="nav-btn active" id="navHome" onclick="showPage('home')"><span>🏠</span><span>الرئيسية</span></button>
+    <button class="nav-btn" id="navInventory" onclick="showPage('inventory')"><span>🔩</span><span>قطع الغيار</span></button>
+    <button class="nav-btn" id="navStats" onclick="showPage('stats')"><span>📊</span><span>إحصائيات</span></button>
+    <button class="nav-btn" id="navTrack" onclick="showTrackingPage()"><span>🔍</span><span>تتبع</span></button>
+  </nav>
+</div>
 
-  <!-- TOAST -->
-  <div class="toast hidden" id="toast"></div>
+<!-- ORDER FORM MODAL -->
+<div class="modal-overlay hidden" id="formModal" onclick="if(event.target===this)closeForm()">
+  <div class="modal">
+    <div class="modal-header">
+      <div style="font-weight:900;font-size:16px" id="formTitle">➕ طلب صيانة جديد</div>
+      <button class="modal-close" onclick="closeForm()">✕</button>
+    </div>
+    <div class="form-section" style="background:#fef3c7;color:#92400e">👤 معلومات الزبون</div>
+    <label class="form-label">اسم الزبون *</label>
+    <input class="form-input" id="fName" placeholder="الاسم الكامل"/>
+    <label class="form-label">رقم الهاتف *</label>
+    <input class="form-input" id="fPhone" placeholder="07xxxxxxxx" type="tel"/>
+    <div class="form-section" style="background:#dbeafe;color:#1e40af">📱 معلومات الجهاز</div>
+    <label class="form-label">نوع الجهاز *</label>
+    <select class="form-input" id="fDeviceType" onchange="updateBrandsForType()">
+      <option value="">اختر نوع الجهاز</option>
+      <option value="phone">📱 هاتف ذكي</option>
+      <option value="tablet">📟 تابلت</option>
+      <option value="laptop">💻 لابتوب</option>
+      <option value="watch">⌚ ساعة ذكية</option>
+      <option value="headphone">🎧 سماعات</option>
+      <option value="other">🔧 أخرى</option>
+    </select>
+    <label class="form-label">الماركة *</label>
+    <select class="form-input" id="fBrand" onchange="updateComponentsList()">
+      <option value="">اختر الماركة أولاً</option>
+    </select>
+    <label class="form-label">الموديل *</label>
+    <input class="form-input" id="fModel" placeholder="Galaxy S23, iPhone 14..."/>
+    <label class="form-label">اللون / السعة</label>
+    <input class="form-input" id="fColor" placeholder="أسود 128GB"/>
+    <label class="form-label">IMEI / Serial</label>
+    <input class="form-input" id="fImei" placeholder="اختياري"/>
+    <label class="form-label">حالة الجهاز الظاهرية</label>
+    <input class="form-input" id="fNotes" placeholder="خدوش، شاشة مشققة..."/>
+    <!-- PHOTO -->
+    <div class="form-section" style="background:#ede9fe;color:#5b21b6">📷 تصوير الجهاز</div>
+    <button type="button" onclick="capturePhoto()" style="width:100%;background:#7c3aed;color:white;border:none;border-radius:10px;padding:11px;font-weight:700;cursor:pointer;font-size:13px;margin-bottom:10px">📷 التقاط صورة للجهاز</button>
+    <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(event)"/>
+    <div id="photoPreviewForm" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
+    <div class="form-section" style="background:#d1fae5;color:#065f46">⚠️ العطل والإصلاح</div>
+    <label class="form-label">نوع العطل *</label>
+    <select class="form-input" id="fProblemType" onchange="updatePartsForProblem()">
+      <option>شاشة مكسورة</option><option>بطارية</option><option>شحن</option>
+      <option>كاميرا</option><option>مكبر صوت</option><option>ميكروفون</option>
+      <option>سوفتوير</option><option>مياه</option><option>لا يشتغل</option><option>أخرى</option>
+    </select>
+    <label class="form-label">وصف العطل *</label>
+    <textarea class="form-input" id="fProblemDesc" placeholder="اشرح المشكلة بتفصيل..." style="resize:none;height:70px"></textarea>
+    <!-- COMPONENTS NEEDED -->
+    <div class="form-section" style="background:#fce7f3;color:#9d174d">🔩 قطع الغيار المطلوبة</div>
+    <div id="suggestedParts" style="margin-bottom:10px"></div>
+    <label class="form-label">أضف قطعة يدوياً</label>
+    <div style="display:flex;gap:7px;margin-bottom:10px">
+      <input class="form-input" id="fPartName" placeholder="اسم القطعة" style="margin-bottom:0;flex:2"/>
+      <input class="form-input" id="fPartQty" placeholder="عدد" type="number" style="margin-bottom:0;flex:1" value="1"/>
+      <button onclick="addPartToForm()" style="background:#e94560;color:white;border:none;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:800;white-space:nowrap">+</button>
+    </div>
+    <div id="formPartsList" style="margin-bottom:10px"></div>
+    <label class="form-label">اسم الفني</label>
+    <input class="form-input" id="fTech" placeholder="الفني المسؤول"/>
+    <div class="form-section" style="background:#fee2e2;color:#991b1b">💰 التكلفة والتسليم</div>
+    <label class="form-label">تكلفة الإصلاح (IQD) *</label>
+    <input class="form-input" id="fCost" placeholder="25000" type="number"/>
+    <label class="form-label">تاريخ التسليم المتوقع</label>
+    <input class="form-input" id="fDelivery" type="date"/>
+    <label class="form-label">الحالة</label>
+    <select class="form-input" id="fStatus">
+      <option>قيد الانتظار</option><option>قيد الإصلاح</option>
+      <option>جاهز للتسليم</option><option>تم التسليم</option><option>ملغى</option>
+    </select>
+    <button class="submit-btn" id="formSubmitBtn" onclick="submitForm()">✅ إضافة الطلب</button>
+  </div>
+</div>
+
+<!-- PART FORM MODAL -->
+<div class="modal-overlay hidden" id="partModal" onclick="if(event.target===this)closePartForm()">
+  <div class="modal">
+    <div class="modal-header">
+      <div style="font-weight:900;font-size:16px" id="partFormTitle">➕ إضافة قطعة غيار</div>
+      <button class="modal-close" onclick="closePartForm()">✕</button>
+    </div>
+    <label class="form-label">اسم القطعة *</label>
+    <input class="form-input" id="pName" placeholder="شاشة Samsung S23"/>
+    <label class="form-label">نوع الجهاز</label>
+    <select class="form-input" id="pDeviceType">
+      <option value="phone">📱 هاتف</option>
+      <option value="tablet">📟 تابلت</option>
+      <option value="laptop">💻 لابتوب</option>
+      <option value="watch">⌚ ساعة</option>
+      <option value="all">🔧 الكل</option>
+    </select>
+    <label class="form-label">الماركة المتوافقة</label>
+    <input class="form-input" id="pBrand" placeholder="Samsung, iPhone, عام..."/>
+    <label class="form-label">الموديل المتوافق</label>
+    <input class="form-input" id="pModel" placeholder="S23, 14 Pro, عام..."/>
+    <label class="form-label">نوع القطعة</label>
+    <select class="form-input" id="pCategory">
+      <option>شاشة</option><option>بطارية</option><option>غطاء خلفي</option>
+      <option>شاحن / كيبل</option><option>قاعدة شحن</option><option>IC شحن</option>
+      <option>مكبر صوت</option><option>ميكروفون</option><option>كاميرا</option>
+      <option>لوحة أم</option><option>مقبس شحن</option><option>زجاج شاشة</option>
+      <option>إطار / شاسيه</option><option>مفاتيح</option><option>أخرى</option>
+    </select>
+    <label class="form-label">سعر الشراء (IQD)</label>
+    <input class="form-input" id="pBuyPrice" placeholder="15000" type="number"/>
+    <label class="form-label">سعر البيع (IQD)</label>
+    <input class="form-input" id="pSellPrice" placeholder="25000" type="number"/>
+    <label class="form-label">الكمية المتوفرة</label>
+    <input class="form-input" id="pQty" placeholder="5" type="number" value="1"/>
+    <label class="form-label">الحد الأدنى للتنبيه</label>
+    <input class="form-input" id="pMinQty" placeholder="2" type="number" value="2"/>
+    <label class="form-label">ملاحظات</label>
+    <input class="form-input" id="pNotes" placeholder="اختياري"/>
+    <button class="submit-btn" id="partSubmitBtn" onclick="submitPartForm()">✅ حفظ القطعة</button>
+  </div>
+</div>
+
+<!-- PHOTO VIEWER -->
+<div class="photo-viewer hidden" id="photoViewer">
+  <button onclick="closePhotoViewer()" style="position:absolute;top:18px;right:18px;background:rgba(255,255,255,0.2);border:none;border-radius:50%;width:38px;height:38px;color:white;font-size:18px;cursor:pointer">✕</button>
+  <img id="photoViewerImg" src="" alt="صورة"/>
+  <button onclick="deleteCurrentPhoto()" style="background:#ef4444;color:white;border:none;border-radius:10px;padding:9px 22px;font-weight:700;cursor:pointer;margin-top:14px;font-size:13px">🗑️ حذف الصورة</button>
+</div>
+
+<div class="toast hidden" id="toast"></div>
 </div>
 
 <script>
 // ===== CONFIG =====
-const STATUSES = {
-  "قيد الانتظار": {color:"#F59E0B",bg:"#FEF3C7",icon:"⏳",step:0},
-  "قيد الإصلاح":  {color:"#3B82F6",bg:"#DBEAFE",icon:"🔧",step:1},
-  "جاهز للتسليم": {color:"#10B981",bg:"#D1FAE5",icon:"✅",step:2},
-  "تم التسليم":   {color:"#6B7280",bg:"#F3F4F6",icon:"📦",step:3},
-  "ملغى":         {color:"#EF4444",bg:"#FEE2E2",icon:"❌",step:-1}
+const STATUSES={
+  "قيد الانتظار":{color:"#F59E0B",bg:"#FEF3C7",icon:"⏳",step:0},
+  "قيد الإصلاح":{color:"#3B82F6",bg:"#DBEAFE",icon:"🔧",step:1},
+  "جاهز للتسليم":{color:"#10B981",bg:"#D1FAE5",icon:"✅",step:2},
+  "تم التسليم":{color:"#6B7280",bg:"#F3F4F6",icon:"📦",step:3},
+  "ملغى":{color:"#EF4444",bg:"#FEE2E2",icon:"❌",step:-1}
 };
-const STEPS = ["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
+const STEPS=["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
+
+const BRANDS_BY_TYPE={
+  phone:["Samsung","iPhone","Huawei","Xiaomi","Oppo","Vivo","Realme","Tecno","Nokia","Infinix","OnePlus","أخرى"],
+  tablet:["Samsung","iPad","Huawei","Lenovo","Xiaomi","أخرى"],
+  laptop:["HP","Dell","Lenovo","Asus","Acer","Apple MacBook","MSI","أخرى"],
+  watch:["Apple Watch","Samsung Galaxy Watch","Huawei Watch","Xiaomi Band","أخرى"],
+  headphone:["AirPods","Samsung Buds","Sony","JBL","أخرى"],
+  other:["أخرى"]
+};
+
+// Parts suggestions by problem type
+const PARTS_BY_PROBLEM={
+  "شاشة مكسورة":["شاشة LCD/AMOLED","زجاج شاشة","إطار شاشة"],
+  "بطارية":["بطارية","مقبس شحن","IC شحن"],
+  "شحن":["مقبس شحن","كيبل شحن","قاعدة شحن","IC شحن"],
+  "كاميرا":["كاميرا خلفية","كاميرا أمامية","عدسة كاميرا"],
+  "مكبر صوت":["مكبر صوت سفلي","مكبر صوت علوي","سماعة أذن"],
+  "ميكروفون":["ميكروفون","مقبس سماعة"],
+  "مياه":["لوحة أم","بطارية","مقبس شحن","شاشة"],
+  "لا يشتغل":["بطارية","لوحة أم","IC شحن","مقبس شحن"]
+};
 
 // ===== STORAGE =====
-const getOrders = () => { try{return JSON.parse(localStorage.getItem("rp_o")||"[]")}catch{return[]} };
-const saveOrders = o => localStorage.setItem("rp_o", JSON.stringify(o));
-const getUsers = () => { try{return JSON.parse(localStorage.getItem("rp_u")||'[{"username":"admin","password":"1234","name":"المدير","role":"admin"}]')}catch{return[]} };
-const saveUsers = u => localStorage.setItem("rp_u", JSON.stringify(u));
-const getSession = () => { try{return JSON.parse(sessionStorage.getItem("rp_s")||"null")}catch{return null} };
-const saveSession = s => sessionStorage.setItem("rp_s", JSON.stringify(s));
-let _cnt = parseInt(localStorage.getItem("rp_c")||"1000");
-const nextId = () => { _cnt++; localStorage.setItem("rp_c",_cnt); return `REP-${_cnt}`; };
+const getOrders=()=>{try{return JSON.parse(localStorage.getItem("rp_o")||"[]")}catch{return[]}};
+const saveOrders=o=>localStorage.setItem("rp_o",JSON.stringify(o));
+const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_u")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","role":"admin","verified":true}]')}catch{return[]}};
+const saveUsers=u=>localStorage.setItem("rp_u",JSON.stringify(u));
+const getSession=()=>{try{return JSON.parse(sessionStorage.getItem("rp_s")||"null")}catch{return null}};
+const saveSession=s=>sessionStorage.setItem("rp_s",JSON.stringify(s));
+const getParts=()=>{try{return JSON.parse(localStorage.getItem("rp_parts")||"[]")}catch{return[]}};
+const saveParts=p=>localStorage.setItem("rp_parts",JSON.stringify(p));
+let _cnt=parseInt(localStorage.getItem("rp_c")||"1000");
+const nextId=()=>{_cnt++;localStorage.setItem("rp_c",_cnt);return`REP-${_cnt}`};
 
 // ===== STATE =====
-let currentUser = null;
-let currentOrders = [];
-let selectedOrder = null;
-let editingId = null;
-let filterStatus = "الكل";
-let loginMode = "login";
+let currentUser=null,currentOrders=[],selectedOrder=null,editingId=null,filterStatus="الكل",loginMode="login";
+let formPhotos=[],viewingPhotoIdx=0,formParts=[],editingPartId=null;
+let pendingRegData=null,generatedOTP=null,partFilter="الكل";
 
 // ===== INIT =====
-window.onload = () => {
-  currentUser = getSession();
-  currentOrders = getOrders();
-  if(currentUser) showApp();
+window.onload=()=>{
+  currentUser=getSession();
+  currentOrders=getOrders();
+  if(currentUser)showApp();
   else showLogin();
 };
+
+// ===== OTP SIMULATION =====
+function generateOTP(){return Math.floor(100000+Math.random()*900000).toString();}
+function otpNext(el,nextId){
+  if(el.value.length===1){const n=document.getElementById(nextId);if(n)n.focus();}
+}
+function otpBack(e,el,prevId){
+  if(e.key==="Backspace"&&!el.value){const p=document.getElementById(prevId);if(p)p.focus();}
+}
+function getOTPValue(){
+  return ["otp1","otp2","otp3","otp4","otp5","otp6"].map(id=>document.getElementById(id).value).join('');
+}
 
 // ===== LOGIN =====
 function showLogin(){
@@ -375,40 +473,82 @@ function showApp(){
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("mainApp").classList.remove("hidden");
   document.getElementById("trackingPage").classList.add("hidden");
-  document.getElementById("welcomeMsg").textContent = "مرحباً " + currentUser.name + " 👋";
+  document.getElementById("welcomeMsg").textContent="مرحباً "+currentUser.name+" 👋";
+  currentOrders=getOrders();
   renderAll();
+  checkLateOrders();
+  if(Notification&&Notification.permission!=="granted")Notification.requestPermission();
 }
 function switchTab(mode){
-  loginMode = mode;
-  document.querySelectorAll(".tab-btn").forEach((b,i)=>b.classList.toggle("active", (i===0&&mode==="login")||(i===1&&mode==="register")));
-  document.getElementById("regName").classList.toggle("hidden", mode!=="register");
-  document.getElementById("regConfirm").classList.toggle("hidden", mode!=="register");
-  document.getElementById("loginSubmitBtn").textContent = mode==="login" ? "دخول ←" : "إنشاء الحساب ←";
-  document.getElementById("loginSubmitBtn").onclick = mode==="login" ? doLogin : doRegister;
+  loginMode=mode;
+  document.querySelectorAll(".tab-btn").forEach((b,i)=>b.classList.toggle("active",(i===0&&mode==="login")||(i===1&&mode==="register")));
+  document.getElementById("loginForm").classList.toggle("hidden",mode!=="login");
+  document.getElementById("registerForm").classList.toggle("hidden",mode!=="register");
+  document.getElementById("otpForm").classList.add("hidden");
   document.getElementById("loginError").classList.add("hidden");
-  document.querySelector(".login-hint").style.display = mode==="login"?"block":"none";
+  document.getElementById("loginSuccess").classList.add("hidden");
 }
-function showLoginError(msg){ const e=document.getElementById("loginError"); e.textContent=msg; e.classList.remove("hidden"); }
+function showAuthError(msg){const e=document.getElementById("loginError");e.textContent=msg;e.classList.remove("hidden");}
+function showAuthSuccess(msg){const e=document.getElementById("loginSuccess");e.textContent=msg;e.classList.remove("hidden");}
 function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
-  const user=getUsers().find(x=>x.username===u&&x.password===p);
-  if(user){ currentUser=user; saveSession(user); showApp(); }
-  else showLoginError("اسم المستخدم أو كلمة المرور غلط ❌");
+  const users=getUsers();
+  const user=users.find(x=>(x.username===u||x.email===u)&&x.password===p);
+  if(!user){showAuthError("بيانات الدخول غلط ❌");return;}
+  if(!user.verified){showAuthError("الحساب غير مفعّل. يرجى تأكيد البريد الإلكتروني ⚠️");return;}
+  currentUser=user;saveSession(user);showApp();
 }
 function doRegister(){
-  const n=document.getElementById("regName").value.trim();
-  const u=document.getElementById("loginUser").value.trim();
-  const p=document.getElementById("loginPass").value;
-  const c=document.getElementById("regConfirm").value;
-  if(!n||!u||!p){showLoginError("يرجى ملء جميع الحقول");return;}
-  if(p!==c){showLoginError("كلمة المرور غير متطابقة");return;}
+  
+  const email=document.getElementById("regEmail").value.trim();
+  const uname=document.getElementById("regUsername").value.trim();
+  const pass=document.getElementById("regPass").value;
+  const conf=document.getElementById("regConfirm").value;
+  document.getElementById("loginError").classList.add("hidden");
+  const name=uname;
+  if(!email||!uname||!pass){showAuthError("يرجى ملء جميع الحقول *");return;}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAuthError("البريد الإلكتروني غير صحيح");return;}
+  if(pass.length<6){showAuthError("كلمة المرور يجب أن تكون 6 أحرف على الأقل");return;}
+  if(pass!==conf){showAuthError("كلمة المرور غير متطابقة");return;}
   const users=getUsers();
-  if(users.find(x=>x.username===u)){showLoginError("اسم المستخدم موجود مسبقاً");return;}
-  const user={username:u,password:p,name:n,role:"tech"};
-  saveUsers([...users,user]); currentUser=user; saveSession(user); showApp();
+  if(users.find(x=>x.username===uname)){showAuthError("اسم المستخدم موجود مسبقاً");return;}
+  if(users.find(x=>x.email===email)){showAuthError("البريد الإلكتروني مسجل مسبقاً");return;}
+  pendingRegData={name,email,username:uname,password:pass,role:"tech",verified:false};
+  generatedOTP=generateOTP();
+  // Simulate sending OTP (in real app, send via email service)
+  console.log("OTP:",generatedOTP); // For testing
+  document.getElementById("otpEmailHint").textContent=`تم إرسال رمز التحقق إلى: ${email}`;
+  document.getElementById("registerForm").classList.add("hidden");
+  document.getElementById("authTabs").classList.add("hidden");
+  document.getElementById("otpForm").classList.remove("hidden");
+  // Show OTP in alert for demo (since no email server)
+  setTimeout(()=>showToast("رمز التحقق (تجريبي): "+generatedOTP,"info"),500);
 }
-function doLogout(){ saveSession(null); currentUser=null; showLogin(); }
+function verifyOTP(){
+  const entered=getOTPValue();
+  if(entered.length<6){showAuthError("أدخل الرمز كاملاً (6 أرقام)");return;}
+  if(entered===generatedOTP){
+    pendingRegData.verified=true;
+    const users=getUsers();
+    saveUsers([...users,pendingRegData]);
+    document.getElementById("otpForm").classList.add("hidden");
+    document.getElementById("authTabs").classList.remove("hidden");
+    document.getElementById("loginSuccess").classList.remove("hidden");
+    document.getElementById("loginSuccess").textContent="✅ تم تفعيل حسابك بنجاح! يمكنك الدخول الآن";
+    switchTab("login");
+    showAuthSuccess("✅ تم تفعيل حسابك بنجاح! يمكنك الدخول الآن");
+    pendingRegData=null;generatedOTP=null;
+  } else {
+    showAuthError("رمز التحقق غلط ❌ حاول مجدداً");
+  }
+}
+function resendOTP(){
+  generatedOTP=generateOTP();
+  console.log("New OTP:",generatedOTP);
+  showToast("تم إرسال رمز جديد: "+generatedOTP,"info");
+}
+function doLogout(){saveSession(null);currentUser=null;showLogin();}
 
 // ===== TRACKING =====
 function showTrackingPage(){
@@ -419,38 +559,36 @@ function showTrackingPage(){
   document.getElementById("trackNotFound").classList.add("hidden");
   document.getElementById("trackInput").value="";
 }
-function hideTrackingPage(){
-  document.getElementById("trackingPage").classList.add("hidden");
-  if(currentUser) showApp(); else showLogin();
-}
+function hideTrackingPage(){document.getElementById("trackingPage").classList.add("hidden");if(currentUser)showApp();else showLogin();}
 function searchOrder(){
   const tid=document.getElementById("trackInput").value.trim().toUpperCase();
-  currentOrders=getOrders();
-  const o=currentOrders.find(x=>x.ticketId.toUpperCase()===tid);
-  const res=document.getElementById("trackResult");
-  const nf=document.getElementById("trackNotFound");
+  const orders=getOrders();
+  const o=orders.find(x=>x.ticketId.toUpperCase()===tid);
+  const res=document.getElementById("trackResult"),nf=document.getElementById("trackNotFound");
   if(o){
-    nf.classList.add("hidden");
-    res.classList.remove("hidden");
+    nf.classList.add("hidden");res.classList.remove("hidden");
     const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
     let stepsHTML='';
     STEPS.forEach((s,i)=>{
       const done=i<=(sc.step||0)&&o.status!=="ملغى";
-      stepsHTML+=`<div class="track-step"><div class="track-circle${done?' done':''}">${done?"✓":i+1}</div><div class="track-step-label${done?' done':''}">${s}</div></div>`;
+      stepsHTML+=`<div style="display:flex;flex-direction:column;align-items:center;gap:4px;z-index:1">
+        <div style="width:28px;height:28px;border-radius:50%;background:${done?"#10b981":"#e5e7eb"};display:flex;align-items:center;justify-content:center;font-size:11px;color:${done?"white":"#9ca3af"};font-weight:700">${done?"✓":i+1}</div>
+        <div style="font-size:8px;color:${done?"#10b981":"#9ca3af"};text-align:center;max-width:50px">${s}</div>
+      </div>`;
     });
-    res.innerHTML=`
-      <div style="text-align:center;margin-bottom:18px">
-        <div style="font-size:38px">${sc.icon}</div>
-        <div style="font-weight:800;font-size:20px;margin-top:6px">${o.status}</div>
-        <div style="color:#888;font-size:13px">${o.ticketId}</div>
-      </div>
-      <div class="track-steps"><div class="track-line"></div>${stepsHTML}</div>
-      ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["⚠️ العطل",o.problemType],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
-    `;
-  } else {
-    res.classList.add("hidden");
-    nf.classList.remove("hidden");
-  }
+    const partsHtml=o.parts&&o.parts.length>0?`<div style="margin-top:10px;background:#f9fafb;border-radius:10px;padding:10px"><div style="font-weight:700;font-size:11px;margin-bottom:6px">🔩 قطع الغيار المستخدمة:</div>${o.parts.map(p=>`<div style="font-size:11px;color:#374151;padding:3px 0">• ${p.name} (${p.qty}x)</div>`).join('')}</div>`:'';
+    res.innerHTML=`<div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:36px">${sc.icon}</div>
+      <div style="font-weight:800;font-size:18px;margin-top:5px">${o.status}</div>
+      <div style="color:#888;font-size:12px">${o.ticketId}</div>
+    </div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;position:relative">
+      <div style="position:absolute;top:40%;left:0;right:0;height:2px;background:#e5e7eb;z-index:0"></div>
+      ${stepsHTML}
+    </div>
+    ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["⚠️ العطل",o.problemType],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:12px"><span style="color:#6b7280">${l}</span><span style="font-weight:700">${v}</span></div>`).join('')}
+    ${partsHtml}`;
+  } else {nf.classList.remove("hidden");res.classList.add("hidden");}
 }
 
 // ===== PAGES =====
@@ -459,69 +597,81 @@ function showPage(page){
   document.querySelectorAll(".nav-btn").forEach(b=>b.classList.remove("active"));
   document.getElementById(page+"Page").classList.add("active");
   document.getElementById("nav"+page.charAt(0).toUpperCase()+page.slice(1)).classList.add("active");
-  if(page==="stats") renderStats();
+  if(page==="stats")renderStatsPage();
+  if(page==="home"){renderAll();checkLateOrders();}
+  if(page==="inventory")renderInventory();
 }
-function goHome(){ showPage("home"); selectedOrder=null; }
+function goHome(){showPage("home");selectedOrder=null;}
+
+// ===== LATE ORDERS =====
+function daysDiff(d){const today=new Date();today.setHours(0,0,0,0);const dt=new Date(d);dt.setHours(0,0,0,0);return Math.round((today-dt)/(864e5));}
+function isLate(o){if(!o.deliveryDate||o.status==="تم التسليم"||o.status==="ملغى")return false;return daysDiff(o.deliveryDate)>0;}
+function checkLateOrders(){
+  const late=currentOrders.filter(isLate);
+  const el=document.getElementById("lateAlerts");
+  if(!el)return;
+  if(late.length>0){
+    el.innerHTML=`<div class="late-alert">
+      <div style="font-weight:800;color:#991B1B;font-size:12px;margin-bottom:7px">⚠️ طلبات متأخرة (${late.length})</div>
+      ${late.map(o=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(254,202,202,0.5);font-size:11px;cursor:pointer" onclick="openDetail('${o.ticketId}')">
+        <span>${o.customerName} - ${o.deviceBrand} ${o.deviceModel}</span>
+        <span style="color:#ef4444;font-weight:700">متأخر ${daysDiff(o.deliveryDate)} يوم</span>
+      </div>`).join('')}
+    </div>`;
+  } else el.innerHTML='';
+}
 
 // ===== RENDER =====
-function renderAll(){
-  renderStats();
-  renderFilters();
-  renderOrders();
-  renderStatsPage();
-}
-function renderStats(){
+function renderAll(){renderStatsCards();renderFilters();renderOrders();renderStatsPage();}
+function renderStatsCards(){
   const o=currentOrders;
   const rev=o.filter(x=>x.status==="تم التسليم").reduce((s,x)=>s+(parseFloat(x.cost)||0),0);
-  const data=[
+  document.getElementById("statsGrid").innerHTML=[
     {l:"الكل",v:o.length,c:"#1a1a2e",i:"📋"},
     {l:"انتظار",v:o.filter(x=>x.status==="قيد الانتظار").length,c:"#F59E0B",i:"⏳"},
     {l:"إصلاح",v:o.filter(x=>x.status==="قيد الإصلاح").length,c:"#3B82F6",i:"🔧"},
     {l:"جاهز",v:o.filter(x=>x.status==="جاهز للتسليم").length,c:"#10B981",i:"✅"},
     {l:"مسلّم",v:o.filter(x=>x.status==="تم التسليم").length,c:"#6B7280",i:"📦"},
-    {l:"الإيراد",v:(rev/1000).toFixed(0)+"k",c:"#e94560",i:"💰"}
-  ];
-  document.getElementById("statsGrid").innerHTML=data.map(s=>`
-    <div class="stat-card">
-      <div class="stat-icon">${s.i}</div>
-      <div class="stat-val" style="color:${s.c}">${s.v}</div>
-      <div class="stat-lbl">${s.l}</div>
-    </div>`).join('');
+    {l:"إيراد",v:(rev/1000).toFixed(0)+"k",c:"#e94560",i:"💰"}
+  ].map(s=>`<div class="stat-card"><div style="font-size:17px">${s.i}</div><div style="font-size:17px;font-weight:900;color:${s.c};margin-top:2px">${s.v}</div><div style="font-size:9px;color:#9ca3af;margin-top:1px">${s.l}</div></div>`).join('');
 }
 function renderFilters(){
-  const statuses=["الكل",...Object.keys(STATUSES)];
-  document.getElementById("filterBtns").innerHTML=statuses.map(s=>`
-    <button class="filter-btn${filterStatus===s?' active':''}" onclick="setFilter('${s}')">${s}</button>`).join('');
+  document.getElementById("filterBtns").innerHTML=["الكل",...Object.keys(STATUSES)].map(s=>`<button class="filter-btn${filterStatus===s?' active':''}" onclick="setFilter('${s}')">${s}</button>`).join('');
 }
-function setFilter(s){ filterStatus=s; renderFilters(); renderOrders(); }
+function setFilter(s){filterStatus=s;renderFilters();renderOrders();}
 function renderOrders(){
-  const q=document.getElementById("searchInput").value.toLowerCase();
+  const q=(document.getElementById("searchInput")||{value:""}).value.toLowerCase();
   const filtered=currentOrders.filter(o=>{
     const ms=!q||[o.customerName,o.ticketId,o.customerPhone,o.deviceModel,o.deviceBrand].some(v=>v&&v.toLowerCase().includes(q));
     const mf=filterStatus==="الكل"||o.status===filterStatus;
     return ms&&mf;
   });
   if(!filtered.length){
-    document.getElementById("ordersList").innerHTML=`<div class="empty-state"><div class="emoji">📭</div><div style="font-weight:700">لا توجد طلبات</div><div style="font-size:12px;margin-top:4px">اضغط "+ جديد" لإضافة طلب</div></div>`;
+    document.getElementById("ordersList").innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px;margin-bottom:9px">📭</div><div style="font-weight:700">لا توجد طلبات</div></div>`;
     return;
   }
   document.getElementById("ordersList").innerHTML=filtered.map(o=>{
     const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
+    const late=isLate(o)?`<span class="late-badge">⚠️ متأخر ${daysDiff(o.deliveryDate)} أيام</span>`:'';
+    const hasParts=o.parts&&o.parts.length>0?`<span style="font-size:10px;color:#7c3aed">🔩 ${o.parts.length} قطعة</span>`:'';
+    const hasPhoto=o.photos&&o.photos.length>0?`<span style="font-size:10px;color:#6b7280">📷 ${o.photos.length}</span>`:'';
     return `<div class="order-card" style="border-right-color:${sc.color}" onclick="openDetail('${o.ticketId}')">
       <div style="display:flex;justify-content:space-between">
         <div style="flex:1">
-          <div class="order-name">${o.customerName}</div>
-          <div class="order-device">${o.deviceBrand} ${o.deviceModel}</div>
-          <div class="order-phone">📞 ${o.customerPhone}</div>
+          <div style="font-weight:800;font-size:14px;margin-bottom:2px">${o.customerName}</div>
+          <div style="color:#6b7280;font-size:11px">${o.deviceBrand} ${o.deviceModel}</div>
+          <div style="color:#9ca3af;font-size:10px;margin-top:1px">📞 ${o.customerPhone}</div>
+          ${late}
         </div>
-        <div style="text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:5px">
-          <div class="status-badge" style="background:${sc.bg};color:${sc.color}">${sc.icon} ${o.status}</div>
-          <div class="cost-badge">${parseFloat(o.cost||0).toLocaleString()} IQD</div>
+        <div style="text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+          <div style="background:${sc.bg};color:${sc.color};border-radius:9px;padding:2px 8px;font-size:10px;font-weight:700">${sc.icon} ${o.status}</div>
+          <div style="font-weight:800;color:#e94560;font-size:13px">${parseFloat(o.cost||0).toLocaleString()} IQD</div>
+          <div style="display:flex;gap:5px">${hasParts}${hasPhoto}</div>
         </div>
       </div>
-      <div class="order-footer">
-        <span class="ticket-badge">${o.ticketId}</span>
-        <span class="order-date">📅 ${o.receivedDate}</span>
+      <div style="margin-top:7px;display:flex;justify-content:space-between;align-items:center">
+        <span style="background:#f3f4f6;border-radius:7px;padding:2px 8px;font-size:10px;color:#374151;font-weight:700">${o.ticketId}</span>
+        <span style="color:#9ca3af;font-size:10px">📅 ${o.receivedDate}</span>
       </div>
     </div>`;
   }).join('');
@@ -529,107 +679,267 @@ function renderOrders(){
 function renderStatsPage(){
   const o=currentOrders;
   const rev=o.filter(x=>x.status==="تم التسليم").reduce((s,x)=>s+(parseFloat(x.cost)||0),0);
-  document.getElementById("totalRevenue").textContent=rev.toLocaleString();
-  document.getElementById("statsBars").innerHTML=Object.entries(STATUSES).map(([status,sc])=>{
+  if(document.getElementById("totalRevenue"))document.getElementById("totalRevenue").textContent=rev.toLocaleString();
+  const bars=document.getElementById("statsBars");
+  if(bars)bars.innerHTML=Object.entries(STATUSES).map(([status,sc])=>{
     const count=o.filter(x=>x.status===status).length;
     const pct=o.length?Math.round((count/o.length)*100):0;
-    return `<div class="stat-bar-card">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-        <span style="font-weight:700">${sc.icon} ${status}</span>
-        <span style="font-weight:900;color:${sc.color}">${count} طلب (${pct}%)</span>
+    return `<div class="white-card" style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:7px">
+        <span style="font-weight:700;font-size:13px">${sc.icon} ${status}</span>
+        <span style="font-weight:900;color:${sc.color};font-size:13px">${count} طلب (${pct}%)</span>
       </div>
       <div class="stat-bar-bg"><div class="stat-bar-fill" style="background:${sc.color};width:${pct}%"></div></div>
     </div>`;
   }).join('');
 }
-function renderStats(){ 
-  if(document.getElementById("statsGrid")) {
-    const o=currentOrders;
-    const rev=o.filter(x=>x.status==="تم التسليم").reduce((s,x)=>s+(parseFloat(x.cost)||0),0);
-    const data=[
-      {l:"الكل",v:o.length,c:"#1a1a2e",i:"📋"},
-      {l:"انتظار",v:o.filter(x=>x.status==="قيد الانتظار").length,c:"#F59E0B",i:"⏳"},
-      {l:"إصلاح",v:o.filter(x=>x.status==="قيد الإصلاح").length,c:"#3B82F6",i:"🔧"},
-      {l:"جاهز",v:o.filter(x=>x.status==="جاهز للتسليم").length,c:"#10B981",i:"✅"},
-      {l:"مسلّم",v:o.filter(x=>x.status==="تم التسليم").length,c:"#6B7280",i:"📦"},
-      {l:"الإيراد",v:(rev/1000).toFixed(0)+"k",c:"#e94560",i:"💰"}
-    ];
-    document.getElementById("statsGrid").innerHTML=data.map(s=>`
-      <div class="stat-card">
-        <div class="stat-icon">${s.i}</div>
-        <div class="stat-val" style="color:${s.c}">${s.v}</div>
-        <div class="stat-lbl">${s.l}</div>
-      </div>`).join('');
+
+// ===== INVENTORY =====
+function renderInventory(){
+  const parts=getParts();
+  const q=(document.getElementById("partSearch")||{value:""}).value.toLowerCase();
+  const cats=["الكل","شاشة","بطارية","شاحن / كيبل","قاعدة شحن","IC شحن","كاميرا","مكبر صوت","أخرى"];
+  const pf=document.getElementById("partFilterRow");
+  if(pf)pf.innerHTML=cats.map(c=>`<button class="filter-btn${partFilter===c?' active':''}" onclick="setPartFilter('${c}')">${c}</button>`).join('');
+  const filtered=parts.filter(p=>{
+    const ms=!q||[p.name,p.brand,p.model,p.category].some(v=>v&&v.toLowerCase().includes(q));
+    const mf=partFilter==="الكل"||p.category===partFilter;
+    return ms&&mf;
+  });
+  const el=document.getElementById("inventoryList");
+  if(!el)return;
+  if(!filtered.length){el.innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px;margin-bottom:9px">🔩</div><div style="font-weight:700">لا توجد قطع غيار</div><div style="font-size:11px;margin-top:4px">اضغط "+ إضافة" لإضافة قطع</div></div>`;return;}
+  el.innerHTML=filtered.map(p=>{
+    const low=parseInt(p.qty)<=parseInt(p.minQty||2);
+    return `<div class="inv-card">
+      <div style="flex:1">
+        <div class="inv-name">${p.name}</div>
+        <div class="inv-model">${p.brand||''} ${p.model||''} • ${p.category}</div>
+        <div style="display:flex;gap:8px;margin-top:5px;align-items:center">
+          <span style="font-size:11px;color:#6b7280">شراء: ${parseFloat(p.buyPrice||0).toLocaleString()} IQD</span>
+          <span style="font-size:11px;color:#e94560;font-weight:700">بيع: ${parseFloat(p.sellPrice||0).toLocaleString()} IQD</span>
+        </div>
+      </div>
+      <div style="text-align:center;margin-right:10px">
+        <div class="inv-qty ${low?'inv-low':''}">${p.qty}</div>
+        <div style="font-size:9px;color:#9ca3af">متوفر</div>
+        ${low?'<div style="font-size:9px;color:#ef4444;font-weight:700">⚠️ منخفض</div>':''}
+        <div style="display:flex;gap:4px;margin-top:6px">
+          <button onclick="editPart('${p.id}')" style="background:#f3f4f6;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">✏️</button>
+          <button onclick="deletePart('${p.id}')" style="background:#fee2e2;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function setPartFilter(f){partFilter=f;renderInventory();}
+function openPartForm(part=null){
+  editingPartId=part?part.id:null;
+  document.getElementById("partFormTitle").textContent=part?"✏️ تعديل قطعة":"➕ إضافة قطعة غيار";
+  document.getElementById("partSubmitBtn").textContent=part?"💾 حفظ التعديلات":"✅ حفظ القطعة";
+  document.getElementById("pName").value=part?.name||"";
+  document.getElementById("pDeviceType").value=part?.deviceType||"phone";
+  document.getElementById("pBrand").value=part?.brand||"";
+  document.getElementById("pModel").value=part?.model||"";
+  document.getElementById("pCategory").value=part?.category||"شاشة";
+  document.getElementById("pBuyPrice").value=part?.buyPrice||"";
+  document.getElementById("pSellPrice").value=part?.sellPrice||"";
+  document.getElementById("pQty").value=part?.qty||1;
+  document.getElementById("pMinQty").value=part?.minQty||2;
+  document.getElementById("pNotes").value=part?.notes||"";
+  document.getElementById("partModal").classList.remove("hidden");
+}
+function closePartForm(){document.getElementById("partModal").classList.add("hidden");editingPartId=null;}
+function editPart(id){const p=getParts().find(x=>x.id===id);if(p)openPartForm(p);}
+function deletePart(id){
+  if(!confirm("حذف هذه القطعة؟"))return;
+  const parts=getParts().filter(p=>p.id!==id);saveParts(parts);renderInventory();showToast("تم الحذف","error");
+}
+function submitPartForm(){
+  const data={
+    name:document.getElementById("pName").value.trim(),
+    deviceType:document.getElementById("pDeviceType").value,
+    brand:document.getElementById("pBrand").value.trim(),
+    model:document.getElementById("pModel").value.trim(),
+    category:document.getElementById("pCategory").value,
+    buyPrice:document.getElementById("pBuyPrice").value,
+    sellPrice:document.getElementById("pSellPrice").value,
+    qty:document.getElementById("pQty").value,
+    minQty:document.getElementById("pMinQty").value,
+    notes:document.getElementById("pNotes").value.trim()
+  };
+  if(!data.name){alert("أدخل اسم القطعة");return;}
+  const parts=getParts();
+  if(editingPartId){
+    const idx=parts.findIndex(p=>p.id===editingPartId);
+    if(idx>=0)parts[idx]={...parts[idx],...data};
+    showToast("تم التحديث ✅");
+  } else {
+    parts.unshift({...data,id:"P"+Date.now()});
+    showToast("تم إضافة القطعة 🔩");
   }
+  saveParts(parts);closePartForm();renderInventory();
+}
+
+// ===== FORM PARTS =====
+function updateBrandsForType(){
+  const type=document.getElementById("fDeviceType").value;
+  const brands=BRANDS_BY_TYPE[type]||BRANDS_BY_TYPE.phone;
+  const sel=document.getElementById("fBrand");
+  sel.innerHTML='<option value="">اختر الماركة</option>'+brands.map(b=>`<option>${b}</option>`).join('');
+  updateComponentsList();
+}
+function updateComponentsList(){
+  updatePartsForProblem();
+}
+function updatePartsForProblem(){
+  const problem=document.getElementById("fProblemType").value;
+  const brand=document.getElementById("fBrand").value;
+  const suggestions=PARTS_BY_PROBLEM[problem]||[];
+  const invParts=getParts();
+  const el=document.getElementById("suggestedParts");
+  if(!suggestions.length){el.innerHTML='';return;}
+  el.innerHTML=`<div style="font-size:11px;color:#9d174d;font-weight:700;margin-bottom:6px">💡 قطع مقترحة للعطل "${problem}":</div>`+
+    suggestions.map(s=>{
+      const found=invParts.find(p=>p.name.includes(s)||s.includes(p.category));
+      const badge=found?`<span style="font-size:9px;color:#10b981;font-weight:700">(متوفر: ${found.qty})</span>`:`<span style="font-size:9px;color:#ef4444;font-weight:700">(غير متوفر)</span>`;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:#f9f0ff;border-radius:8px;margin-bottom:4px;cursor:pointer" onclick="quickAddPart('${s}')">
+        <span style="font-size:12px">🔩 ${s}</span>
+        <div style="display:flex;align-items:center;gap:6px">${badge}<span style="background:#7c3aed;color:white;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">+ أضف</span></div>
+      </div>`;
+    }).join('');
+}
+function quickAddPart(name){
+  formParts.push({name,qty:1});renderFormParts();showToast("تم إضافة: "+name);
+}
+function addPartToForm(){
+  const name=document.getElementById("fPartName").value.trim();
+  const qty=parseInt(document.getElementById("fPartQty").value)||1;
+  if(!name)return;
+  formParts.push({name,qty});
+  document.getElementById("fPartName").value="";
+  renderFormParts();
+}
+function removeFormPart(i){formParts.splice(i,1);renderFormParts();}
+function renderFormParts(){
+  document.getElementById("formPartsList").innerHTML=formParts.length?
+    formParts.map((p,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f9fafb;border-radius:8px;margin-bottom:4px">
+      <span style="font-size:12px;font-weight:700">🔩 ${p.name} (${p.qty}x)</span>
+      <button onclick="removeFormPart(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;color:#ef4444;font-weight:700">✕</button>
+    </div>`).join(''):'';
 }
 
 // ===== DETAIL =====
 function openDetail(ticketId){
   selectedOrder=currentOrders.find(o=>o.ticketId===ticketId);
   if(!selectedOrder)return;
-  renderDetail();
-  showPage("detail");
+  renderDetail();showPage("detail");
 }
 function renderDetail(){
   const o=selectedOrder;
   const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
-  const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(o.ticketId+"|"+o.customerName+"|"+o.status)}&bgcolor=ffffff&color=1a1a2e&margin=4`;
+  const trackUrl=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
+  const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(trackUrl)}&bgcolor=ffffff&color=1a1a2e&margin=6`;
   let stepsHTML='';
   STEPS.forEach((s,i)=>{
     const done=i<=(sc.step||0)&&o.status!=="ملغى";
     stepsHTML+=`<div class="step"><div class="step-circle${done?' done':''}">${done?"✓":i+1}</div><div class="step-label${done?' done':''}">${s}</div></div>`;
   });
-  let statusBtns=Object.entries(STATUSES).map(([s,sc2])=>`
-    <button class="status-btn${o.status===s?' active':''}" style="${o.status===s?`border-color:${sc2.color};background:${sc2.bg};color:${sc2.color}`:''}" onclick="updateStatus('${s}')">${sc2.icon} ${s}</button>`).join('');
+  const lateHtml=isLate(o)?`<div style="background:#fee2e2;color:#991b1b;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:700;margin-bottom:10px;text-align:center">⚠️ هذا الطلب متأخر ${daysDiff(o.deliveryDate)} أيام!</div>`:'';
+  const photos=o.photos||[];
+  const parts=o.parts||[];
+  const partsHtml=`<div class="parts-card">
+    <div class="section-title">🔩 قطع الغيار المستخدمة (${parts.length})</div>
+    ${parts.map((p,i)=>`<div class="part-item">
+      <span class="part-name">🔩 ${p.name}</span>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span class="part-qty">${p.qty}x</span>
+        <button onclick="removePartFromOrder(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:2px 7px;cursor:pointer;font-size:10px;color:#ef4444">✕</button>
+      </div>
+    </div>`).join('')}
+    <div style="display:flex;gap:7px;margin-top:10px">
+      <input id="newPartName" class="form-input" placeholder="إضافة قطعة..." style="margin-bottom:0;flex:2;padding:8px 11px;font-size:12px"/>
+      <input id="newPartQty" class="form-input" placeholder="عدد" type="number" value="1" style="margin-bottom:0;flex:1;padding:8px 11px;font-size:12px"/>
+      <button onclick="addPartToOrder()" style="background:#7c3aed;color:white;border:none;border-radius:9px;padding:8px 12px;cursor:pointer;font-weight:800">+</button>
+    </div>
+  </div>`;
+  const photosHtml=`<div class="photos-card">
+    <div class="section-title">📷 صور الجهاز (${photos.length})</div>
+    <div class="photos-grid">
+      ${photos.map((p,i)=>`<img src="${p}" class="photo-thumb" onclick="openPhotoViewer(${i})" alt="صورة"/>`).join('')}
+      <div class="photo-add" onclick="addPhotoToOrder()"><span style="font-size:22px">📷</span><span>إضافة</span></div>
+    </div>
+    <input type="file" id="addPhotoInput" accept="image/*" capture="environment" style="display:none" onchange="handleAddPhoto(event)"/>
+  </div>`;
+  let statusBtns=Object.entries(STATUSES).map(([s,sc2])=>`<button class="status-btn${o.status===s?' active':''}" style="${o.status===s?`border-color:${sc2.color};background:${sc2.bg};color:${sc2.color}`:''}" onclick="updateStatus('${s}')">${sc2.icon} ${s}</button>`).join('');
   document.getElementById("detailContent").innerHTML=`
+    ${lateHtml}
     <div class="top-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
         <div>
-          <div class="top-card-name">${o.customerName}</div>
-          <div class="top-card-phone">📞 ${o.customerPhone}</div>
+          <div style="font-size:17px;font-weight:900">${o.customerName}</div>
+          <div style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px">📞 ${o.customerPhone}</div>
         </div>
-        <div class="status-badge" style="background:${sc.bg};color:${sc.color}">${sc.icon} ${o.status}</div>
+        <div style="background:${sc.bg};color:${sc.color};border-radius:10px;padding:4px 10px;font-weight:800;font-size:11px">${sc.icon} ${o.status}</div>
       </div>
       <div class="progress-steps"><div class="progress-line"></div>${stepsHTML}</div>
     </div>
     <div class="qr-card">
-      <div class="qr-title">رمز QR للتتبع</div>
-      <img src="${qrUrl}" class="qr-code" width="120" height="120" onerror="this.style.display='none'"/>
-      <div class="qr-id">${o.ticketId}</div>
-      <div class="qr-hint">الزبون يمسح الكود لمتابعة طلبه</div>
+      <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:7px">رمز QR للتتبع</div>
+      <img src="${qrUrl}" width="110" height="110" style="border-radius:7px;display:block;margin:0 auto" onerror="this.style.display='none'"/>
+      <div style="font-weight:800;font-size:14px;letter-spacing:3px;margin-top:7px;color:#1a1a2e">${o.ticketId}</div>
+      <div style="font-size:10px;color:#9ca3af;margin-top:2px">الزبون يمسح الكود لمتابعة طلبه</div>
     </div>
+    ${photosHtml}
     <div class="white-card">
-      ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["🎨 اللون/السعة",o.deviceColor||"-"],["🔢 IMEI",o.imei||"-"],["⚠️ نوع العطل",o.problemType],["📝 وصف العطل",o.problemDesc],["🔍 حالة الجهاز",o.deviceNotes||"لا يوجد"],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"],["👨‍🔧 الفني",o.technician||"-"]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
+      ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["📱 نوع الجهاز",o.deviceType||"هاتف"],["🎨 اللون/السعة",o.deviceColor||"-"],["🔢 IMEI",o.imei||"-"],["⚠️ نوع العطل",o.problemType],["📝 وصف العطل",o.problemDesc],["🔍 حالة الجهاز",o.deviceNotes||"لا يوجد"],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"],["👨‍🔧 الفني",o.technician||"-"]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
     </div>
+    ${partsHtml}
     <div class="white-card">
       <div class="section-title">🔄 تحديث الحالة</div>
       <div class="status-btns">${statusBtns}</div>
     </div>
     <div class="wa-card">
-      <div class="wa-title">💬 إرسال واتساب للزبون</div>
+      <div style="font-weight:800;font-size:12px;margin-bottom:9px;color:#065f46">💬 إرسال واتساب للزبون</div>
       <div class="wa-grid">
         <button class="wa-btn" onclick="sendWA('repair')">📲 قيد الإصلاح</button>
         <button class="wa-btn" onclick="sendWA('ready')">📲 جاهز للتسليم</button>
         <button class="wa-btn" onclick="sendWA('done')">📲 تم التسليم</button>
-        <button class="wa-btn general" onclick="sendWA('general')">💬 رسالة عامة</button>
+        <button class="wa-btn gen" onclick="sendWA('general')">💬 رسالة عامة</button>
       </div>
     </div>
     <div class="action-grid">
-      <button class="action-btn dark" onclick="printReceipt()">🖨️ طباعة الوصل</button>
-      <button class="action-btn blue" onclick="editOrder()">✏️ تعديل</button>
-      <button class="action-btn red" onclick="deleteOrder()">🗑️ حذف الطلب</button>
+      <button class="action-btn" style="background:#1a1a2e" onclick="printReceipt()">🖨️ طباعة الوصل</button>
+      <button class="action-btn" style="background:#3b82f6" onclick="editOrder()">✏️ تعديل</button>
+      <button class="action-btn" style="background:#ef4444;grid-column:span 2" onclick="deleteOrder()">🗑️ حذف الطلب</button>
     </div>
   `;
+}
+
+// ===== PARTS IN ORDER =====
+function addPartToOrder(){
+  const name=document.getElementById("newPartName").value.trim();
+  const qty=parseInt(document.getElementById("newPartQty").value)||1;
+  if(!name)return;
+  const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
+  if(idx>=0){
+    if(!currentOrders[idx].parts)currentOrders[idx].parts=[];
+    currentOrders[idx].parts.push({name,qty});
+    selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة القطعة 🔩");
+  }
+}
+function removePartFromOrder(i){
+  const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
+  if(idx>=0){currentOrders[idx].parts.splice(i,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();}
 }
 
 // ===== STATUS =====
 function updateStatus(status){
   const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
-  if(idx>=0){ currentOrders[idx].status=status; selectedOrder=currentOrders[idx]; saveOrders(currentOrders); }
-  renderDetail();
-  showToast("تم تحديث الحالة");
-  const msgs={"قيد الإصلاح":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n🔧 جهازك قيد الإصلاح\nسنخبرك فور الانتهاء 🙏`,"جاهز للتسليم":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${selectedOrder.cost} IQD*\nيمكنك الحضور لاستلامه 🎉`};
-  if(msgs[status]&&confirm(`إرسال واتساب للزبون بأن الحالة: "${status}"؟`)) sendWAMsg(selectedOrder.customerPhone,msgs[status]);
+  if(idx>=0){currentOrders[idx].status=status;selectedOrder=currentOrders[idx];saveOrders(currentOrders);}
+  renderDetail();showToast("تم تحديث الحالة");
+  const msgs={"قيد الإصلاح":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n🔧 جهازك قيد الإصلاح حالياً\nسنخبرك فور الانتهاء 🙏`,"جاهز للتسليم":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${selectedOrder.cost} IQD*\nيمكنك الحضور لاستلامه 🎉`};
+  if(msgs[status]&&confirm(`إرسال واتساب للزبون؟`))sendWAMsg(selectedOrder.customerPhone,msgs[status]);
 }
 
 // ===== WHATSAPP =====
@@ -646,49 +956,105 @@ function sendWA(type){
     done:`مرحباً ${o.customerName} 👋\nشكراً لثقتك بمركز الصيانة 🙏\nنتمنى رضاك عن خدمتنا 😊`,
     general:`مرحباً ${o.customerName}،\nبخصوص جهازك ${o.deviceBrand} ${o.deviceModel}\nرقم طلبك: ${o.ticketId}`
   };
-  sendWAMsg(o.customerPhone, msgs[type]);
+  sendWAMsg(o.customerPhone,msgs[type]);
+}
+
+// ===== PHOTOS =====
+function capturePhoto(){document.getElementById("photoInput").click();}
+function handlePhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{formPhotos.push(ev.target.result);renderFormPhotos();};
+  reader.readAsDataURL(file);e.target.value='';
+}
+function renderFormPhotos(){
+  const el=document.getElementById("photoPreviewForm");
+  el.innerHTML=formPhotos.map((p,i)=>`<div style="position:relative">
+    <img src="${p}" style="width:65px;height:65px;object-fit:cover;border-radius:8px"/>
+    <button onclick="removeFormPhoto(${i})" style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px">✕</button>
+  </div>`).join('');
+}
+function removeFormPhoto(i){formPhotos.splice(i,1);renderFormPhotos();}
+function addPhotoToOrder(){document.getElementById("addPhotoInput").click();}
+function handleAddPhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
+    if(idx>=0){if(!currentOrders[idx].photos)currentOrders[idx].photos=[];currentOrders[idx].photos.push(ev.target.result);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة الصورة 📷");}
+  };
+  reader.readAsDataURL(file);e.target.value='';
+}
+function openPhotoViewer(idx){viewingPhotoIdx=idx;document.getElementById("photoViewerImg").src=selectedOrder.photos[idx];document.getElementById("photoViewer").classList.remove("hidden");}
+function closePhotoViewer(){document.getElementById("photoViewer").classList.add("hidden");}
+function deleteCurrentPhoto(){
+  if(!confirm("حذف الصورة؟"))return;
+  const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
+  if(idx>=0){currentOrders[idx].photos.splice(viewingPhotoIdx,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);closePhotoViewer();renderDetail();showToast("تم الحذف");}
 }
 
 // ===== PRINT =====
 function printReceipt(){
   const o=selectedOrder;
-  const qr=`https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(o.ticketId+"|"+o.customerName)}&bgcolor=ffffff&color=1a1a2e&margin=4`;
+  const trackLink=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
+  const qr=`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(trackLink)}&bgcolor=ffffff&color=1a1a2e&margin=8`;
+  const photos=o.photos||[];const parts=o.parts||[];
+  const partsHtml=parts.length?`<div class="section-title">🔩 قطع الغيار المستخدمة</div>${parts.map(p=>`<div class="row"><span class="lbl">${p.name}</span><span class="val">${p.qty}x</span></div>`).join('')}`:'';
+  const photosHtml=photos.length?`<div class="section-title" style="margin-top:12px">📷 صور الجهاز</div><div style="display:flex;gap:7px;flex-wrap:wrap">${photos.map(p=>`<img src="${p}" style="width:75px;height:75px;object-fit:cover;border-radius:8px;border:1px solid #eee"/>`).join('')}</div>`:'';
   const w=window.open("","_blank");
-  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>وصل ${o.ticketId}</title>
-  <style>body{font-family:'Segoe UI',sans-serif;direction:rtl;padding:20px;max-width:400px;margin:auto}
-  h2{text-align:center;color:#1a1a2e;margin-bottom:4px}.sub{text-align:center;color:#888;font-size:12px;margin-bottom:16px}
-  .qr{text-align:center;border:1px dashed #ccc;border-radius:12px;padding:12px;margin:12px 0;background:#fafafa}
-  .row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0f0f0;font-size:13px}
-  .lbl{color:#888}.val{font-weight:700}.cost{color:#e94560;font-size:17px;font-weight:800}
-  .badge{background:#1a1a2e;color:#fff;border-radius:20px;padding:2px 12px;font-size:11px}
-  .foot{text-align:center;margin-top:16px;font-size:11px;color:#aaa;border-top:1px dashed #ddd;padding-top:10px}
-  @media print{button{display:none}}</style></head><body>
-  <h2>🔧 مركز الصيانة</h2><div class="sub">وصل استلام جهاز للصيانة</div>
-  <div class="qr"><img src="${qr}" width="110"/><div style="font-size:15px;font-weight:800;letter-spacing:2px;margin-top:5px">${o.ticketId}</div>
-  <div style="font-size:10px;color:#888;margin-top:2px">امسح الكود لمتابعة الطلب</div></div>
-  <div class="row"><span class="lbl">الزبون</span><span class="val">${o.customerName}</span></div>
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>وصل - ${o.ticketId}</title>
+  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;direction:rtl;padding:18px;max-width:400px;margin:auto;color:#1a1a2e;font-size:12px}
+  .header{text-align:center;margin-bottom:14px;border-bottom:3px solid #e94560;padding-bottom:10px}
+  .header h1{font-size:20px;font-weight:900}.header p{color:#888;font-size:11px;margin-top:3px}
+  .qr-section{text-align:center;border:2px dashed #e94560;border-radius:12px;padding:12px;margin:12px 0;background:#fff8f9}
+  .ticket-id{font-size:18px;font-weight:900;letter-spacing:3px;margin-top:6px;color:#e94560}
+  .section-title{background:#f3f4f6;border-radius:7px;padding:5px 10px;font-weight:700;font-size:11px;margin:10px 0 5px}
+  .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0f0f0}
+  .lbl{color:#888;flex:1}.val{font-weight:700;flex:1;text-align:left}
+  .cost-row{display:flex;justify-content:space-between;background:#fff5f5;border-radius:9px;padding:9px 12px;margin:9px 0;border:1px solid #fecaca}
+  .cost-val{color:#e94560;font-size:16px;font-weight:900}
+  .footer{text-align:center;margin-top:14px;font-size:10px;color:#aaa;border-top:2px dashed #eee;padding-top:10px}
+  .copy{text-align:center;font-size:10px;color:#9ca3af;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:8px}
+  @media print{button{display:none}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}</style>
+  </head><body>
+  <div class="header"><h1>🔧 مركز الصيانة</h1><p>وصل استلام جهاز للصيانة</p></div>
+  <div class="qr-section"><img src="${qr}" width="140" height="140" onerror="this.style.display='none'"/><div class="ticket-id">${o.ticketId}</div><div style="font-size:9px;color:#999;margin-top:3px">امسح الكود لمتابعة الطلب</div></div>
+  <div class="section-title">👤 معلومات الزبون</div>
+  <div class="row"><span class="lbl">الاسم</span><span class="val">${o.customerName}</span></div>
   <div class="row"><span class="lbl">الهاتف</span><span class="val">${o.customerPhone}</span></div>
+  <div class="section-title">📱 معلومات الجهاز</div>
   <div class="row"><span class="lbl">الجهاز</span><span class="val">${o.deviceBrand} ${o.deviceModel}</span></div>
   <div class="row"><span class="lbl">اللون/السعة</span><span class="val">${o.deviceColor||"-"}</span></div>
   <div class="row"><span class="lbl">IMEI</span><span class="val">${o.imei||"-"}</span></div>
-  <div class="row"><span class="lbl">العطل</span><span class="val">${o.problemType} - ${o.problemDesc}</span></div>
-  <div class="row"><span class="lbl">ملاحظات</span><span class="val">${o.deviceNotes||"لا يوجد"}</span></div>
-  <div class="row"><span class="lbl">التكلفة</span><span class="cost">${parseFloat(o.cost||0).toLocaleString()} IQD</span></div>
+  <div class="row"><span class="lbl">حالة الجهاز</span><span class="val">${o.deviceNotes||"لا يوجد"}</span></div>
+  <div class="section-title">⚠️ تفاصيل العطل</div>
+  <div class="row"><span class="lbl">نوع العطل</span><span class="val">${o.problemType}</span></div>
+  <div class="row"><span class="lbl">الوصف</span><span class="val">${o.problemDesc}</span></div>
+  <div class="row"><span class="lbl">الفني</span><span class="val">${o.technician||"-"}</span></div>
+  ${partsHtml}
+  <div class="section-title">💰 التكلفة والمواعيد</div>
+  <div class="cost-row"><span style="font-weight:700">تكلفة الإصلاح</span><span class="cost-val">${parseFloat(o.cost||0).toLocaleString()} IQD</span></div>
   <div class="row"><span class="lbl">الاستلام</span><span class="val">${o.receivedDate}</span></div>
   <div class="row"><span class="lbl">التسليم المتوقع</span><span class="val">${o.deliveryDate||"سيتم الإخبار"}</span></div>
-  <div class="row"><span class="lbl">الحالة</span><span class="badge">${o.status}</span></div>
-  <div class="foot">احتفظ بهذا الوصل لاستلام جهازك 🙏<br/>شكراً لثقتكم</div>
-  <script>window.onload=()=>window.print()<\/script></body></html>`);
+  <div class="row"><span class="lbl">الحالة</span><span class="val">${o.status}</span></div>
+  ${photosHtml}
+  <div class="footer"><p>احتفظ بهذا الوصل لاستلام جهازك</p><p style="margin-top:5px;color:#e94560;font-weight:700">شكراً لثقتكم 🙏</p></div>
+  <div class="copy">© 2025 RepairPro | تطوير: علي أحمد كاظم | 📞 07724353339</div>
+  <script>window.onload=()=>{setTimeout(()=>window.print(),500)}<\/script></body></html>`);
   w.document.close();
 }
 
 // ===== FORM =====
 function openForm(order=null){
   editingId=order?order.ticketId:null;
+  formPhotos=order&&order.photos?[...order.photos]:[];
+  formParts=order&&order.parts?[...order.parts]:[];
   document.getElementById("formTitle").textContent=order?"✏️ تعديل الطلب":"➕ طلب صيانة جديد";
   document.getElementById("formSubmitBtn").textContent=order?"💾 حفظ التعديلات":"✅ إضافة الطلب";
   document.getElementById("fName").value=order?.customerName||"";
   document.getElementById("fPhone").value=order?.customerPhone||"";
+  document.getElementById("fDeviceType").value=order?.deviceType||"";
+  updateBrandsForType();
   document.getElementById("fBrand").value=order?.deviceBrand||"";
   document.getElementById("fModel").value=order?.deviceModel||"";
   document.getElementById("fColor").value=order?.deviceColor||"";
@@ -700,14 +1066,16 @@ function openForm(order=null){
   document.getElementById("fCost").value=order?.cost||"";
   document.getElementById("fDelivery").value=order?.deliveryDate||"";
   document.getElementById("fStatus").value=order?.status||"قيد الانتظار";
+  renderFormPhotos();renderFormParts();updatePartsForProblem();
   document.getElementById("formModal").classList.remove("hidden");
 }
-function closeForm(){ document.getElementById("formModal").classList.add("hidden"); editingId=null; }
-function editOrder(){ openForm(selectedOrder); }
+function closeForm(){document.getElementById("formModal").classList.add("hidden");editingId=null;formPhotos=[];formParts=[];}
+function editOrder(){openForm(selectedOrder);}
 function submitForm(){
   const data={
     customerName:document.getElementById("fName").value.trim(),
     customerPhone:document.getElementById("fPhone").value.trim(),
+    deviceType:document.getElementById("fDeviceType").value,
     deviceBrand:document.getElementById("fBrand").value,
     deviceModel:document.getElementById("fModel").value.trim(),
     deviceColor:document.getElementById("fColor").value.trim(),
@@ -718,40 +1086,36 @@ function submitForm(){
     technician:document.getElementById("fTech").value.trim(),
     cost:document.getElementById("fCost").value,
     deliveryDate:document.getElementById("fDelivery").value,
-    status:document.getElementById("fStatus").value
+    status:document.getElementById("fStatus").value,
+    photos:formPhotos,
+    parts:formParts
   };
-  if(!data.customerName||!data.customerPhone||!data.deviceBrand||!data.deviceModel||!data.problemDesc||!data.cost){
-    alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)"); return;
-  }
+  if(!data.customerName||!data.customerPhone||!data.deviceBrand||!data.deviceModel||!data.problemDesc||!data.cost){alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)");return;}
   if(editingId){
     const idx=currentOrders.findIndex(o=>o.ticketId===editingId);
-    if(idx>=0){ currentOrders[idx]={...currentOrders[idx],...data}; if(selectedOrder?.ticketId===editingId) selectedOrder=currentOrders[idx]; }
+    if(idx>=0){currentOrders[idx]={...currentOrders[idx],...data};if(selectedOrder?.ticketId===editingId)selectedOrder=currentOrders[idx];}
     showToast("تم التحديث ✅");
   } else {
     const o={...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")};
-    currentOrders.unshift(o);
-    showToast("تم إضافة الطلب 🎉");
+    currentOrders.unshift(o);showToast("تم إضافة الطلب 🎉");
   }
-  saveOrders(currentOrders); closeForm(); renderAll();
-  if(selectedOrder&&document.getElementById("detailPage").classList.contains("active")) renderDetail();
+  saveOrders(currentOrders);closeForm();renderAll();checkLateOrders();
+  if(selectedOrder&&document.getElementById("detailPage").classList.contains("active"))renderDetail();
 }
 function deleteOrder(){
-  if(!confirm("هل تريد حذف هذا الطلب نهائياً؟"))return;
+  if(!confirm("حذف هذا الطلب نهائياً؟"))return;
   currentOrders=currentOrders.filter(o=>o.ticketId!==selectedOrder.ticketId);
-  saveOrders(currentOrders); selectedOrder=null; goHome(); renderAll(); showToast("تم الحذف","error");
+  saveOrders(currentOrders);selectedOrder=null;goHome();renderAll();showToast("تم الحذف","error");
 }
 
 // ===== TOAST =====
-function showToast(msg, type="success"){
+function showToast(msg,type="success"){
   const t=document.getElementById("toast");
-  t.textContent=msg; t.className=`toast ${type}`;
-  setTimeout(()=>t.className="toast hidden",3000);
+  t.textContent=msg;t.className=`toast ${type}`;t.classList.remove("hidden");
+  setTimeout(()=>t.classList.add("hidden"),3000);
 }
 
-// ===== SERVICE WORKER =====
-if("serviceWorker" in navigator){
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
-}
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
 </script>
 </body>
 </html>

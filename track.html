@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<meta name="theme-color" content="#e94560"/>
+<title>RepairPro - تتبع طلبك</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,sans-serif}
+body{background:linear-gradient(135deg,#0f0c29,#1a1a2e,#16213e);min-height:100vh;direction:rtl;color:white}
+
+/* BG CIRCLES */
+.bg-circle{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.08;pointer-events:none}
+.c1{width:400px;height:400px;background:#e94560;top:-100px;right:-100px}
+.c2{width:350px;height:350px;background:#3b82f6;bottom:-100px;left:-100px}
+
+.wrap{max-width:440px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+
+/* HEADER */
+.header{padding:20px 0 16px;text-align:center}
+.logo-box{width:56px;height:56px;background:#e94560;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 10px;box-shadow:0 8px 25px rgba(233,69,96,0.4)}
+.header h1{font-size:20px;font-weight:900;margin:0}
+.header p{color:rgba(255,255,255,0.5);font-size:12px;margin-top:3px}
+
+/* SEARCH BOX */
+.search-box{background:rgba(255,255,255,0.07);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.1);border-radius:18px;padding:18px;margin-bottom:16px}
+.search-label{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:8px;font-weight:600}
+.search-row{display:flex;gap:9px}
+.search-input{flex:1;border:2px solid rgba(255,255,255,0.2);border-radius:12px;padding:12px 14px;font-size:15px;background:rgba(255,255,255,0.1);color:white;outline:none;text-align:center;letter-spacing:2px;font-weight:700;transition:border-color 0.2s}
+.search-input:focus{border-color:#e94560}
+.search-input::placeholder{color:rgba(255,255,255,0.35);letter-spacing:0;font-weight:400;font-size:13px}
+.search-btn{background:#e94560;color:white;border:none;border-radius:12px;padding:12px 18px;font-weight:800;cursor:pointer;font-size:14px;white-space:nowrap;box-shadow:0 4px 15px rgba(233,69,96,0.4)}
+
+/* RESULT CARD */
+.result-card{background:white;border-radius:20px;padding:0;overflow:hidden;margin-bottom:16px;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+
+.result-header{padding:20px 18px 16px;color:white}
+.result-ticket{font-size:11px;opacity:0.7;margin-bottom:4px;letter-spacing:1px}
+.result-name{font-size:20px;font-weight:900}
+.result-device{font-size:13px;opacity:0.8;margin-top:3px}
+.result-status-chip{display:inline-flex;align-items:center;gap:5px;border-radius:20px;padding:5px 13px;font-size:12px;font-weight:800;margin-top:10px;background:rgba(255,255,255,0.2)}
+
+/* PROGRESS */
+.progress-section{padding:18px;border-bottom:1px solid #f3f4f6;color:#1a1a2e}
+.progress-title{font-size:11px;color:#9ca3af;font-weight:600;margin-bottom:14px;text-align:center}
+.steps-row{display:flex;justify-content:space-between;align-items:flex-start;position:relative}
+.steps-line{position:absolute;top:16px;left:8%;right:8%;height:3px;background:#e5e7eb;z-index:0}
+.steps-line-fill{position:absolute;top:0;left:0;height:100%;background:linear-gradient(90deg,#10b981,#3b82f6);border-radius:3px;transition:width 0.6s ease}
+.step-item{display:flex;flex-direction:column;align-items:center;gap:6px;z-index:1;flex:1}
+.step-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;border:3px solid #e5e7eb;background:white;color:#9ca3af;font-weight:800;transition:all 0.3s}
+.step-dot.done{background:#10b981;border-color:#10b981;color:white}
+.step-dot.current{background:#3b82f6;border-color:#3b82f6;color:white;box-shadow:0 0 0 4px rgba(59,130,246,0.2)}
+.step-dot.cancelled{background:#ef4444;border-color:#ef4444;color:white}
+.step-name{font-size:9px;color:#9ca3af;text-align:center;font-weight:500;max-width:60px}
+.step-name.done{color:#10b981;font-weight:700}
+.step-name.current{color:#3b82f6;font-weight:700}
+
+/* INFO SECTION */
+.info-section{padding:16px 18px;color:#1a1a2e}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f9fafb}
+.info-row:last-child{border-bottom:none}
+.info-label{font-size:12px;color:#6b7280;display:flex;align-items:center;gap:5px}
+.info-val{font-weight:700;font-size:12px;color:#1a1a2e;text-align:left;max-width:55%}
+.cost-highlight{color:#e94560;font-size:15px;font-weight:900}
+
+/* LATE WARNING */
+.late-warning{background:#FEF2F2;border:1px solid #FECACA;margin:0 18px 14px;border-radius:12px;padding:11px 14px;display:flex;align-items:center;gap:8px;color:#991B1B;font-size:12px;font-weight:700}
+
+/* PARTS */
+.parts-section{padding:14px 18px;border-top:1px solid #f3f4f6;color:#1a1a2e}
+.parts-title{font-size:12px;font-weight:800;margin-bottom:8px;color:#374151}
+.part-chip{display:inline-flex;align-items:center;gap:4px;background:#f3f4f6;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;margin:3px}
+
+/* NOT FOUND */
+.not-found{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:16px;padding:24px;text-align:center;color:#fca5a5;margin-bottom:16px}
+
+/* FOOTER */
+.footer{text-align:center;padding:16px 0 24px;font-size:11px;color:rgba(255,255,255,0.3)}
+.footer strong{color:rgba(255,255,255,0.5)}
+
+/* LOADING */
+.loading{text-align:center;padding:30px;color:rgba(255,255,255,0.6)}
+.spinner{width:36px;height:36px;border:3px solid rgba(255,255,255,0.2);border-top-color:#e94560;border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ANIMATE */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.result-card{animation:fadeUp 0.4s ease}
+</style>
+</head>
+<body>
+<div class="bg-circle c1"></div>
+<div class="bg-circle c2"></div>
+
+<div class="wrap">
+  <div class="header">
+    <div class="logo-box">🔧</div>
+    <h1>RepairPro</h1>
+    <p>تتبع حالة جهازك بسهولة</p>
+  </div>
+
+  <div class="search-box">
+    <div class="search-label">أدخل رقم طلبك للمتابعة</div>
+    <div class="search-row">
+      <input id="trackInput" class="search-input" placeholder="REP-1001" onkeydown="if(event.key==='Enter')search()" autocomplete="off" autocapitalize="characters"/>
+      <button class="search-btn" onclick="search()">🔍 بحث</button>
+    </div>
+  </div>
+
+  <div id="loadingArea" class="loading hidden">
+    <div class="spinner"></div>
+    <div>جاري البحث...</div>
+  </div>
+
+  <div id="notFound" class="not-found hidden">
+    <div style="font-size:36px;margin-bottom:8px">😕</div>
+    <div style="font-weight:800;font-size:15px;margin-bottom:4px">لم يتم العثور على الطلب</div>
+    <div style="font-size:12px;opacity:0.8">تأكد من رقم الطلب في الوصل الذي استلمته</div>
+  </div>
+
+  <div id="resultCard" class="result-card hidden"></div>
+
+  <div class="footer">
+    <p>© 2025 <strong>RepairPro</strong></p>
+    <p style="margin-top:3px">تطوير: <strong>علي أحمد كاظم</strong> | 📞 <strong>07724353339</strong></p>
+  </div>
+</div>
+
+<script>
+const STATUSES={
+  "قيد الانتظار":{color:"#F59E0B",bg:"#FEF3C7",icon:"⏳",step:0,grad:"linear-gradient(135deg,#F59E0B,#d97706)"},
+  "قيد الإصلاح":{color:"#3B82F6",bg:"#DBEAFE",icon:"🔧",step:1,grad:"linear-gradient(135deg,#3B82F6,#1d4ed8)"},
+  "جاهز للتسليم":{color:"#10B981",bg:"#D1FAE5",icon:"✅",step:2,grad:"linear-gradient(135deg,#10B981,#059669)"},
+  "تم التسليم":{color:"#6B7280",bg:"#F3F4F6",icon:"📦",step:3,grad:"linear-gradient(135deg,#6B7280,#374151)"},
+  "ملغى":{color:"#EF4444",bg:"#FEE2E2",icon:"❌",step:-1,grad:"linear-gradient(135deg,#EF4444,#b91c1c)"}
+};
+const STEPS=["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
+
+function daysDiff(d){
+  const today=new Date();today.setHours(0,0,0,0);
+  const dt=new Date(d);dt.setHours(0,0,0,0);
+  return Math.round((today-dt)/(864e5));
+}
+function isLate(o){
+  if(!o.deliveryDate||o.status==="تم التسليم"||o.status==="ملغى")return false;
+  return daysDiff(o.deliveryDate)>0;
+}
+function getOrders(){try{return JSON.parse(localStorage.getItem("rp_o")||"[]")}catch{return[]}}
+
+// Auto-search from URL param
+window.onload=()=>{
+  const params=new URLSearchParams(window.location.search);
+  const tid=params.get("id")||params.get("ticket");
+  if(tid){
+    document.getElementById("trackInput").value=tid.toUpperCase();
+    search();
+  }
+};
+
+function search(){
+  const tid=document.getElementById("trackInput").value.trim().toUpperCase();
+  if(!tid){document.getElementById("trackInput").focus();return;}
+  
+  document.getElementById("notFound").classList.add("hidden");
+  document.getElementById("resultCard").classList.add("hidden");
+  document.getElementById("loadingArea").classList.remove("hidden");
+  
+  setTimeout(()=>{
+    document.getElementById("loadingArea").classList.add("hidden");
+    const orders=getOrders();
+    const o=orders.find(x=>x.ticketId.toUpperCase()===tid);
+    if(!o){document.getElementById("notFound").classList.remove("hidden");return;}
+    renderResult(o);
+  },600);
+}
+
+function renderResult(o){
+  const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
+  const cancelled=o.status==="ملغى";
+  
+  // Progress
+  let stepsHTML='';
+  const lineWidth=cancelled?0:Math.min(100,((sc.step)/3)*100);
+  STEPS.forEach((s,i)=>{
+    const done=!cancelled&&i<sc.step;
+    const current=!cancelled&&i===sc.step;
+    const dotClass=cancelled?"cancelled":done?"done":current?"current":"";
+    stepsHTML+=`<div class="step-item">
+      <div class="step-dot ${dotClass}">${done?"✓":current?sc.icon:i+1}</div>
+      <div class="step-name ${dotClass}">${s}</div>
+    </div>`;
+  });
+
+  // Late warning
+  const lateHtml=isLate(o)?`<div class="late-warning"><span style="font-size:18px">⚠️</span><span>الطلب متأخر ${daysDiff(o.deliveryDate)} أيام عن موعد التسليم المتوقع</span></div>`:'';
+
+  // Parts
+  const parts=o.parts||[];
+  const partsHtml=parts.length?`<div class="parts-section">
+    <div class="parts-title">🔩 قطع الغيار المستخدمة</div>
+    <div>${parts.map(p=>`<span class="part-chip">🔩 ${p.name} (${p.qty}x)</span>`).join('')}</div>
+  </div>`:'';
+
+  const el=document.getElementById("resultCard");
+  el.innerHTML=`
+    <div class="result-header" style="background:${sc.grad}">
+      <div class="result-ticket">رقم الطلب: ${o.ticketId}</div>
+      <div class="result-name">${o.customerName}</div>
+      <div class="result-device">📱 ${o.deviceBrand} ${o.deviceModel}${o.deviceColor?" · "+o.deviceColor:""}</div>
+      <div class="result-status-chip">${sc.icon} ${o.status}</div>
+    </div>
+    <div class="progress-section">
+      <div class="progress-title">مراحل الإصلاح</div>
+      <div class="steps-row">
+        <div class="steps-line"><div class="steps-line-fill" style="width:${lineWidth}%"></div></div>
+        ${stepsHTML}
+      </div>
+    </div>
+    ${lateHtml}
+    <div class="info-section">
+      <div class="info-row">
+        <span class="info-label">⚠️ نوع العطل</span>
+        <span class="info-val">${o.problemType}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">📅 تاريخ الاستلام</span>
+        <span class="info-val">${o.receivedDate}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">📅 التسليم المتوقع</span>
+        <span class="info-val">${o.deliveryDate||"سيتم الإخبار"}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">💰 تكلفة الإصلاح</span>
+        <span class="info-val cost-highlight">${parseFloat(o.cost||0).toLocaleString()} IQD</span>
+      </div>
+      ${o.technician?`<div class="info-row"><span class="info-label">👨‍🔧 الفني المسؤول</span><span class="info-val">${o.technician}</span></div>`:''}
+      ${o.imei?`<div class="info-row"><span class="info-label">🔢 IMEI</span><span class="info-val">${o.imei}</span></div>`:''}
+    </div>
+    ${partsHtml}
+  `;
+  el.classList.remove("hidden");
+}
+</script>
+</body>
+</html>
