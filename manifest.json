@@ -1,5 +1,5 @@
 {
-  "name": "RepairPro - نظام إدارة الصيانة",
+  "name": "RepairPro - نظام الصيانة",
   "short_name": "RepairPro",
   "description": "نظام إدارة صيانة الهواتف المتكامل",
   "start_url": "/repair-pro/",
@@ -12,18 +12,44 @@
   "dir": "rtl",
   "icons": [
     {
-      "src": "https://api.iconify.design/twemoji:wrench.svg?width=192&height=192",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "https://api.iconify.design/twemoji:wrench.svg?width=512&height=512",
+      "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
-  "categories": ["business", "productivity"],
-  "screenshots": []
+  "categories": ["business", "productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "RepairPro - نظام إدارة الصيانة"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "طلب جديد",
+      "short_name": "جديد",
+      "description": "إضافة طلب صيانة جديد",
+      "url": "/repair-pro/",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "تتبع طلب",
+      "short_name": "تتبع",
+      "description": "تتبع حالة الطلب",
+      "url": "/repair-pro/track.html",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192"}]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
 }
