@@ -7,7 +7,6 @@
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="RepairPro"/>
-<meta name="description" content="نظام إدارة صيانة الهواتف المتكامل"/>
 <link rel="manifest" href="manifest.json"/>
 <title>RepairPro 🔧</title>
 <style>
@@ -22,9 +21,9 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 .btn-new{background:#e94560;color:white;border:none;border-radius:10px;padding:7px 13px;font-weight:800;cursor:pointer;font-size:12px}
 .btn-logout{background:rgba(255,255,255,0.1);color:white;border:none;border-radius:10px;padding:7px 10px;cursor:pointer;font-size:11px}
 .nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:6px 0 12px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.08);max-width:480px;margin:0 auto}
-.nav-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9ca3af;padding:3px 10px;font-size:9px}
+.nav-btn{background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;color:#9ca3af;padding:3px 8px;font-size:9px}
 .nav-btn.active{color:#e94560;font-weight:800}
-.nav-btn span:first-child{font-size:19px}
+.nav-btn span:first-child{font-size:18px}
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
 .stat-card{background:white;border-radius:12px;padding:10px 6px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
 .search-input{width:100%;border:none;border-radius:12px;padding:11px 14px;font-size:13px;background:white;box-shadow:0 2px 8px rgba(0,0,0,0.08);outline:none;margin-bottom:9px}
@@ -62,10 +61,6 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 .photo-thumb{width:100%;aspect-ratio:1;object-fit:cover;border-radius:9px;cursor:pointer}
 .photo-add{width:100%;aspect-ratio:1;border:2px dashed #d1d5db;border-radius:9px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:#f9fafb;color:#6b7280;font-size:10px;gap:3px}
 .parts-card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 10px rgba(0,0,0,0.08)}
-.part-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f3f4f6}
-.part-name{font-size:12px;font-weight:700}
-.part-qty{background:#f3f4f6;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;color:#1a1a2e}
-.part-price{color:#e94560;font-weight:800;font-size:12px}
 .late-alert{background:linear-gradient(135deg,#FEF2F2,#FEE2E2);border:1px solid #FECACA;border-radius:12px;padding:12px;margin-bottom:10px}
 .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.65);z-index:1000;display:flex;align-items:flex-end;justify-content:center}
 .modal{background:white;border-radius:20px 20px 0 0;width:100%;max-width:480px;max-height:92vh;overflow-y:auto;padding:18px}
@@ -76,7 +71,6 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 .form-input{width:100%;border:1.5px solid #e5e7eb;border-radius:9px;padding:10px 13px;font-size:13px;outline:none;background:#fafafa;margin-bottom:10px}
 .form-input:focus{border-color:#e94560}
 .submit-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:12px;padding:13px;font-weight:800;cursor:pointer;font-size:14px;margin-top:5px}
-
 /* LOGIN */
 .login-page{min-height:100vh;background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);display:flex;align-items:center;justify-content:center;padding:20px}
 .login-card{background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:20px;padding:22px;width:100%;max-width:370px}
@@ -88,13 +82,9 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 .login-btn{width:100%;background:linear-gradient(135deg,#e94560,#c0392b);color:white;border:none;border-radius:12px;padding:13px;font-weight:800;cursor:pointer;font-size:14px}
 .error-msg{background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.4);color:#fca5a5;border-radius:9px;padding:9px 12px;font-size:12px;margin-bottom:12px;text-align:center}
 .success-msg{background:rgba(16,185,129,0.2);border:1px solid rgba(16,185,129,0.4);color:#6ee7b7;border-radius:9px;padding:9px 12px;font-size:12px;margin-bottom:12px;text-align:center}
-
-/* OTP */
 .otp-grid{display:flex;gap:8px;justify-content:center;margin:14px 0}
 .otp-input{width:44px;height:52px;border:2px solid rgba(255,255,255,0.2);border-radius:10px;background:rgba(255,255,255,0.1);color:white;font-size:22px;font-weight:800;text-align:center;outline:none}
 .otp-input:focus{border-color:#e94560}
-
-/* TRACKING */
 .track-page{min-height:100vh;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;align-items:center;justify-content:center;padding:20px}
 .track-input{flex:1;border:2px solid rgba(255,255,255,0.3);border-radius:10px;padding:11px 13px;font-size:14px;background:rgba(255,255,255,0.15);color:white;outline:none;text-align:center;letter-spacing:2px;font-weight:700}
 .track-input::placeholder{color:rgba(255,255,255,0.4);letter-spacing:0;font-weight:400}
@@ -108,14 +98,12 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
 .stat-bar-bg{background:#f3f4f6;border-radius:20px;height:7px}
 .stat-bar-fill{height:7px;border-radius:20px}
 .app-wrap{max-width:480px;margin:0 auto;min-height:100vh;background:#f1f5f9;position:relative}
-
-/* INVENTORY PAGE */
 .inv-card{background:white;border-radius:14px;padding:13px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,0.07);display:flex;justify-content:space-between;align-items:center}
-.inv-name{font-weight:800;font-size:13px}
-.inv-model{color:#6b7280;font-size:11px;margin-top:2px}
-.inv-qty{font-weight:900;font-size:18px;color:#1a1a2e}
-.inv-low{color:#ef4444}
-.badge-chip{border-radius:8px;padding:3px 9px;font-size:10px;font-weight:700;display:inline-block}
+/* WORK LOG */
+.log-day-card{background:white;border-radius:14px;padding:14px;margin-bottom:10px;box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.log-day-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #f3f4f6}
+.log-order-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid #f9fafb;font-size:12px}
+.log-total{background:linear-gradient(135deg,#e94560,#c0392b);color:white;border-radius:10px;padding:8px 14px;font-weight:800;font-size:13px}
 </style>
 </head>
 <body>
@@ -126,11 +114,10 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
   <div style="width:100%;max-width:370px">
     <div style="text-align:center;margin-bottom:22px">
       <div style="width:62px;height:62px;background:#e94560;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 12px;box-shadow:0 8px 30px rgba(233,69,96,0.4)">🔧</div>
-      <h1 style="color:white;font-size:22px;font-weight:900;margin:0">RepairPro</h1>
+      <h1 style="color:white;font-size:22px;font-weight:900">RepairPro</h1>
       <p style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:3px">نظام إدارة الصيانة المتكامل</p>
     </div>
     <div class="login-card">
-      <!-- TABS: login / register / otp -->
       <div class="tab-container" id="authTabs">
         <button class="tab-btn active" onclick="switchTab('login')">دخول</button>
         <button class="tab-btn" onclick="switchTab('register')">حساب جديد</button>
@@ -138,32 +125,41 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
       <div id="loginError" class="error-msg hidden"></div>
       <div id="loginSuccess" class="success-msg hidden"></div>
 
-      <!-- LOGIN FORM -->
+      <!-- LOGIN -->
       <div id="loginForm">
-        <input id="loginUser" class="login-input" placeholder="البريد الإلكتروني أو اسم المستخدم" type="text" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <input id="loginUser" class="login-input" placeholder="البريد / اسم المستخدم / رقم الهاتف" type="text" onkeydown="if(event.key==='Enter')doLogin()"/>
         <input id="loginPass" class="login-input" placeholder="كلمة المرور" type="password" onkeydown="if(event.key==='Enter')doLogin()"/>
         <button class="login-btn" onclick="doLogin()">دخول ←</button>
-        <div style="text-align:center;margin-top:12px">
+        <div style="text-align:center;margin-top:10px">
+          <button onclick="showForgotPass()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer;text-decoration:underline">نسيت كلمة المرور؟</button>
+        </div>
+        <div style="text-align:center;margin-top:8px">
           <button onclick="showTrackingPage()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:9px;padding:7px 16px;cursor:pointer;font-size:11px">🔍 تتبع طلب (للزبائن)</button>
         </div>
-        <div style="text-align:center;margin-top:8px;color:rgba(255,255,255,0.3);font-size:10px">افتراضي: admin / 1234</div>
+        <div style="text-align:center;margin-top:6px;color:rgba(255,255,255,0.3);font-size:10px">افتراضي: admin / 1234</div>
       </div>
 
-      <!-- REGISTER FORM -->
+      <!-- REGISTER -->
       <div id="registerForm" class="hidden">
-        <input id="regEmail" class="login-input" placeholder="البريد الإلكتروني *" type="email"/>
+        <div style="display:flex;gap:6px;margin-bottom:0">
+          <button id="regByEmail" onclick="setRegMode('email')" style="flex:1;border:2px solid rgba(255,255,255,0.3);border-radius:9px;padding:8px;background:rgba(255,255,255,0.15);color:white;cursor:pointer;font-size:11px;font-weight:700">📧 بريد</button>
+          <button id="regByPhone" onclick="setRegMode('phone')" style="flex:1;border:2px solid rgba(255,255,255,0.1);border-radius:9px;padding:8px;background:transparent;color:rgba(255,255,255,0.5);cursor:pointer;font-size:11px;font-weight:700">📱 هاتف</button>
+        </div>
+        <div style="height:10px"></div>
         <input id="regUsername" class="login-input" placeholder="اسم المستخدم *" type="text"/>
-        <input id="regPass" class="login-input" placeholder="كلمة المرور *" type="password"/>
+        <div id="regEmailField"><input id="regEmail" class="login-input" placeholder="البريد الإلكتروني *" type="email"/></div>
+        <div id="regPhoneField" class="hidden"><input id="regPhone" class="login-input" placeholder="رقم الهاتف * (07xxxxxxxx)" type="tel"/></div>
+        <input id="regPass" class="login-input" placeholder="كلمة المرور * (6 أحرف+)" type="password"/>
         <input id="regConfirm" class="login-input" placeholder="تأكيد كلمة المرور *" type="password"/>
         <button class="login-btn" onclick="doRegister()">إنشاء الحساب ←</button>
       </div>
 
-      <!-- OTP FORM -->
+      <!-- OTP -->
       <div id="otpForm" class="hidden">
         <div style="text-align:center;margin-bottom:14px">
-          <div style="font-size:36px">📧</div>
-          <div style="color:white;font-weight:800;font-size:15px;margin-top:8px">تأكيد البريد الإلكتروني</div>
-          <div style="color:rgba(255,255,255,0.5);font-size:12px;margin-top:4px" id="otpEmailHint">أدخل الرمز المرسل إلى بريدك</div>
+          <div style="font-size:36px" id="otpIcon">📧</div>
+          <div style="color:white;font-weight:800;font-size:15px;margin-top:8px">تأكيد الهوية</div>
+          <div style="color:rgba(255,255,255,0.5);font-size:11px;margin-top:4px" id="otpHint"></div>
         </div>
         <div class="otp-grid">
           <input class="otp-input" id="otp1" maxlength="1" oninput="otpNext(this,'otp2')" type="tel"/>
@@ -174,8 +170,22 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
           <input class="otp-input" id="otp6" maxlength="1" onkeydown="otpBack(event,this,'otp5')" type="tel"/>
         </div>
         <button class="login-btn" onclick="verifyOTP()">تأكيد الرمز ✓</button>
-        <div style="text-align:center;margin-top:12px">
-          <button onclick="resendOTP()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:12px;cursor:pointer">إعادة إرسال الرمز</button>
+        <div style="text-align:center;margin-top:10px;display:flex;gap:10px;justify-content:center">
+          <button onclick="resendOTP()" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">إعادة إرسال</button>
+          <button onclick="sendOTPViaWA()" id="waOtpBtn" style="background:none;border:none;color:#25d366;font-size:11px;cursor:pointer">إرسال واتساب</button>
+        </div>
+      </div>
+
+      <!-- FORGOT PASSWORD -->
+      <div id="forgotForm" class="hidden">
+        <div style="text-align:center;margin-bottom:12px">
+          <div style="font-size:30px">🔑</div>
+          <div style="color:white;font-weight:800;font-size:14px;margin-top:6px">استعادة كلمة المرور</div>
+        </div>
+        <input id="forgotIdentifier" class="login-input" placeholder="البريد / رقم الهاتف / اسم المستخدم" type="text"/>
+        <button class="login-btn" onclick="doForgotPass()">إرسال رمز التحقق ←</button>
+        <div style="text-align:center;margin-top:10px">
+          <button onclick="switchTab('login')" style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:11px;cursor:pointer">← رجوع للدخول</button>
         </div>
       </div>
     </div>
@@ -188,7 +198,6 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <div style="text-align:center;margin-bottom:24px">
       <div style="font-size:44px">🔧</div>
       <h1 style="color:white;font-size:20px;font-weight:800;margin:7px 0 3px">تتبع طلب الصيانة</h1>
-      <p style="color:rgba(255,255,255,0.6);font-size:12px">أدخل رقم الطلب لمعرفة حالة جهازك</p>
     </div>
     <div style="background:rgba(255,255,255,0.1);border-radius:18px;padding:18px;margin-bottom:12px">
       <div style="display:flex;gap:9px">
@@ -196,10 +205,7 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
         <button onclick="searchOrder()" style="background:#e94560;color:white;border:none;border-radius:10px;padding:11px 16px;font-weight:800;cursor:pointer;font-size:13px">بحث</button>
       </div>
     </div>
-    <div id="trackNotFound" class="hidden" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:14px;padding:18px;text-align:center;color:#fca5a5">
-      <div style="font-size:28px">😕</div>
-      <div style="font-weight:700;margin-top:6px">لم يتم العثور على الطلب</div>
-    </div>
+    <div id="trackNotFound" class="hidden" style="background:rgba(239,68,68,0.2);border:1px solid rgba(239,68,68,0.5);border-radius:14px;padding:18px;text-align:center;color:#fca5a5"><div style="font-size:28px">😕</div><div style="font-weight:700;margin-top:6px">لم يتم العثور على الطلب</div></div>
     <div id="trackResult" class="hidden" style="background:rgba(255,255,255,0.97);border-radius:18px;padding:20px;color:#1a1a2e"></div>
     <button onclick="hideTrackingPage()" style="width:100%;margin-top:12px;background:rgba(255,255,255,0.15);color:white;border:1px solid rgba(255,255,255,0.3);border-radius:10px;padding:11px;cursor:pointer;font-weight:600;font-size:13px">← رجوع</button>
   </div>
@@ -218,33 +224,40 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     </div>
   </div>
 
-  <!-- HOME -->
   <div id="homePage" class="page active">
     <div id="lateAlerts"></div>
     <div class="stats-grid" id="statsGrid"></div>
-    <input class="search-input" id="searchInput" placeholder="🔍 بحث بالاسم، رقم الطلب، الهاتف..." oninput="renderOrders()"/>
+    <input class="search-input" id="searchInput" placeholder="🔍 بحث..." oninput="renderOrders()"/>
     <div class="filters" id="filterBtns"></div>
     <div id="ordersList"></div>
   </div>
 
-  <!-- DETAIL -->
   <div id="detailPage" class="page">
     <button class="back-btn" onclick="goHome()">← رجوع</button>
     <div id="detailContent"></div>
   </div>
 
-  <!-- INVENTORY -->
   <div id="inventoryPage" class="page">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
       <div style="font-weight:900;font-size:17px">🔩 قطع الغيار</div>
       <button onclick="openPartForm()" style="background:#e94560;color:white;border:none;border-radius:10px;padding:7px 13px;font-weight:800;cursor:pointer;font-size:12px">+ إضافة</button>
     </div>
-    <input class="search-input" id="partSearch" placeholder="🔍 بحث في قطع الغيار..." oninput="renderInventory()"/>
+    <input class="search-input" id="partSearch" placeholder="🔍 بحث..." oninput="renderInventory()"/>
     <div id="partFilterRow" style="display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:10px"></div>
     <div id="inventoryList"></div>
   </div>
 
-  <!-- STATS -->
+  <!-- WORK LOG PAGE -->
+  <div id="logPage" class="page">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div style="font-weight:900;font-size:17px">📅 سجل العمل</div>
+      <select id="logMonthFilter" onchange="renderLogPage()" style="border:none;border-radius:9px;padding:6px 10px;background:white;font-weight:700;font-size:12px;outline:none;box-shadow:0 2px 8px rgba(0,0,0,0.08)"></select>
+    </div>
+    <!-- Monthly Summary -->
+    <div class="revenue-card" id="logSummary"></div>
+    <div id="logList"></div>
+  </div>
+
   <div id="statsPage" class="page">
     <div style="font-weight:900;font-size:17px;margin-bottom:12px">📊 الإحصائيات</div>
     <div class="revenue-card">
@@ -261,6 +274,7 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
   <nav class="nav">
     <button class="nav-btn active" id="navHome" onclick="showPage('home')"><span>🏠</span><span>الرئيسية</span></button>
     <button class="nav-btn" id="navInventory" onclick="showPage('inventory')"><span>🔩</span><span>قطع الغيار</span></button>
+    <button class="nav-btn" id="navLog" onclick="showPage('log')"><span>📅</span><span>سجل العمل</span></button>
     <button class="nav-btn" id="navStats" onclick="showPage('stats')"><span>📊</span><span>إحصائيات</span></button>
     <button class="nav-btn" id="navTrack" onclick="showTrackingPage()"><span>🔍</span><span>تتبع</span></button>
   </nav>
@@ -286,13 +300,10 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
       <option value="tablet">📟 تابلت</option>
       <option value="laptop">💻 لابتوب</option>
       <option value="watch">⌚ ساعة ذكية</option>
-      <option value="headphone">🎧 سماعات</option>
       <option value="other">🔧 أخرى</option>
     </select>
     <label class="form-label">الماركة *</label>
-    <select class="form-input" id="fBrand" onchange="updateComponentsList()">
-      <option value="">اختر الماركة أولاً</option>
-    </select>
+    <select class="form-input" id="fBrand"><option value="">اختر الماركة</option></select>
     <label class="form-label">الموديل *</label>
     <input class="form-input" id="fModel" placeholder="Galaxy S23, iPhone 14..."/>
     <label class="form-label">اللون / السعة</label>
@@ -301,9 +312,8 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <input class="form-input" id="fImei" placeholder="اختياري"/>
     <label class="form-label">حالة الجهاز الظاهرية</label>
     <input class="form-input" id="fNotes" placeholder="خدوش، شاشة مشققة..."/>
-    <!-- PHOTO -->
     <div class="form-section" style="background:#ede9fe;color:#5b21b6">📷 تصوير الجهاز</div>
-    <button type="button" onclick="capturePhoto()" style="width:100%;background:#7c3aed;color:white;border:none;border-radius:10px;padding:11px;font-weight:700;cursor:pointer;font-size:13px;margin-bottom:10px">📷 التقاط صورة للجهاز</button>
+    <button type="button" onclick="capturePhoto()" style="width:100%;background:#7c3aed;color:white;border:none;border-radius:10px;padding:11px;font-weight:700;cursor:pointer;font-size:13px;margin-bottom:10px">📷 التقاط صورة</button>
     <input type="file" id="photoInput" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(event)"/>
     <div id="photoPreviewForm" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
     <div class="form-section" style="background:#d1fae5;color:#065f46">⚠️ العطل والإصلاح</div>
@@ -314,15 +324,13 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
       <option>سوفتوير</option><option>مياه</option><option>لا يشتغل</option><option>أخرى</option>
     </select>
     <label class="form-label">وصف العطل *</label>
-    <textarea class="form-input" id="fProblemDesc" placeholder="اشرح المشكلة بتفصيل..." style="resize:none;height:70px"></textarea>
-    <!-- COMPONENTS NEEDED -->
-    <div class="form-section" style="background:#fce7f3;color:#9d174d">🔩 قطع الغيار المطلوبة</div>
+    <textarea class="form-input" id="fProblemDesc" placeholder="اشرح المشكلة..." style="resize:none;height:70px"></textarea>
+    <div class="form-section" style="background:#fce7f3;color:#9d174d">🔩 قطع الغيار</div>
     <div id="suggestedParts" style="margin-bottom:10px"></div>
-    <label class="form-label">أضف قطعة يدوياً</label>
     <div style="display:flex;gap:7px;margin-bottom:10px">
       <input class="form-input" id="fPartName" placeholder="اسم القطعة" style="margin-bottom:0;flex:2"/>
       <input class="form-input" id="fPartQty" placeholder="عدد" type="number" style="margin-bottom:0;flex:1" value="1"/>
-      <button onclick="addPartToForm()" style="background:#e94560;color:white;border:none;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:800;white-space:nowrap">+</button>
+      <button onclick="addPartToForm()" style="background:#e94560;color:white;border:none;border-radius:9px;padding:10px 13px;cursor:pointer;font-weight:800">+</button>
     </div>
     <div id="formPartsList" style="margin-bottom:10px"></div>
     <label class="form-label">اسم الفني</label>
@@ -352,11 +360,8 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <input class="form-input" id="pName" placeholder="شاشة Samsung S23"/>
     <label class="form-label">نوع الجهاز</label>
     <select class="form-input" id="pDeviceType">
-      <option value="phone">📱 هاتف</option>
-      <option value="tablet">📟 تابلت</option>
-      <option value="laptop">💻 لابتوب</option>
-      <option value="watch">⌚ ساعة</option>
-      <option value="all">🔧 الكل</option>
+      <option value="phone">📱 هاتف</option><option value="tablet">📟 تابلت</option>
+      <option value="laptop">💻 لابتوب</option><option value="all">🔧 الكل</option>
     </select>
     <label class="form-label">الماركة المتوافقة</label>
     <input class="form-input" id="pBrand" placeholder="Samsung, iPhone, عام..."/>
@@ -378,8 +383,6 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <input class="form-input" id="pQty" placeholder="5" type="number" value="1"/>
     <label class="form-label">الحد الأدنى للتنبيه</label>
     <input class="form-input" id="pMinQty" placeholder="2" type="number" value="2"/>
-    <label class="form-label">ملاحظات</label>
-    <input class="form-input" id="pNotes" placeholder="اختياري"/>
     <button class="submit-btn" id="partSubmitBtn" onclick="submitPartForm()">✅ حفظ القطعة</button>
   </div>
 </div>
@@ -404,63 +407,190 @@ const STATUSES={
   "ملغى":{color:"#EF4444",bg:"#FEE2E2",icon:"❌",step:-1}
 };
 const STEPS=["قيد الانتظار","قيد الإصلاح","جاهز للتسليم","تم التسليم"];
-
 const BRANDS_BY_TYPE={
   phone:["Samsung","iPhone","Huawei","Xiaomi","Oppo","Vivo","Realme","Tecno","Nokia","Infinix","OnePlus","أخرى"],
   tablet:["Samsung","iPad","Huawei","Lenovo","Xiaomi","أخرى"],
   laptop:["HP","Dell","Lenovo","Asus","Acer","Apple MacBook","MSI","أخرى"],
   watch:["Apple Watch","Samsung Galaxy Watch","Huawei Watch","Xiaomi Band","أخرى"],
-  headphone:["AirPods","Samsung Buds","Sony","JBL","أخرى"],
   other:["أخرى"]
 };
-
-// Parts suggestions by problem type
 const PARTS_BY_PROBLEM={
   "شاشة مكسورة":["شاشة LCD/AMOLED","زجاج شاشة","إطار شاشة"],
   "بطارية":["بطارية","مقبس شحن","IC شحن"],
   "شحن":["مقبس شحن","كيبل شحن","قاعدة شحن","IC شحن"],
-  "كاميرا":["كاميرا خلفية","كاميرا أمامية","عدسة كاميرا"],
-  "مكبر صوت":["مكبر صوت سفلي","مكبر صوت علوي","سماعة أذن"],
-  "ميكروفون":["ميكروفون","مقبس سماعة"],
+  "كاميرا":["كاميرا خلفية","كاميرا أمامية"],
+  "مكبر صوت":["مكبر صوت سفلي","مكبر صوت علوي"],
   "مياه":["لوحة أم","بطارية","مقبس شحن","شاشة"],
-  "لا يشتغل":["بطارية","لوحة أم","IC شحن","مقبس شحن"]
+  "لا يشتغل":["بطارية","لوحة أم","IC شحن"]
 };
 
 // ===== STORAGE =====
-const getOrders=()=>{try{return JSON.parse(localStorage.getItem("rp_o")||"[]")}catch{return[]}};
-const saveOrders=o=>localStorage.setItem("rp_o",JSON.stringify(o));
-const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_u")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","role":"admin","verified":true}]')}catch{return[]}};
-const saveUsers=u=>localStorage.setItem("rp_u",JSON.stringify(u));
+// Data is stored PER USER — key includes username
+function getUserKey(key){ return currentUser ? `rp_${currentUser.username}_${key}` : `rp_${key}`; }
+const getOrders=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('o'))||"[]")}catch{return[]}};
+const saveOrders=o=>localStorage.setItem(getUserKey('o'),JSON.stringify(o));
+const getParts=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('parts'))||"[]")}catch{return[]}};
+const saveParts=p=>localStorage.setItem(getUserKey('parts'),JSON.stringify(p));
+const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","phone":"","role":"admin","verified":true,"regMode":"email"}]')}catch{return[]}};
+const saveUsers=u=>localStorage.setItem("rp_users",JSON.stringify(u));
 const getSession=()=>{try{return JSON.parse(sessionStorage.getItem("rp_s")||"null")}catch{return null}};
 const saveSession=s=>sessionStorage.setItem("rp_s",JSON.stringify(s));
-const getParts=()=>{try{return JSON.parse(localStorage.getItem("rp_parts")||"[]")}catch{return[]}};
-const saveParts=p=>localStorage.setItem("rp_parts",JSON.stringify(p));
-let _cnt=parseInt(localStorage.getItem("rp_c")||"1000");
-const nextId=()=>{_cnt++;localStorage.setItem("rp_c",_cnt);return`REP-${_cnt}`};
+let _cnt=()=>parseInt(localStorage.getItem(getUserKey('c'))||"1000");
+const nextId=()=>{const n=_cnt()+1;localStorage.setItem(getUserKey('c'),n);return`REP-${n}`};
 
 // ===== STATE =====
-let currentUser=null,currentOrders=[],selectedOrder=null,editingId=null,filterStatus="الكل",loginMode="login";
+let currentUser=null,currentOrders=[],selectedOrder=null,editingId=null,filterStatus="الكل";
 let formPhotos=[],viewingPhotoIdx=0,formParts=[],editingPartId=null;
-let pendingRegData=null,generatedOTP=null,partFilter="الكل";
+let pendingRegData=null,generatedOTP=null,partFilter="الكل",regMode="email",otpPurpose="register";
+let forgotUser=null;
 
 // ===== INIT =====
 window.onload=()=>{
   currentUser=getSession();
-  currentOrders=getOrders();
   if(currentUser)showApp();
   else showLogin();
 };
 
-// ===== OTP SIMULATION =====
+// ===== OTP =====
 function generateOTP(){return Math.floor(100000+Math.random()*900000).toString();}
-function otpNext(el,nextId){
-  if(el.value.length===1){const n=document.getElementById(nextId);if(n)n.focus();}
+function otpNext(el,nid){if(el.value.length===1){const n=document.getElementById(nid);if(n)n.focus();}}
+function otpBack(e,el,pid){if(e.key==="Backspace"&&!el.value){const p=document.getElementById(pid);if(p)p.focus();}}
+function getOTPValue(){return ["otp1","otp2","otp3","otp4","otp5","otp6"].map(id=>document.getElementById(id).value).join('');}
+function clearOTP(){["otp1","otp2","otp3","otp4","otp5","otp6"].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});}
+
+function showOTPForm(hint,icon,purpose,showWA=false){
+  otpPurpose=purpose;
+  clearOTP();
+  document.getElementById("otpIcon").textContent=icon;
+  document.getElementById("otpHint").textContent=hint;
+  document.getElementById("waOtpBtn").style.display=showWA?"inline":"none";
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("registerForm").classList.add("hidden");
+  document.getElementById("forgotForm").classList.add("hidden");
+  document.getElementById("authTabs").classList.add("hidden");
+  document.getElementById("otpForm").classList.remove("hidden");
+  setTimeout(()=>document.getElementById("otp1").focus(),300);
 }
-function otpBack(e,el,prevId){
-  if(e.key==="Backspace"&&!el.value){const p=document.getElementById(prevId);if(p)p.focus();}
+
+function sendOTPViaWA(){
+  if(!pendingRegData&&!forgotUser)return;
+  const phone=(pendingRegData?.phone||forgotUser?.phone||"").replace(/\D/g,"");
+  if(!phone){showToast("لا يوجد رقم هاتف","error");return;}
+  const n=phone.startsWith("0")?"964"+phone.slice(1):phone;
+  const msg=`🔧 RepairPro\nرمز التحقق الخاص بك: *${generatedOTP}*\nلا تشاركه مع أحد`;
+  window.open(`https://wa.me/${n}?text=${encodeURIComponent(msg)}`,"_blank");
 }
-function getOTPValue(){
-  return ["otp1","otp2","otp3","otp4","otp5","otp6"].map(id=>document.getElementById(id).value).join('');
+
+function resendOTP(){
+  generatedOTP=generateOTP();
+  showToast("رمز جديد: "+generatedOTP,"info");
+}
+
+function verifyOTP(){
+  const entered=getOTPValue();
+  if(entered.length<6){showAuthError("أدخل الرمز كاملاً");return;}
+  if(entered!==generatedOTP){showAuthError("رمز خاطئ ❌");return;}
+  
+  if(otpPurpose==="register"){
+    pendingRegData.verified=true;
+    const users=getUsers();
+    saveUsers([...users,pendingRegData]);
+    document.getElementById("authTabs").classList.remove("hidden");
+    showAuthSuccess("✅ تم تفعيل حسابك! يمكنك الدخول الآن");
+    switchTab("login");
+    pendingRegData=null;generatedOTP=null;
+  } else if(otpPurpose==="forgot"){
+    // Show reset password form
+    document.getElementById("otpForm").classList.add("hidden");
+    document.getElementById("authTabs").classList.remove("hidden");
+    showResetPassForm();
+  }
+}
+
+// ===== REGISTER =====
+function setRegMode(mode){
+  regMode=mode;
+  document.getElementById("regEmailField").classList.toggle("hidden",mode!=="email");
+  document.getElementById("regPhoneField").classList.toggle("hidden",mode!=="phone");
+  document.getElementById("regByEmail").style.background=mode==="email"?"rgba(255,255,255,0.15)":"transparent";
+  document.getElementById("regByPhone").style.background=mode==="phone"?"rgba(255,255,255,0.15)":"transparent";
+  document.getElementById("regByEmail").style.borderColor=mode==="email"?"rgba(255,255,255,0.3)":"rgba(255,255,255,0.1)";
+  document.getElementById("regByPhone").style.borderColor=mode==="phone"?"rgba(255,255,255,0.3)":"rgba(255,255,255,0.1)";
+  document.getElementById("regByEmail").style.color=mode==="email"?"white":"rgba(255,255,255,0.5)";
+  document.getElementById("regByPhone").style.color=mode==="phone"?"white":"rgba(255,255,255,0.5)";
+}
+
+function doRegister(){
+  const uname=document.getElementById("regUsername").value.trim();
+  const email=regMode==="email"?document.getElementById("regEmail").value.trim():"";
+  const phone=regMode==="phone"?document.getElementById("regPhone").value.trim():"";
+  const pass=document.getElementById("regPass").value;
+  const conf=document.getElementById("regConfirm").value;
+  document.getElementById("loginError").classList.add("hidden");
+  if(!uname||(!email&&!phone)||!pass){showAuthError("يرجى ملء جميع الحقول *");return;}
+  if(regMode==="email"&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAuthError("البريد الإلكتروني غير صحيح");return;}
+  if(regMode==="phone"&&phone.length<10){showAuthError("رقم الهاتف غير صحيح");return;}
+  if(pass.length<6){showAuthError("كلمة المرور 6 أحرف على الأقل");return;}
+  if(pass!==conf){showAuthError("كلمة المرور غير متطابقة");return;}
+  const users=getUsers();
+  if(users.find(x=>x.username===uname)){showAuthError("اسم المستخدم موجود مسبقاً");return;}
+  if(email&&users.find(x=>x.email===email)){showAuthError("البريد مسجل مسبقاً");return;}
+  if(phone&&users.find(x=>x.phone===phone)){showAuthError("رقم الهاتف مسجل مسبقاً");return;}
+  pendingRegData={name:uname,username:uname,email,phone,password:pass,role:"tech",verified:false,regMode};
+  generatedOTP=generateOTP();
+  const hint=regMode==="email"?`رمز التحقق أُرسل إلى: ${email}`:`رمز التحقق سيُرسل على واتساب: ${phone}`;
+  showOTPForm(hint,regMode==="email"?"📧":"📱","register",regMode==="phone");
+  showToast("رمز التحقق: "+generatedOTP,"info");
+  if(regMode==="phone")setTimeout(sendOTPViaWA,800);
+}
+
+// ===== FORGOT PASSWORD =====
+function showForgotPass(){
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("forgotForm").classList.remove("hidden");
+  document.getElementById("loginError").classList.add("hidden");
+}
+
+function doForgotPass(){
+  const id=document.getElementById("forgotIdentifier").value.trim();
+  if(!id){showAuthError("أدخل بريدك أو رقم هاتفك");return;}
+  const users=getUsers();
+  const user=users.find(x=>x.email===id||x.phone===id||x.username===id);
+  if(!user){showAuthError("لا يوجد حساب بهذه البيانات");return;}
+  forgotUser=user;
+  generatedOTP=generateOTP();
+  const isPhone=user.regMode==="phone"||(!user.email&&user.phone);
+  const hint=isPhone?`سيُرسل رمز على واتساب: ${user.phone}`:`رمز التحقق لـ: ${user.email}`;
+  showOTPForm(hint,isPhone?"📱":"📧","forgot",isPhone);
+  showToast("رمز التحقق: "+generatedOTP,"info");
+  if(isPhone)setTimeout(sendOTPViaWA,800);
+}
+
+function showResetPassForm(){
+  // Simple inline reset
+  const card=document.querySelector(".login-card");
+  const oldContent=card.innerHTML;
+  card.innerHTML=`
+    <div style="text-align:center;margin-bottom:14px"><div style="font-size:30px">🔐</div><div style="color:white;font-weight:800;font-size:15px;margin-top:6px">إعادة تعيين كلمة المرور</div></div>
+    <div id="resetError" class="error-msg hidden"></div>
+    <input id="newPass1" class="login-input" placeholder="كلمة المرور الجديدة *" type="password"/>
+    <input id="newPass2" class="login-input" placeholder="تأكيد كلمة المرور *" type="password"/>
+    <button class="login-btn" onclick="doResetPass()">حفظ كلمة المرور ✓</button>
+  `;
+}
+
+function doResetPass(){
+  const p1=document.getElementById("newPass1").value;
+  const p2=document.getElementById("newPass2").value;
+  const err=document.getElementById("resetError");
+  if(p1.length<6){err.textContent="كلمة المرور 6 أحرف على الأقل";err.classList.remove("hidden");return;}
+  if(p1!==p2){err.textContent="كلمة المرور غير متطابقة";err.classList.remove("hidden");return;}
+  const users=getUsers();
+  const idx=users.findIndex(u=>u.username===forgotUser.username);
+  if(idx>=0){users[idx].password=p1;saveUsers(users);}
+  forgotUser=null;
+  showLogin();
+  showToast("✅ تم تغيير كلمة المرور! يمكنك الدخول الآن","success");
 }
 
 // ===== LOGIN =====
@@ -475,16 +605,16 @@ function showApp(){
   document.getElementById("trackingPage").classList.add("hidden");
   document.getElementById("welcomeMsg").textContent="مرحباً "+currentUser.name+" 👋";
   currentOrders=getOrders();
-  renderAll();
-  checkLateOrders();
+  renderAll();checkLateOrders();
   if(Notification&&Notification.permission!=="granted")Notification.requestPermission();
 }
 function switchTab(mode){
-  loginMode=mode;
   document.querySelectorAll(".tab-btn").forEach((b,i)=>b.classList.toggle("active",(i===0&&mode==="login")||(i===1&&mode==="register")));
   document.getElementById("loginForm").classList.toggle("hidden",mode!=="login");
   document.getElementById("registerForm").classList.toggle("hidden",mode!=="register");
   document.getElementById("otpForm").classList.add("hidden");
+  document.getElementById("forgotForm").classList.add("hidden");
+  document.getElementById("authTabs").classList.remove("hidden");
   document.getElementById("loginError").classList.add("hidden");
   document.getElementById("loginSuccess").classList.add("hidden");
 }
@@ -494,59 +624,10 @@ function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
   const users=getUsers();
-  const user=users.find(x=>(x.username===u||x.email===u)&&x.password===p);
+  const user=users.find(x=>(x.username===u||x.email===u||x.phone===u)&&x.password===p);
   if(!user){showAuthError("بيانات الدخول غلط ❌");return;}
-  if(!user.verified){showAuthError("الحساب غير مفعّل. يرجى تأكيد البريد الإلكتروني ⚠️");return;}
+  if(!user.verified){showAuthError("الحساب غير مفعّل ⚠️");return;}
   currentUser=user;saveSession(user);showApp();
-}
-function doRegister(){
-  
-  const email=document.getElementById("regEmail").value.trim();
-  const uname=document.getElementById("regUsername").value.trim();
-  const pass=document.getElementById("regPass").value;
-  const conf=document.getElementById("regConfirm").value;
-  document.getElementById("loginError").classList.add("hidden");
-  const name=uname;
-  if(!email||!uname||!pass){showAuthError("يرجى ملء جميع الحقول *");return;}
-  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showAuthError("البريد الإلكتروني غير صحيح");return;}
-  if(pass.length<6){showAuthError("كلمة المرور يجب أن تكون 6 أحرف على الأقل");return;}
-  if(pass!==conf){showAuthError("كلمة المرور غير متطابقة");return;}
-  const users=getUsers();
-  if(users.find(x=>x.username===uname)){showAuthError("اسم المستخدم موجود مسبقاً");return;}
-  if(users.find(x=>x.email===email)){showAuthError("البريد الإلكتروني مسجل مسبقاً");return;}
-  pendingRegData={name,email,username:uname,password:pass,role:"tech",verified:false};
-  generatedOTP=generateOTP();
-  // Simulate sending OTP (in real app, send via email service)
-  console.log("OTP:",generatedOTP); // For testing
-  document.getElementById("otpEmailHint").textContent=`تم إرسال رمز التحقق إلى: ${email}`;
-  document.getElementById("registerForm").classList.add("hidden");
-  document.getElementById("authTabs").classList.add("hidden");
-  document.getElementById("otpForm").classList.remove("hidden");
-  // Show OTP in alert for demo (since no email server)
-  setTimeout(()=>showToast("رمز التحقق (تجريبي): "+generatedOTP,"info"),500);
-}
-function verifyOTP(){
-  const entered=getOTPValue();
-  if(entered.length<6){showAuthError("أدخل الرمز كاملاً (6 أرقام)");return;}
-  if(entered===generatedOTP){
-    pendingRegData.verified=true;
-    const users=getUsers();
-    saveUsers([...users,pendingRegData]);
-    document.getElementById("otpForm").classList.add("hidden");
-    document.getElementById("authTabs").classList.remove("hidden");
-    document.getElementById("loginSuccess").classList.remove("hidden");
-    document.getElementById("loginSuccess").textContent="✅ تم تفعيل حسابك بنجاح! يمكنك الدخول الآن";
-    switchTab("login");
-    showAuthSuccess("✅ تم تفعيل حسابك بنجاح! يمكنك الدخول الآن");
-    pendingRegData=null;generatedOTP=null;
-  } else {
-    showAuthError("رمز التحقق غلط ❌ حاول مجدداً");
-  }
-}
-function resendOTP(){
-  generatedOTP=generateOTP();
-  console.log("New OTP:",generatedOTP);
-  showToast("تم إرسال رمز جديد: "+generatedOTP,"info");
 }
 function doLogout(){saveSession(null);currentUser=null;showLogin();}
 
@@ -557,13 +638,12 @@ function showTrackingPage(){
   document.getElementById("mainApp").classList.add("hidden");
   document.getElementById("trackResult").classList.add("hidden");
   document.getElementById("trackNotFound").classList.add("hidden");
-  document.getElementById("trackInput").value="";
 }
 function hideTrackingPage(){document.getElementById("trackingPage").classList.add("hidden");if(currentUser)showApp();else showLogin();}
 function searchOrder(){
   const tid=document.getElementById("trackInput").value.trim().toUpperCase();
-  const orders=getOrders();
-  const o=orders.find(x=>x.ticketId.toUpperCase()===tid);
+  const allOrders=getAllOrdersForTracking();
+  const o=allOrders.find(x=>x.ticketId.toUpperCase()===tid);
   const res=document.getElementById("trackResult"),nf=document.getElementById("trackNotFound");
   if(o){
     nf.classList.add("hidden");res.classList.remove("hidden");
@@ -576,19 +656,22 @@ function searchOrder(){
         <div style="font-size:8px;color:${done?"#10b981":"#9ca3af"};text-align:center;max-width:50px">${s}</div>
       </div>`;
     });
-    const partsHtml=o.parts&&o.parts.length>0?`<div style="margin-top:10px;background:#f9fafb;border-radius:10px;padding:10px"><div style="font-weight:700;font-size:11px;margin-bottom:6px">🔩 قطع الغيار المستخدمة:</div>${o.parts.map(p=>`<div style="font-size:11px;color:#374151;padding:3px 0">• ${p.name} (${p.qty}x)</div>`).join('')}</div>`:'';
-    res.innerHTML=`<div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:36px">${sc.icon}</div>
-      <div style="font-weight:800;font-size:18px;margin-top:5px">${o.status}</div>
-      <div style="color:#888;font-size:12px">${o.ticketId}</div>
-    </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;position:relative">
-      <div style="position:absolute;top:40%;left:0;right:0;height:2px;background:#e5e7eb;z-index:0"></div>
-      ${stepsHTML}
-    </div>
+    const partsHtml=o.parts&&o.parts.length>0?`<div style="margin-top:10px;background:#f9fafb;border-radius:10px;padding:10px"><div style="font-weight:700;font-size:11px;margin-bottom:6px">🔩 قطع الغيار:</div>${o.parts.map(p=>`<div style="font-size:11px;color:#374151;padding:3px 0">• ${p.name} (${p.qty}x)</div>`).join('')}</div>`:'';
+    res.innerHTML=`<div style="text-align:center;margin-bottom:16px"><div style="font-size:36px">${sc.icon}</div><div style="font-weight:800;font-size:18px;margin-top:5px">${o.status}</div><div style="color:#888;font-size:12px">${o.ticketId}</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;position:relative"><div style="position:absolute;top:40%;left:0;right:0;height:2px;background:#e5e7eb;z-index:0"></div>${stepsHTML}</div>
     ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["⚠️ العطل",o.problemType],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:12px"><span style="color:#6b7280">${l}</span><span style="font-weight:700">${v}</span></div>`).join('')}
     ${partsHtml}`;
   } else {nf.classList.remove("hidden");res.classList.add("hidden");}
+}
+
+// Get orders from all users for tracking
+function getAllOrdersForTracking(){
+  let all=[];
+  const users=getUsers();
+  users.forEach(u=>{
+    try{const o=JSON.parse(localStorage.getItem(`rp_${u.username}_o`)||"[]");all=[...all,...o];}catch{}
+  });
+  return all;
 }
 
 // ===== PAGES =====
@@ -598,27 +681,20 @@ function showPage(page){
   document.getElementById(page+"Page").classList.add("active");
   document.getElementById("nav"+page.charAt(0).toUpperCase()+page.slice(1)).classList.add("active");
   if(page==="stats")renderStatsPage();
-  if(page==="home"){renderAll();checkLateOrders();}
+  if(page==="home"){currentOrders=getOrders();renderAll();checkLateOrders();}
   if(page==="inventory")renderInventory();
+  if(page==="log")renderLogPage();
 }
 function goHome(){showPage("home");selectedOrder=null;}
 
-// ===== LATE ORDERS =====
+// ===== LATE =====
 function daysDiff(d){const today=new Date();today.setHours(0,0,0,0);const dt=new Date(d);dt.setHours(0,0,0,0);return Math.round((today-dt)/(864e5));}
 function isLate(o){if(!o.deliveryDate||o.status==="تم التسليم"||o.status==="ملغى")return false;return daysDiff(o.deliveryDate)>0;}
 function checkLateOrders(){
   const late=currentOrders.filter(isLate);
-  const el=document.getElementById("lateAlerts");
-  if(!el)return;
-  if(late.length>0){
-    el.innerHTML=`<div class="late-alert">
-      <div style="font-weight:800;color:#991B1B;font-size:12px;margin-bottom:7px">⚠️ طلبات متأخرة (${late.length})</div>
-      ${late.map(o=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(254,202,202,0.5);font-size:11px;cursor:pointer" onclick="openDetail('${o.ticketId}')">
-        <span>${o.customerName} - ${o.deviceBrand} ${o.deviceModel}</span>
-        <span style="color:#ef4444;font-weight:700">متأخر ${daysDiff(o.deliveryDate)} يوم</span>
-      </div>`).join('')}
-    </div>`;
-  } else el.innerHTML='';
+  const el=document.getElementById("lateAlerts");if(!el)return;
+  if(late.length>0){el.innerHTML=`<div class="late-alert"><div style="font-weight:800;color:#991B1B;font-size:12px;margin-bottom:7px">⚠️ طلبات متأخرة (${late.length})</div>${late.map(o=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(254,202,202,0.5);font-size:11px;cursor:pointer" onclick="openDetail('${o.ticketId}')"><span>${o.customerName} - ${o.deviceBrand} ${o.deviceModel}</span><span style="color:#ef4444;font-weight:700">متأخر ${daysDiff(o.deliveryDate)} يوم</span></div>`).join('')}</div>`;}
+  else el.innerHTML='';
 }
 
 // ===== RENDER =====
@@ -627,13 +703,12 @@ function renderStatsCards(){
   const o=currentOrders;
   const rev=o.filter(x=>x.status==="تم التسليم").reduce((s,x)=>s+(parseFloat(x.cost)||0),0);
   document.getElementById("statsGrid").innerHTML=[
-    {l:"الكل",v:o.length,c:"#1a1a2e",i:"📋"},
-    {l:"انتظار",v:o.filter(x=>x.status==="قيد الانتظار").length,c:"#F59E0B",i:"⏳"},
+    {l:"الكل",v:o.length,c:"#1a1a2e",i:"📋"},{l:"انتظار",v:o.filter(x=>x.status==="قيد الانتظار").length,c:"#F59E0B",i:"⏳"},
     {l:"إصلاح",v:o.filter(x=>x.status==="قيد الإصلاح").length,c:"#3B82F6",i:"🔧"},
     {l:"جاهز",v:o.filter(x=>x.status==="جاهز للتسليم").length,c:"#10B981",i:"✅"},
     {l:"مسلّم",v:o.filter(x=>x.status==="تم التسليم").length,c:"#6B7280",i:"📦"},
-    {l:"إيراد",v:(rev/1000).toFixed(0)+"k",c:"#e94560",i:"💰"}
-  ].map(s=>`<div class="stat-card"><div style="font-size:17px">${s.i}</div><div style="font-size:17px;font-weight:900;color:${s.c};margin-top:2px">${s.v}</div><div style="font-size:9px;color:#9ca3af;margin-top:1px">${s.l}</div></div>`).join('');
+    {l:"إيراد",v:(rev/1000).toFixed(0)+"k IQD",c:"#e94560",i:"💰"}
+  ].map(s=>`<div class="stat-card"><div style="font-size:17px">${s.i}</div><div style="font-size:15px;font-weight:900;color:${s.c};margin-top:2px">${s.v}</div><div style="font-size:9px;color:#9ca3af;margin-top:1px">${s.l}</div></div>`).join('');
 }
 function renderFilters(){
   document.getElementById("filterBtns").innerHTML=["الكل",...Object.keys(STATUSES)].map(s=>`<button class="filter-btn${filterStatus===s?' active':''}" onclick="setFilter('${s}')">${s}</button>`).join('');
@@ -643,26 +718,19 @@ function renderOrders(){
   const q=(document.getElementById("searchInput")||{value:""}).value.toLowerCase();
   const filtered=currentOrders.filter(o=>{
     const ms=!q||[o.customerName,o.ticketId,o.customerPhone,o.deviceModel,o.deviceBrand].some(v=>v&&v.toLowerCase().includes(q));
-    const mf=filterStatus==="الكل"||o.status===filterStatus;
-    return ms&&mf;
+    return ms&&(filterStatus==="الكل"||o.status===filterStatus);
   });
-  if(!filtered.length){
-    document.getElementById("ordersList").innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px;margin-bottom:9px">📭</div><div style="font-weight:700">لا توجد طلبات</div></div>`;
-    return;
-  }
+  if(!filtered.length){document.getElementById("ordersList").innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px;margin-bottom:9px">📭</div><div style="font-weight:700">لا توجد طلبات</div></div>`;return;}
   document.getElementById("ordersList").innerHTML=filtered.map(o=>{
     const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
     const late=isLate(o)?`<span class="late-badge">⚠️ متأخر ${daysDiff(o.deliveryDate)} أيام</span>`:'';
-    const hasParts=o.parts&&o.parts.length>0?`<span style="font-size:10px;color:#7c3aed">🔩 ${o.parts.length} قطعة</span>`:'';
-    const hasPhoto=o.photos&&o.photos.length>0?`<span style="font-size:10px;color:#6b7280">📷 ${o.photos.length}</span>`:'';
+    const hasParts=o.parts&&o.parts.length>0?`<span style="font-size:10px;color:#7c3aed">🔩${o.parts.length}</span>`:'';
+    const hasPhoto=o.photos&&o.photos.length>0?`<span style="font-size:10px;color:#6b7280">📷${o.photos.length}</span>`:'';
     return `<div class="order-card" style="border-right-color:${sc.color}" onclick="openDetail('${o.ticketId}')">
       <div style="display:flex;justify-content:space-between">
-        <div style="flex:1">
-          <div style="font-weight:800;font-size:14px;margin-bottom:2px">${o.customerName}</div>
+        <div style="flex:1"><div style="font-weight:800;font-size:14px;margin-bottom:2px">${o.customerName}</div>
           <div style="color:#6b7280;font-size:11px">${o.deviceBrand} ${o.deviceModel}</div>
-          <div style="color:#9ca3af;font-size:10px;margin-top:1px">📞 ${o.customerPhone}</div>
-          ${late}
-        </div>
+          <div style="color:#9ca3af;font-size:10px;margin-top:1px">📞 ${o.customerPhone}</div>${late}</div>
         <div style="text-align:left;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
           <div style="background:${sc.bg};color:${sc.color};border-radius:9px;padding:2px 8px;font-size:10px;font-weight:700">${sc.icon} ${o.status}</div>
           <div style="font-weight:800;color:#e94560;font-size:13px">${parseFloat(o.cost||0).toLocaleString()} IQD</div>
@@ -670,7 +738,7 @@ function renderOrders(){
         </div>
       </div>
       <div style="margin-top:7px;display:flex;justify-content:space-between;align-items:center">
-        <span style="background:#f3f4f6;border-radius:7px;padding:2px 8px;font-size:10px;color:#374151;font-weight:700">${o.ticketId}</span>
+        <span style="background:#f3f4f6;border-radius:7px;padding:2px 8px;font-size:10px;font-weight:700">${o.ticketId}</span>
         <span style="color:#9ca3af;font-size:10px">📅 ${o.receivedDate}</span>
       </div>
     </div>`;
@@ -684,12 +752,106 @@ function renderStatsPage(){
   if(bars)bars.innerHTML=Object.entries(STATUSES).map(([status,sc])=>{
     const count=o.filter(x=>x.status===status).length;
     const pct=o.length?Math.round((count/o.length)*100):0;
-    return `<div class="white-card" style="margin-bottom:8px">
-      <div style="display:flex;justify-content:space-between;margin-bottom:7px">
-        <span style="font-weight:700;font-size:13px">${sc.icon} ${status}</span>
-        <span style="font-weight:900;color:${sc.color};font-size:13px">${count} طلب (${pct}%)</span>
+    return `<div class="white-card" style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;margin-bottom:7px"><span style="font-weight:700;font-size:13px">${sc.icon} ${status}</span><span style="font-weight:900;color:${sc.color};font-size:13px">${count} طلب (${pct}%)</span></div><div class="stat-bar-bg"><div class="stat-bar-fill" style="background:${sc.color};width:${pct}%"></div></div></div>`;
+  }).join('');
+}
+
+// ===== WORK LOG PAGE =====
+function renderLogPage(){
+  currentOrders=getOrders();
+  const delivered=currentOrders.filter(o=>o.status==="تم التسليم");
+  
+  // Build month list
+  const months={};
+  delivered.forEach(o=>{
+    const d=new Date(o.deliveredDate||o.receivedDate||"");
+    if(isNaN(d))return;
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if(!months[key])months[key]=[];
+    months[key].push(o);
+  });
+  
+  // Also group by receivedDate for non-delivered
+  currentOrders.forEach(o=>{
+    const d=new Date(o.receivedDate||"");
+    if(isNaN(d))return;
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    if(!months[key])months[key]=[];
+  });
+
+  // Group ALL orders by date
+  const byDate={};
+  currentOrders.forEach(o=>{
+    const dateKey=o.receivedDate||"";
+    if(!byDate[dateKey])byDate[dateKey]=[];
+    byDate[dateKey].push(o);
+  });
+
+  // Populate month filter
+  const sel=document.getElementById("logMonthFilter");
+  const allMonths=[...new Set(currentOrders.map(o=>{
+    const d=new Date(o.receivedDate||"");
+    if(isNaN(d))return null;
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+  }).filter(Boolean))].sort().reverse();
+  
+  const now=new Date();
+  const currentMonth=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  if(!allMonths.includes(currentMonth))allMonths.unshift(currentMonth);
+  
+  const selectedMonth=sel.value||currentMonth;
+  sel.innerHTML=allMonths.map(m=>{
+    const [y,mo]=m.split('-');
+    const names=["","يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+    return `<option value="${m}" ${m===selectedMonth?'selected':''}>${names[parseInt(mo)]} ${y}</option>`;
+  }).join('');
+
+  // Filter orders for selected month
+  const monthOrders=currentOrders.filter(o=>{
+    const d=new Date(o.receivedDate||"");
+    if(isNaN(d))return false;
+    const key=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+    return key===selectedMonth;
+  });
+
+  // Summary
+  const totalRev=monthOrders.filter(o=>o.status==="تم التسليم").reduce((s,o)=>s+(parseFloat(o.cost)||0),0);
+  const totalOrders=monthOrders.length;
+  const delivered2=monthOrders.filter(o=>o.status==="تم التسليم").length;
+  document.getElementById("logSummary").innerHTML=`
+    <div><div style="font-size:11px;opacity:0.7">إيرادات الشهر</div><div style="font-size:22px;font-weight:900">${totalRev.toLocaleString()}</div><div style="font-size:11px;opacity:0.7">دينار عراقي</div></div>
+    <div style="text-align:left"><div style="font-size:11px;opacity:0.7">طلبات الشهر</div><div style="font-size:22px;font-weight:900">${totalOrders}</div><div style="font-size:11px;opacity:0.7">مسلّم: ${delivered2}</div></div>`;
+
+  // Group by date
+  const dateGroups={};
+  monthOrders.forEach(o=>{
+    const dk=o.receivedDate||"غير محدد";
+    if(!dateGroups[dk])dateGroups[dk]=[];
+    dateGroups[dk].push(o);
+  });
+
+  const sortedDates=Object.keys(dateGroups).sort().reverse();
+  const el=document.getElementById("logList");
+  if(!sortedDates.length){el.innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px">📅</div><div style="font-weight:700;margin-top:8px">لا توجد طلبات هذا الشهر</div></div>`;return;}
+
+  el.innerHTML=sortedDates.map(date=>{
+    const orders=dateGroups[date];
+    const dayRev=orders.filter(o=>o.status==="تم التسليم").reduce((s,o)=>s+(parseFloat(o.cost)||0),0);
+    return `<div class="log-day-card">
+      <div class="log-day-header">
+        <div><div style="font-weight:800;font-size:14px">📅 ${date}</div><div style="font-size:11px;color:#6b7280;margin-top:2px">${orders.length} طلب</div></div>
+        <div class="log-total">${dayRev.toLocaleString()} IQD</div>
       </div>
-      <div class="stat-bar-bg"><div class="stat-bar-fill" style="background:${sc.color};width:${pct}%"></div></div>
+      ${orders.map(o=>{
+        const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
+        return `<div class="log-order-row" onclick="openDetail('${o.ticketId}')" style="cursor:pointer">
+          <div><div style="font-weight:700">${o.customerName}</div><div style="color:#9ca3af;font-size:10px">${o.deviceBrand} ${o.deviceModel} • ${o.ticketId}</div></div>
+          <div style="text-align:left">
+            <div style="background:${sc.bg};color:${sc.color};border-radius:7px;padding:2px 7px;font-size:10px;font-weight:700;margin-bottom:2px">${sc.icon} ${o.status}</div>
+            <div style="font-weight:800;color:#e94560;font-size:12px">${parseFloat(o.cost||0).toLocaleString()} IQD</div>
+          </div>
+        </div>`;
+      }).join('')}
     </div>`;
   }).join('');
 }
@@ -703,33 +865,15 @@ function renderInventory(){
   if(pf)pf.innerHTML=cats.map(c=>`<button class="filter-btn${partFilter===c?' active':''}" onclick="setPartFilter('${c}')">${c}</button>`).join('');
   const filtered=parts.filter(p=>{
     const ms=!q||[p.name,p.brand,p.model,p.category].some(v=>v&&v.toLowerCase().includes(q));
-    const mf=partFilter==="الكل"||p.category===partFilter;
-    return ms&&mf;
+    return ms&&(partFilter==="الكل"||p.category===partFilter);
   });
-  const el=document.getElementById("inventoryList");
-  if(!el)return;
-  if(!filtered.length){el.innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px;margin-bottom:9px">🔩</div><div style="font-weight:700">لا توجد قطع غيار</div><div style="font-size:11px;margin-top:4px">اضغط "+ إضافة" لإضافة قطع</div></div>`;return;}
+  const el=document.getElementById("inventoryList");if(!el)return;
+  if(!filtered.length){el.innerHTML=`<div style="text-align:center;padding:36px 20px;color:#9ca3af"><div style="font-size:40px">🔩</div><div style="font-weight:700;margin-top:8px">لا توجد قطع غيار</div></div>`;return;}
   el.innerHTML=filtered.map(p=>{
     const low=parseInt(p.qty)<=parseInt(p.minQty||2);
-    return `<div class="inv-card">
-      <div style="flex:1">
-        <div class="inv-name">${p.name}</div>
-        <div class="inv-model">${p.brand||''} ${p.model||''} • ${p.category}</div>
-        <div style="display:flex;gap:8px;margin-top:5px;align-items:center">
-          <span style="font-size:11px;color:#6b7280">شراء: ${parseFloat(p.buyPrice||0).toLocaleString()} IQD</span>
-          <span style="font-size:11px;color:#e94560;font-weight:700">بيع: ${parseFloat(p.sellPrice||0).toLocaleString()} IQD</span>
-        </div>
-      </div>
-      <div style="text-align:center;margin-right:10px">
-        <div class="inv-qty ${low?'inv-low':''}">${p.qty}</div>
-        <div style="font-size:9px;color:#9ca3af">متوفر</div>
-        ${low?'<div style="font-size:9px;color:#ef4444;font-weight:700">⚠️ منخفض</div>':''}
-        <div style="display:flex;gap:4px;margin-top:6px">
-          <button onclick="editPart('${p.id}')" style="background:#f3f4f6;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">✏️</button>
-          <button onclick="deletePart('${p.id}')" style="background:#fee2e2;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">🗑️</button>
-        </div>
-      </div>
-    </div>`;
+    return `<div class="inv-card"><div style="flex:1"><div style="font-weight:800;font-size:13px">${p.name}</div><div style="color:#6b7280;font-size:11px;margin-top:2px">${p.brand||''} ${p.model||''} • ${p.category}</div><div style="display:flex;gap:8px;margin-top:5px"><span style="font-size:11px;color:#6b7280">شراء: ${parseFloat(p.buyPrice||0).toLocaleString()} IQD</span><span style="font-size:11px;color:#e94560;font-weight:700">بيع: ${parseFloat(p.sellPrice||0).toLocaleString()} IQD</span></div></div>
+    <div style="text-align:center;margin-right:10px"><div style="font-weight:900;font-size:18px;${low?'color:#ef4444':''}">${p.qty}</div><div style="font-size:9px;color:#9ca3af">متوفر</div>${low?'<div style="font-size:9px;color:#ef4444;font-weight:700">⚠️ منخفض</div>':''}
+    <div style="display:flex;gap:4px;margin-top:6px"><button onclick="editPart('${p.id}')" style="background:#f3f4f6;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">✏️</button><button onclick="deletePart('${p.id}')" style="background:#fee2e2;border:none;border-radius:7px;padding:4px 8px;cursor:pointer;font-size:11px">🗑️</button></div></div></div>`;
   }).join('');
 }
 function setPartFilter(f){partFilter=f;renderInventory();}
@@ -737,100 +881,65 @@ function openPartForm(part=null){
   editingPartId=part?part.id:null;
   document.getElementById("partFormTitle").textContent=part?"✏️ تعديل قطعة":"➕ إضافة قطعة غيار";
   document.getElementById("partSubmitBtn").textContent=part?"💾 حفظ التعديلات":"✅ حفظ القطعة";
+  ["pName","pBrand","pModel","pBuyPrice","pSellPrice"].forEach(id=>document.getElementById(id).value=part?.[id.slice(1).toLowerCase()]||"");
   document.getElementById("pName").value=part?.name||"";
-  document.getElementById("pDeviceType").value=part?.deviceType||"phone";
   document.getElementById("pBrand").value=part?.brand||"";
   document.getElementById("pModel").value=part?.model||"";
-  document.getElementById("pCategory").value=part?.category||"شاشة";
   document.getElementById("pBuyPrice").value=part?.buyPrice||"";
   document.getElementById("pSellPrice").value=part?.sellPrice||"";
   document.getElementById("pQty").value=part?.qty||1;
   document.getElementById("pMinQty").value=part?.minQty||2;
-  document.getElementById("pNotes").value=part?.notes||"";
+  document.getElementById("pDeviceType").value=part?.deviceType||"phone";
+  document.getElementById("pCategory").value=part?.category||"شاشة";
   document.getElementById("partModal").classList.remove("hidden");
 }
 function closePartForm(){document.getElementById("partModal").classList.add("hidden");editingPartId=null;}
 function editPart(id){const p=getParts().find(x=>x.id===id);if(p)openPartForm(p);}
-function deletePart(id){
-  if(!confirm("حذف هذه القطعة؟"))return;
-  const parts=getParts().filter(p=>p.id!==id);saveParts(parts);renderInventory();showToast("تم الحذف","error");
-}
+function deletePart(id){if(!confirm("حذف هذه القطعة؟"))return;saveParts(getParts().filter(p=>p.id!==id));renderInventory();showToast("تم الحذف","error");}
 function submitPartForm(){
-  const data={
-    name:document.getElementById("pName").value.trim(),
-    deviceType:document.getElementById("pDeviceType").value,
-    brand:document.getElementById("pBrand").value.trim(),
-    model:document.getElementById("pModel").value.trim(),
-    category:document.getElementById("pCategory").value,
-    buyPrice:document.getElementById("pBuyPrice").value,
-    sellPrice:document.getElementById("pSellPrice").value,
-    qty:document.getElementById("pQty").value,
-    minQty:document.getElementById("pMinQty").value,
-    notes:document.getElementById("pNotes").value.trim()
-  };
+  const data={name:document.getElementById("pName").value.trim(),deviceType:document.getElementById("pDeviceType").value,brand:document.getElementById("pBrand").value.trim(),model:document.getElementById("pModel").value.trim(),category:document.getElementById("pCategory").value,buyPrice:document.getElementById("pBuyPrice").value,sellPrice:document.getElementById("pSellPrice").value,qty:document.getElementById("pQty").value,minQty:document.getElementById("pMinQty").value};
   if(!data.name){alert("أدخل اسم القطعة");return;}
   const parts=getParts();
-  if(editingPartId){
-    const idx=parts.findIndex(p=>p.id===editingPartId);
-    if(idx>=0)parts[idx]={...parts[idx],...data};
-    showToast("تم التحديث ✅");
-  } else {
-    parts.unshift({...data,id:"P"+Date.now()});
-    showToast("تم إضافة القطعة 🔩");
-  }
+  if(editingPartId){const idx=parts.findIndex(p=>p.id===editingPartId);if(idx>=0)parts[idx]={...parts[idx],...data};showToast("تم التحديث ✅");}
+  else{parts.unshift({...data,id:"P"+Date.now()});showToast("تم إضافة القطعة 🔩");}
   saveParts(parts);closePartForm();renderInventory();
 }
 
-// ===== FORM PARTS =====
+// ===== FORM HELPERS =====
 function updateBrandsForType(){
   const type=document.getElementById("fDeviceType").value;
   const brands=BRANDS_BY_TYPE[type]||BRANDS_BY_TYPE.phone;
-  const sel=document.getElementById("fBrand");
-  sel.innerHTML='<option value="">اختر الماركة</option>'+brands.map(b=>`<option>${b}</option>`).join('');
-  updateComponentsList();
-}
-function updateComponentsList(){
+  document.getElementById("fBrand").innerHTML='<option value="">اختر الماركة</option>'+brands.map(b=>`<option>${b}</option>`).join('');
   updatePartsForProblem();
 }
 function updatePartsForProblem(){
   const problem=document.getElementById("fProblemType").value;
-  const brand=document.getElementById("fBrand").value;
   const suggestions=PARTS_BY_PROBLEM[problem]||[];
   const invParts=getParts();
   const el=document.getElementById("suggestedParts");
   if(!suggestions.length){el.innerHTML='';return;}
-  el.innerHTML=`<div style="font-size:11px;color:#9d174d;font-weight:700;margin-bottom:6px">💡 قطع مقترحة للعطل "${problem}":</div>`+
+  el.innerHTML=`<div style="font-size:11px;color:#9d174d;font-weight:700;margin-bottom:6px">💡 قطع مقترحة:</div>`+
     suggestions.map(s=>{
       const found=invParts.find(p=>p.name.includes(s)||s.includes(p.category));
-      const badge=found?`<span style="font-size:9px;color:#10b981;font-weight:700">(متوفر: ${found.qty})</span>`:`<span style="font-size:9px;color:#ef4444;font-weight:700">(غير متوفر)</span>`;
-      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:#f9f0ff;border-radius:8px;margin-bottom:4px;cursor:pointer" onclick="quickAddPart('${s}')">
-        <span style="font-size:12px">🔩 ${s}</span>
-        <div style="display:flex;align-items:center;gap:6px">${badge}<span style="background:#7c3aed;color:white;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">+ أضف</span></div>
-      </div>`;
+      const badge=found?`<span style="font-size:9px;color:#10b981;font-weight:700">(متوفر:${found.qty})</span>`:`<span style="font-size:9px;color:#ef4444;font-weight:700">(غير متوفر)</span>`;
+      return `<div style="display:flex;justify-content:space-between;align-items:center;padding:5px 8px;background:#f9f0ff;border-radius:8px;margin-bottom:4px;cursor:pointer" onclick="quickAddPart('${s}')"><span style="font-size:12px">🔩 ${s}</span><div style="display:flex;align-items:center;gap:6px">${badge}<span style="background:#7c3aed;color:white;border-radius:6px;padding:2px 8px;font-size:10px;font-weight:700">+ أضف</span></div></div>`;
     }).join('');
 }
-function quickAddPart(name){
-  formParts.push({name,qty:1});renderFormParts();showToast("تم إضافة: "+name);
-}
+function quickAddPart(name){formParts.push({name,qty:1});renderFormParts();showToast("تم إضافة: "+name);}
 function addPartToForm(){
   const name=document.getElementById("fPartName").value.trim();
   const qty=parseInt(document.getElementById("fPartQty").value)||1;
   if(!name)return;
-  formParts.push({name,qty});
-  document.getElementById("fPartName").value="";
-  renderFormParts();
+  formParts.push({name,qty});document.getElementById("fPartName").value="";renderFormParts();
 }
 function removeFormPart(i){formParts.splice(i,1);renderFormParts();}
 function renderFormParts(){
-  document.getElementById("formPartsList").innerHTML=formParts.length?
-    formParts.map((p,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f9fafb;border-radius:8px;margin-bottom:4px">
-      <span style="font-size:12px;font-weight:700">🔩 ${p.name} (${p.qty}x)</span>
-      <button onclick="removeFormPart(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;color:#ef4444;font-weight:700">✕</button>
-    </div>`).join(''):'';
+  document.getElementById("formPartsList").innerHTML=formParts.length?formParts.map((p,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 10px;background:#f9fafb;border-radius:8px;margin-bottom:4px"><span style="font-size:12px;font-weight:700">🔩 ${p.name} (${p.qty}x)</span><button onclick="removeFormPart(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:3px 8px;cursor:pointer;font-size:10px;color:#ef4444;font-weight:700">✕</button></div>`).join(''):'';
 }
 
 // ===== DETAIL =====
 function openDetail(ticketId){
+  currentOrders=getOrders();
   selectedOrder=currentOrders.find(o=>o.ticketId===ticketId);
   if(!selectedOrder)return;
   renderDetail();showPage("detail");
@@ -846,103 +955,46 @@ function renderDetail(){
     stepsHTML+=`<div class="step"><div class="step-circle${done?' done':''}">${done?"✓":i+1}</div><div class="step-label${done?' done':''}">${s}</div></div>`;
   });
   const lateHtml=isLate(o)?`<div style="background:#fee2e2;color:#991b1b;border-radius:10px;padding:9px 12px;font-size:11px;font-weight:700;margin-bottom:10px;text-align:center">⚠️ هذا الطلب متأخر ${daysDiff(o.deliveryDate)} أيام!</div>`:'';
-  const photos=o.photos||[];
-  const parts=o.parts||[];
-  const partsHtml=`<div class="parts-card">
-    <div class="section-title">🔩 قطع الغيار المستخدمة (${parts.length})</div>
-    ${parts.map((p,i)=>`<div class="part-item">
-      <span class="part-name">🔩 ${p.name}</span>
-      <div style="display:flex;gap:8px;align-items:center">
-        <span class="part-qty">${p.qty}x</span>
-        <button onclick="removePartFromOrder(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:2px 7px;cursor:pointer;font-size:10px;color:#ef4444">✕</button>
-      </div>
-    </div>`).join('')}
-    <div style="display:flex;gap:7px;margin-top:10px">
-      <input id="newPartName" class="form-input" placeholder="إضافة قطعة..." style="margin-bottom:0;flex:2;padding:8px 11px;font-size:12px"/>
-      <input id="newPartQty" class="form-input" placeholder="عدد" type="number" value="1" style="margin-bottom:0;flex:1;padding:8px 11px;font-size:12px"/>
-      <button onclick="addPartToOrder()" style="background:#7c3aed;color:white;border:none;border-radius:9px;padding:8px 12px;cursor:pointer;font-weight:800">+</button>
-    </div>
-  </div>`;
-  const photosHtml=`<div class="photos-card">
-    <div class="section-title">📷 صور الجهاز (${photos.length})</div>
-    <div class="photos-grid">
-      ${photos.map((p,i)=>`<img src="${p}" class="photo-thumb" onclick="openPhotoViewer(${i})" alt="صورة"/>`).join('')}
-      <div class="photo-add" onclick="addPhotoToOrder()"><span style="font-size:22px">📷</span><span>إضافة</span></div>
-    </div>
-    <input type="file" id="addPhotoInput" accept="image/*" capture="environment" style="display:none" onchange="handleAddPhoto(event)"/>
-  </div>`;
+  const photos=o.photos||[];const parts=o.parts||[];
+  const partsHtml=`<div class="parts-card"><div class="section-title">🔩 قطع الغيار (${parts.length})</div>${parts.map((p,i)=>`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid #f3f4f6"><span style="font-size:12px;font-weight:700">🔩 ${p.name}</span><div style="display:flex;gap:8px;align-items:center"><span style="background:#f3f4f6;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800">${p.qty}x</span><button onclick="removePartFromOrder(${i})" style="background:#fee2e2;border:none;border-radius:6px;padding:2px 7px;cursor:pointer;font-size:10px;color:#ef4444">✕</button></div></div>`).join('')}
+  <div style="display:flex;gap:7px;margin-top:10px"><input id="newPartName" class="form-input" placeholder="إضافة قطعة..." style="margin-bottom:0;flex:2;padding:8px 11px;font-size:12px"/><input id="newPartQty" class="form-input" placeholder="عدد" type="number" value="1" style="margin-bottom:0;flex:1;padding:8px 11px;font-size:12px"/><button onclick="addPartToOrder()" style="background:#7c3aed;color:white;border:none;border-radius:9px;padding:8px 12px;cursor:pointer;font-weight:800">+</button></div></div>`;
+  const photosHtml=`<div class="photos-card"><div class="section-title">📷 صور الجهاز (${photos.length})</div><div class="photos-grid">${photos.map((p,i)=>`<img src="${p}" class="photo-thumb" onclick="openPhotoViewer(${i})" alt="صورة"/>`).join('')}<div class="photo-add" onclick="addPhotoToOrder()"><span style="font-size:22px">📷</span><span>إضافة</span></div></div><input type="file" id="addPhotoInput" accept="image/*" capture="environment" style="display:none" onchange="handleAddPhoto(event)"/></div>`;
   let statusBtns=Object.entries(STATUSES).map(([s,sc2])=>`<button class="status-btn${o.status===s?' active':''}" style="${o.status===s?`border-color:${sc2.color};background:${sc2.bg};color:${sc2.color}`:''}" onclick="updateStatus('${s}')">${sc2.icon} ${s}</button>`).join('');
   document.getElementById("detailContent").innerHTML=`
     ${lateHtml}
-    <div class="top-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-        <div>
-          <div style="font-size:17px;font-weight:900">${o.customerName}</div>
-          <div style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px">📞 ${o.customerPhone}</div>
-        </div>
-        <div style="background:${sc.bg};color:${sc.color};border-radius:10px;padding:4px 10px;font-weight:800;font-size:11px">${sc.icon} ${o.status}</div>
-      </div>
-      <div class="progress-steps"><div class="progress-line"></div>${stepsHTML}</div>
-    </div>
-    <div class="qr-card">
-      <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:7px">رمز QR للتتبع</div>
-      <img src="${qrUrl}" width="110" height="110" style="border-radius:7px;display:block;margin:0 auto" onerror="this.style.display='none'"/>
-      <div style="font-weight:800;font-size:14px;letter-spacing:3px;margin-top:7px;color:#1a1a2e">${o.ticketId}</div>
-      <div style="font-size:10px;color:#9ca3af;margin-top:2px">الزبون يمسح الكود لمتابعة طلبه</div>
-    </div>
+    <div class="top-card"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px"><div><div style="font-size:17px;font-weight:900">${o.customerName}</div><div style="color:rgba(255,255,255,0.6);font-size:11px;margin-top:2px">📞 ${o.customerPhone}</div></div><div style="background:${sc.bg};color:${sc.color};border-radius:10px;padding:4px 10px;font-weight:800;font-size:11px">${sc.icon} ${o.status}</div></div>
+    <div class="progress-steps"><div class="progress-line"></div>${stepsHTML}</div></div>
+    <div class="qr-card"><div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:7px">رمز QR للتتبع</div><img src="${qrUrl}" width="130" height="130" style="border-radius:7px;display:block;margin:0 auto"/><div style="font-weight:800;font-size:14px;letter-spacing:3px;margin-top:7px;color:#1a1a2e">${o.ticketId}</div><div style="font-size:10px;color:#9ca3af;margin-top:2px">الزبون يمسح الكود لمتابعة طلبه</div></div>
     ${photosHtml}
-    <div class="white-card">
-      ${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["📱 نوع الجهاز",o.deviceType||"هاتف"],["🎨 اللون/السعة",o.deviceColor||"-"],["🔢 IMEI",o.imei||"-"],["⚠️ نوع العطل",o.problemType],["📝 وصف العطل",o.problemDesc],["🔍 حالة الجهاز",o.deviceNotes||"لا يوجد"],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"],["👨‍🔧 الفني",o.technician||"-"]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}
-    </div>
+    <div class="white-card">${[["📱 الجهاز",o.deviceBrand+" "+o.deviceModel],["🎨 اللون/السعة",o.deviceColor||"-"],["🔢 IMEI",o.imei||"-"],["⚠️ نوع العطل",o.problemType],["📝 وصف العطل",o.problemDesc],["🔍 حالة الجهاز",o.deviceNotes||"-"],["💰 التكلفة",parseFloat(o.cost||0).toLocaleString()+" IQD"],["📅 الاستلام",o.receivedDate],["📅 التسليم المتوقع",o.deliveryDate||"سيتم الإخبار"],["👨‍🔧 الفني",o.technician||"-"]].map(([l,v])=>`<div class="info-row"><span class="info-label">${l}</span><span class="info-val">${v}</span></div>`).join('')}</div>
     ${partsHtml}
-    <div class="white-card">
-      <div class="section-title">🔄 تحديث الحالة</div>
-      <div class="status-btns">${statusBtns}</div>
-    </div>
-    <div class="wa-card">
-      <div style="font-weight:800;font-size:12px;margin-bottom:9px;color:#065f46">💬 إرسال واتساب للزبون</div>
-      <div class="wa-grid">
-        <button class="wa-btn" onclick="sendWA('repair')">📲 قيد الإصلاح</button>
-        <button class="wa-btn" onclick="sendWA('ready')">📲 جاهز للتسليم</button>
-        <button class="wa-btn" onclick="sendWA('done')">📲 تم التسليم</button>
-        <button class="wa-btn gen" onclick="sendWA('general')">💬 رسالة عامة</button>
-      </div>
-    </div>
-    <div class="action-grid">
-      <button class="action-btn" style="background:#1a1a2e" onclick="printReceipt()">🖨️ طباعة الوصل</button>
-      <button class="action-btn" style="background:#3b82f6" onclick="editOrder()">✏️ تعديل</button>
-      <button class="action-btn" style="background:#ef4444;grid-column:span 2" onclick="deleteOrder()">🗑️ حذف الطلب</button>
-    </div>
-  `;
+    <div class="white-card"><div class="section-title">🔄 تحديث الحالة</div><div class="status-btns">${statusBtns}</div></div>
+    <div class="wa-card"><div style="font-weight:800;font-size:12px;margin-bottom:9px;color:#065f46">💬 إرسال واتساب</div><div class="wa-grid"><button class="wa-btn" onclick="sendWA('repair')">📲 قيد الإصلاح</button><button class="wa-btn" onclick="sendWA('ready')">📲 جاهز للتسليم</button><button class="wa-btn" onclick="sendWA('done')">📲 تم التسليم</button><button class="wa-btn gen" onclick="sendWA('general')">💬 رسالة عامة</button></div></div>
+    <div class="action-grid"><button class="action-btn" style="background:#1a1a2e" onclick="printReceipt()">🖨️ طباعة الوصل</button><button class="action-btn" style="background:#3b82f6" onclick="editOrder()">✏️ تعديل</button><button class="action-btn" style="background:#ef4444;grid-column:span 2" onclick="deleteOrder()">🗑️ حذف الطلب</button></div>`;
 }
 
-// ===== PARTS IN ORDER =====
 function addPartToOrder(){
   const name=document.getElementById("newPartName").value.trim();
   const qty=parseInt(document.getElementById("newPartQty").value)||1;
   if(!name)return;
   const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
-  if(idx>=0){
-    if(!currentOrders[idx].parts)currentOrders[idx].parts=[];
-    currentOrders[idx].parts.push({name,qty});
-    selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة القطعة 🔩");
-  }
+  if(idx>=0){if(!currentOrders[idx].parts)currentOrders[idx].parts=[];currentOrders[idx].parts.push({name,qty});selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة القطعة 🔩");}
 }
 function removePartFromOrder(i){
   const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
   if(idx>=0){currentOrders[idx].parts.splice(i,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();}
 }
 
-// ===== STATUS =====
 function updateStatus(status){
   const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
-  if(idx>=0){currentOrders[idx].status=status;selectedOrder=currentOrders[idx];saveOrders(currentOrders);}
+  if(idx>=0){
+    currentOrders[idx].status=status;
+    if(status==="تم التسليم")currentOrders[idx].deliveredDate=new Date().toLocaleDateString("ar-IQ");
+    selectedOrder=currentOrders[idx];saveOrders(currentOrders);
+  }
   renderDetail();showToast("تم تحديث الحالة");
-  const msgs={"قيد الإصلاح":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n🔧 جهازك قيد الإصلاح حالياً\nسنخبرك فور الانتهاء 🙏`,"جاهز للتسليم":`مرحباً ${selectedOrder.customerName} 👋\nجهازك *${selectedOrder.deviceBrand} ${selectedOrder.deviceModel}*\nرقم الطلب: *${selectedOrder.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${selectedOrder.cost} IQD*\nيمكنك الحضور لاستلامه 🎉`};
-  if(msgs[status]&&confirm(`إرسال واتساب للزبون؟`))sendWAMsg(selectedOrder.customerPhone,msgs[status]);
 }
 
-// ===== WHATSAPP =====
 function sendWAMsg(phone,msg){
   const c=phone.replace(/\D/g,"");
   const n=c.startsWith("0")?"964"+c.slice(1):c.startsWith("964")?c:"964"+c;
@@ -952,7 +1004,7 @@ function sendWA(type){
   const o=selectedOrder;
   const msgs={
     repair:`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n🔧 جهازك قيد الإصلاح\nسنخبرك فور الانتهاء 🙏`,
-    ready:`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${o.cost} IQD*\nيمكنك الحضور 🎉`,
+    ready:`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${parseFloat(o.cost||0).toLocaleString()} IQD*\nيمكنك الحضور 🎉`,
     done:`مرحباً ${o.customerName} 👋\nشكراً لثقتك بمركز الصيانة 🙏\nنتمنى رضاك عن خدمتنا 😊`,
     general:`مرحباً ${o.customerName}،\nبخصوص جهازك ${o.deviceBrand} ${o.deviceModel}\nرقم طلبك: ${o.ticketId}`
   };
@@ -961,37 +1013,14 @@ function sendWA(type){
 
 // ===== PHOTOS =====
 function capturePhoto(){document.getElementById("photoInput").click();}
-function handlePhoto(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{formPhotos.push(ev.target.result);renderFormPhotos();};
-  reader.readAsDataURL(file);e.target.value='';
-}
-function renderFormPhotos(){
-  const el=document.getElementById("photoPreviewForm");
-  el.innerHTML=formPhotos.map((p,i)=>`<div style="position:relative">
-    <img src="${p}" style="width:65px;height:65px;object-fit:cover;border-radius:8px"/>
-    <button onclick="removeFormPhoto(${i})" style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px">✕</button>
-  </div>`).join('');
-}
+function handlePhoto(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{formPhotos.push(ev.target.result);renderFormPhotos();};reader.readAsDataURL(file);e.target.value='';}
+function renderFormPhotos(){document.getElementById("photoPreviewForm").innerHTML=formPhotos.map((p,i)=>`<div style="position:relative"><img src="${p}" style="width:65px;height:65px;object-fit:cover;border-radius:8px"/><button onclick="removeFormPhoto(${i})" style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px">✕</button></div>`).join('');}
 function removeFormPhoto(i){formPhotos.splice(i,1);renderFormPhotos();}
 function addPhotoToOrder(){document.getElementById("addPhotoInput").click();}
-function handleAddPhoto(e){
-  const file=e.target.files[0];if(!file)return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
-    if(idx>=0){if(!currentOrders[idx].photos)currentOrders[idx].photos=[];currentOrders[idx].photos.push(ev.target.result);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة الصورة 📷");}
-  };
-  reader.readAsDataURL(file);e.target.value='';
-}
+function handleAddPhoto(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);if(idx>=0){if(!currentOrders[idx].photos)currentOrders[idx].photos=[];currentOrders[idx].photos.push(ev.target.result);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة الصورة 📷");}};reader.readAsDataURL(file);e.target.value='';}
 function openPhotoViewer(idx){viewingPhotoIdx=idx;document.getElementById("photoViewerImg").src=selectedOrder.photos[idx];document.getElementById("photoViewer").classList.remove("hidden");}
 function closePhotoViewer(){document.getElementById("photoViewer").classList.add("hidden");}
-function deleteCurrentPhoto(){
-  if(!confirm("حذف الصورة؟"))return;
-  const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
-  if(idx>=0){currentOrders[idx].photos.splice(viewingPhotoIdx,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);closePhotoViewer();renderDetail();showToast("تم الحذف");}
-}
+function deleteCurrentPhoto(){if(!confirm("حذف الصورة؟"))return;const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);if(idx>=0){currentOrders[idx].photos.splice(viewingPhotoIdx,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);closePhotoViewer();renderDetail();showToast("تم الحذف");}}
 
 // ===== PRINT =====
 function printReceipt(){
@@ -999,7 +1028,7 @@ function printReceipt(){
   const trackLink=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
   const qr=`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(trackLink)}&bgcolor=ffffff&color=1a1a2e&margin=8`;
   const photos=o.photos||[];const parts=o.parts||[];
-  const partsHtml=parts.length?`<div class="section-title">🔩 قطع الغيار المستخدمة</div>${parts.map(p=>`<div class="row"><span class="lbl">${p.name}</span><span class="val">${p.qty}x</span></div>`).join('')}`:'';
+  const partsHtml=parts.length?`<div class="section-title">🔩 قطع الغيار</div>${parts.map(p=>`<div class="row"><span class="lbl">${p.name}</span><span class="val">${p.qty}x</span></div>`).join('')}`:'';
   const photosHtml=photos.length?`<div class="section-title" style="margin-top:12px">📷 صور الجهاز</div><div style="display:flex;gap:7px;flex-wrap:wrap">${photos.map(p=>`<img src="${p}" style="width:75px;height:75px;object-fit:cover;border-radius:8px;border:1px solid #eee"/>`).join('')}</div>`:'';
   const w=window.open("","_blank");
   w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>وصل - ${o.ticketId}</title>
@@ -1018,7 +1047,7 @@ function printReceipt(){
   @media print{button{display:none}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}</style>
   </head><body>
   <div class="header"><h1>🔧 مركز الصيانة</h1><p>وصل استلام جهاز للصيانة</p></div>
-  <div class="qr-section"><img src="${qr}" width="140" height="140" onerror="this.style.display='none'"/><div class="ticket-id">${o.ticketId}</div><div style="font-size:9px;color:#999;margin-top:3px">امسح الكود لمتابعة الطلب</div></div>
+  <div class="qr-section"><img src="${qr}" width="150" height="150" onerror="this.style.display='none'"/><div class="ticket-id">${o.ticketId}</div><div style="font-size:9px;color:#999;margin-top:3px">امسح الكود لمتابعة الطلب</div></div>
   <div class="section-title">👤 معلومات الزبون</div>
   <div class="row"><span class="lbl">الاسم</span><span class="val">${o.customerName}</span></div>
   <div class="row"><span class="lbl">الهاتف</span><span class="val">${o.customerPhone}</span></div>
@@ -1026,7 +1055,6 @@ function printReceipt(){
   <div class="row"><span class="lbl">الجهاز</span><span class="val">${o.deviceBrand} ${o.deviceModel}</span></div>
   <div class="row"><span class="lbl">اللون/السعة</span><span class="val">${o.deviceColor||"-"}</span></div>
   <div class="row"><span class="lbl">IMEI</span><span class="val">${o.imei||"-"}</span></div>
-  <div class="row"><span class="lbl">حالة الجهاز</span><span class="val">${o.deviceNotes||"لا يوجد"}</span></div>
   <div class="section-title">⚠️ تفاصيل العطل</div>
   <div class="row"><span class="lbl">نوع العطل</span><span class="val">${o.problemType}</span></div>
   <div class="row"><span class="lbl">الوصف</span><span class="val">${o.problemDesc}</span></div>
@@ -1039,7 +1067,7 @@ function printReceipt(){
   <div class="row"><span class="lbl">الحالة</span><span class="val">${o.status}</span></div>
   ${photosHtml}
   <div class="footer"><p>احتفظ بهذا الوصل لاستلام جهازك</p><p style="margin-top:5px;color:#e94560;font-weight:700">شكراً لثقتكم 🙏</p></div>
-  <div class="copy">© 2025 RepairPro | تطوير: علي أحمد كاظم | 📞 07724353339</div>
+  <div class="copy">© 2025 RepairPro | علي أحمد كاظم | 📞 07724353339</div>
   <script>window.onload=()=>{setTimeout(()=>window.print(),500)}<\/script></body></html>`);
   w.document.close();
 }
@@ -1047,8 +1075,8 @@ function printReceipt(){
 // ===== FORM =====
 function openForm(order=null){
   editingId=order?order.ticketId:null;
-  formPhotos=order&&order.photos?[...order.photos]:[];
-  formParts=order&&order.parts?[...order.parts]:[];
+  formPhotos=order?.photos?[...order.photos]:[];
+  formParts=order?.parts?[...order.parts]:[];
   document.getElementById("formTitle").textContent=order?"✏️ تعديل الطلب":"➕ طلب صيانة جديد";
   document.getElementById("formSubmitBtn").textContent=order?"💾 حفظ التعديلات":"✅ إضافة الطلب";
   document.getElementById("fName").value=order?.customerName||"";
@@ -1072,32 +1100,15 @@ function openForm(order=null){
 function closeForm(){document.getElementById("formModal").classList.add("hidden");editingId=null;formPhotos=[];formParts=[];}
 function editOrder(){openForm(selectedOrder);}
 function submitForm(){
-  const data={
-    customerName:document.getElementById("fName").value.trim(),
-    customerPhone:document.getElementById("fPhone").value.trim(),
-    deviceType:document.getElementById("fDeviceType").value,
-    deviceBrand:document.getElementById("fBrand").value,
-    deviceModel:document.getElementById("fModel").value.trim(),
-    deviceColor:document.getElementById("fColor").value.trim(),
-    imei:document.getElementById("fImei").value.trim(),
-    deviceNotes:document.getElementById("fNotes").value.trim(),
-    problemType:document.getElementById("fProblemType").value,
-    problemDesc:document.getElementById("fProblemDesc").value.trim(),
-    technician:document.getElementById("fTech").value.trim(),
-    cost:document.getElementById("fCost").value,
-    deliveryDate:document.getElementById("fDelivery").value,
-    status:document.getElementById("fStatus").value,
-    photos:formPhotos,
-    parts:formParts
-  };
+  const data={customerName:document.getElementById("fName").value.trim(),customerPhone:document.getElementById("fPhone").value.trim(),deviceType:document.getElementById("fDeviceType").value,deviceBrand:document.getElementById("fBrand").value,deviceModel:document.getElementById("fModel").value.trim(),deviceColor:document.getElementById("fColor").value.trim(),imei:document.getElementById("fImei").value.trim(),deviceNotes:document.getElementById("fNotes").value.trim(),problemType:document.getElementById("fProblemType").value,problemDesc:document.getElementById("fProblemDesc").value.trim(),technician:document.getElementById("fTech").value.trim(),cost:document.getElementById("fCost").value,deliveryDate:document.getElementById("fDelivery").value,status:document.getElementById("fStatus").value,photos:formPhotos,parts:formParts};
   if(!data.customerName||!data.customerPhone||!data.deviceBrand||!data.deviceModel||!data.problemDesc||!data.cost){alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)");return;}
   if(editingId){
     const idx=currentOrders.findIndex(o=>o.ticketId===editingId);
     if(idx>=0){currentOrders[idx]={...currentOrders[idx],...data};if(selectedOrder?.ticketId===editingId)selectedOrder=currentOrders[idx];}
     showToast("تم التحديث ✅");
   } else {
-    const o={...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")};
-    currentOrders.unshift(o);showToast("تم إضافة الطلب 🎉");
+    currentOrders.unshift({...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")});
+    showToast("تم إضافة الطلب 🎉");
   }
   saveOrders(currentOrders);closeForm();renderAll();checkLateOrders();
   if(selectedOrder&&document.getElementById("detailPage").classList.contains("active"))renderDetail();
@@ -1110,12 +1121,10 @@ function deleteOrder(){
 
 // ===== TOAST =====
 function showToast(msg,type="success"){
-  const t=document.getElementById("toast");
-  t.textContent=msg;t.className=`toast ${type}`;t.classList.remove("hidden");
+  const t=document.getElementById("toast");t.textContent=msg;t.className=`toast ${type}`;t.classList.remove("hidden");
   setTimeout(()=>t.classList.add("hidden"),3000);
 }
-
-if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{});}
+if("serviceWorker" in navigator)navigator.serviceWorker.register("sw.js").catch(()=>{});
 </script>
 </body>
 </html>
