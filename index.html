@@ -4,6 +4,22 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
 <meta name="theme-color" content="#e94560"/>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyACNeP_5JxBBereuGfCZeAA180V-U6zC18",
+  authDomain: "repairpro-cc736.firebaseapp.com",
+  projectId: "repairpro-cc736",
+  storageBucket: "repairpro-cc736.firebasestorage.app",
+  messagingSenderId: "701878280751",
+  appId: "1:701878280751:web:0e844d25c47a7467e11cda"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-title" content="RepairPro"/>
@@ -424,19 +440,106 @@ const PARTS_BY_PROBLEM={
   "لا يشتغل":["بطارية","لوحة أم","IC شحن"]
 };
 
-// ===== STORAGE =====
-// Data is stored PER USER — key includes username
+// ===== STORAGE — Firestore + localStorage cache =====
 function getUserKey(key){ return currentUser ? `rp_${currentUser.username}_${key}` : `rp_${key}`; }
-const getOrders=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('o'))||"[]")}catch{return[]}};
-const saveOrders=o=>localStorage.setItem(getUserKey('o'),JSON.stringify(o));
-const getParts=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('parts'))||"[]")}catch{return[]}};
-const saveParts=p=>localStorage.setItem(getUserKey('parts'),JSON.stringify(p));
-const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","phone":"","role":"admin","verified":true,"regMode":"email"}]')}catch{return[]}};
+
+// LOCAL CACHE (fast reads)
+const getCachedOrders=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('o'))||"[]")}catch{return[]}};
+const setCachedOrders=o=>localStorage.setItem(getUserKey('o'),JSON.stringify(o));
+const getCachedParts=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('parts'))||"[]")}catch{return[]}};
+const setCachedParts=p=>localStorage.setItem(getUserKey('parts'),JSON.stringify(p));
+
+// USERS stored locally (no sensitive data in Firestore)
+const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","phone":"07724353339","role":"owner","verified":true,"regMode":"phone"}]')}catch{return[]}};
 const saveUsers=u=>localStorage.setItem("rp_users",JSON.stringify(u));
 const getSession=()=>{try{return JSON.parse(sessionStorage.getItem("rp_s")||"null")}catch{return null}};
 const saveSession=s=>sessionStorage.setItem("rp_s",JSON.stringify(s));
+
 let _cnt=()=>parseInt(localStorage.getItem(getUserKey('c'))||"1000");
 const nextId=()=>{const n=_cnt()+1;localStorage.setItem(getUserKey('c'),n);return`REP-${n}`};
+
+// FIRESTORE SYNC
+function fsCol(col){ return db.collection(`users/${currentUser.username}/${col}`); }
+
+async function saveOrders(orders){
+  setCachedOrders(orders);
+  if(!currentUser||!db)return;
+  try{
+    const batch=db.batch();
+    // Save all orders to Firestore
+    orders.forEach(o=>{
+      const ref=fsCol('orders').doc(o.ticketId);
+      // Remove photos from Firestore (too large), keep in local
+      const {photos,...oNoPhotos}=o;
+      batch.set(ref,{...oNoPhotos,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    });
+    await batch.commit();
+  }catch(e){console.warn('Firestore save error:',e);}
+}
+
+async function loadOrdersFromCloud(){
+  if(!currentUser||!db)return getCachedOrders();
+  try{
+    const snap=await fsCol('orders').orderBy('updatedAt','desc').get();
+    if(snap.empty)return getCachedOrders();
+    const cloudOrders=snap.docs.map(d=>d.data());
+    // Merge photos from local cache
+    const local=getCachedOrders();
+    const merged=cloudOrders.map(co=>{
+      const lo=local.find(l=>l.ticketId===co.ticketId);
+      return lo?{...co,photos:lo.photos||[]}:{...co,photos:[]};
+    });
+    setCachedOrders(merged);
+    return merged;
+  }catch(e){console.warn('Firestore load error:',e);return getCachedOrders();}
+}
+
+async function saveParts(parts){
+  setCachedParts(parts);
+  if(!currentUser||!db)return;
+  try{
+    const batch=db.batch();
+    parts.forEach(p=>{
+      const ref=fsCol('parts').doc(p.id);
+      batch.set(ref,{...p,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    });
+    await batch.commit();
+  }catch(e){console.warn('Firestore parts save error:',e);}
+}
+
+async function loadPartsFromCloud(){
+  if(!currentUser||!db)return getCachedParts();
+  try{
+    const snap=await fsCol('parts').get();
+    if(snap.empty)return getCachedParts();
+    const parts=snap.docs.map(d=>d.data());
+    setCachedParts(parts);
+    return parts;
+  }catch(e){return getCachedParts();}
+}
+
+// Wrappers for sync reads (use cache first, refresh in background)
+const getOrders=()=>getCachedOrders();
+const getParts=()=>getCachedParts();
+
+// Real-time listener
+let unsubscribeOrders=null;
+function startRealtimeSync(){
+  if(!currentUser||!db)return;
+  if(unsubscribeOrders)unsubscribeOrders();
+  unsubscribeOrders=fsCol('orders').onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites)return;
+    const cloudOrders=snap.docs.map(d=>d.data());
+    const local=getCachedOrders();
+    const merged=cloudOrders.map(co=>{
+      const lo=local.find(l=>l.ticketId===co.ticketId);
+      return lo?{...co,photos:lo.photos||[]}:{...co,photos:[]};
+    });
+    setCachedOrders(merged);
+    currentOrders=merged;
+    renderAll();checkLateOrders();
+  },err=>console.warn('Realtime sync error:',err));
+}
 
 // ===== STATE =====
 let currentUser=null,currentOrders=[],selectedOrder=null,editingId=null,filterStatus="الكل";
@@ -599,13 +702,22 @@ function showLogin(){
   document.getElementById("mainApp").classList.add("hidden");
   document.getElementById("trackingPage").classList.add("hidden");
 }
-function showApp(){
+async function showApp(){
   document.getElementById("loginPage").classList.add("hidden");
   document.getElementById("mainApp").classList.remove("hidden");
   document.getElementById("trackingPage").classList.add("hidden");
   document.getElementById("welcomeMsg").textContent="مرحباً "+currentUser.name+" 👋";
+  // Show cached data immediately
   currentOrders=getOrders();
   renderAll();checkLateOrders();
+  // Load from cloud in background
+  showToast("🔄 جاري المزامنة...","info");
+  currentOrders=await loadOrdersFromCloud();
+  await loadPartsFromCloud();
+  renderAll();checkLateOrders();
+  showToast("✅ تمت المزامنة","success");
+  // Start real-time listener
+  startRealtimeSync();
   if(Notification&&Notification.permission!=="granted")Notification.requestPermission();
 }
 function switchTab(mode){
@@ -629,7 +741,7 @@ function doLogin(){
   if(!user.verified){showAuthError("الحساب غير مفعّل ⚠️");return;}
   currentUser=user;saveSession(user);showApp();
 }
-function doLogout(){saveSession(null);currentUser=null;showLogin();}
+function doLogout(){if(unsubscribeOrders)unsubscribeOrders();saveSession(null);currentUser=null;showLogin();}
 
 // ===== TRACKING =====
 function showTrackingPage(){
@@ -896,13 +1008,13 @@ function openPartForm(part=null){
 function closePartForm(){document.getElementById("partModal").classList.add("hidden");editingPartId=null;}
 function editPart(id){const p=getParts().find(x=>x.id===id);if(p)openPartForm(p);}
 function deletePart(id){if(!confirm("حذف هذه القطعة؟"))return;saveParts(getParts().filter(p=>p.id!==id));renderInventory();showToast("تم الحذف","error");}
-function submitPartForm(){
+async function submitPartForm(){
   const data={name:document.getElementById("pName").value.trim(),deviceType:document.getElementById("pDeviceType").value,brand:document.getElementById("pBrand").value.trim(),model:document.getElementById("pModel").value.trim(),category:document.getElementById("pCategory").value,buyPrice:document.getElementById("pBuyPrice").value,sellPrice:document.getElementById("pSellPrice").value,qty:document.getElementById("pQty").value,minQty:document.getElementById("pMinQty").value};
   if(!data.name){alert("أدخل اسم القطعة");return;}
   const parts=getParts();
-  if(editingPartId){const idx=parts.findIndex(p=>p.id===editingPartId);if(idx>=0)parts[idx]={...parts[idx],...data};showToast("تم التحديث ✅");}
-  else{parts.unshift({...data,id:"P"+Date.now()});showToast("تم إضافة القطعة 🔩");}
-  saveParts(parts);closePartForm();renderInventory();
+  if(editingPartId){const idx=parts.findIndex(p=>p.id===editingPartId);if(idx>=0)parts[idx]={...parts[idx],...data};showToast("⏳ جاري الحفظ...");}
+  else{parts.unshift({...data,id:"P"+Date.now()});showToast("⏳ جاري الحفظ...");}
+  await saveParts(parts);closePartForm();renderInventory();showToast("✅ تم الحفظ والمزامنة 🔄");
 }
 
 // ===== FORM HELPERS =====
@@ -985,14 +1097,15 @@ function removePartFromOrder(i){
   if(idx>=0){currentOrders[idx].parts.splice(i,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();}
 }
 
-function updateStatus(status){
+async function updateStatus(status){
   const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
   if(idx>=0){
     currentOrders[idx].status=status;
     if(status==="تم التسليم")currentOrders[idx].deliveredDate=new Date().toLocaleDateString("ar-IQ");
-    selectedOrder=currentOrders[idx];saveOrders(currentOrders);
+    selectedOrder=currentOrders[idx];
+    await saveOrders(currentOrders);
   }
-  renderDetail();showToast("تم تحديث الحالة");
+  renderDetail();showToast("✅ تم التحديث والمزامنة 🔄");
 }
 
 function sendWAMsg(phone,msg){
@@ -1005,7 +1118,7 @@ function sendWA(type){
   const msgs={
     repair:`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n🔧 جهازك قيد الإصلاح\nسنخبرك فور الانتهاء 🙏`,
     ready:`مرحباً ${o.customerName} 👋\nجهازك *${o.deviceBrand} ${o.deviceModel}*\nرقم الطلب: *${o.ticketId}*\n\n✅ جهازك *جاهز للتسليم!*\nالتكلفة: *${parseFloat(o.cost||0).toLocaleString()} IQD*\nيمكنك الحضور 🎉`,
-    done:`مرحباً ${o.customerName} 👋\nشكراً لثقتك بمركز الصيانة 🙏\nنتمنى رضاك عن خدمتنا 😊`,
+    done:`مرحباً ${o.customerName} 👋\nشكراً لثقتك بـ مكتب عبد الهادي 🙏\nنتمنى رضاك عن خدمتنا 😊`,
     general:`مرحباً ${o.customerName}،\nبخصوص جهازك ${o.deviceBrand} ${o.deviceModel}\nرقم طلبك: ${o.ticketId}`
   };
   sendWAMsg(o.customerPhone,msgs[type]);
@@ -1032,43 +1145,74 @@ function printReceipt(){
   const photosHtml=photos.length?`<div class="section-title" style="margin-top:12px">📷 صور الجهاز</div><div style="display:flex;gap:7px;flex-wrap:wrap">${photos.map(p=>`<img src="${p}" style="width:75px;height:75px;object-fit:cover;border-radius:8px;border:1px solid #eee"/>`).join('')}</div>`:'';
   const w=window.open("","_blank");
   w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>وصل - ${o.ticketId}</title>
-  <style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Segoe UI',Tahoma,sans-serif;direction:rtl;padding:18px;max-width:400px;margin:auto;color:#1a1a2e;font-size:12px}
-  .header{text-align:center;margin-bottom:14px;border-bottom:3px solid #e94560;padding-bottom:10px}
-  .header h1{font-size:20px;font-weight:900}.header p{color:#888;font-size:11px;margin-top:3px}
-  .qr-section{text-align:center;border:2px dashed #e94560;border-radius:12px;padding:12px;margin:12px 0;background:#fff8f9}
-  .ticket-id{font-size:18px;font-weight:900;letter-spacing:3px;margin-top:6px;color:#e94560}
-  .section-title{background:#f3f4f6;border-radius:7px;padding:5px 10px;font-weight:700;font-size:11px;margin:10px 0 5px}
-  .row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f0f0f0}
-  .lbl{color:#888;flex:1}.val{font-weight:700;flex:1;text-align:left}
-  .cost-row{display:flex;justify-content:space-between;background:#fff5f5;border-radius:9px;padding:9px 12px;margin:9px 0;border:1px solid #fecaca}
-  .cost-val{color:#e94560;font-size:16px;font-weight:900}
-  .footer{text-align:center;margin-top:14px;font-size:10px;color:#aaa;border-top:2px dashed #eee;padding-top:10px}
-  .copy{text-align:center;font-size:10px;color:#9ca3af;margin-top:8px;border-top:1px solid #f0f0f0;padding-top:8px}
-  @media print{button{display:none}*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}}</style>
+  <style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Segoe UI',Tahoma,Arial,sans-serif;direction:rtl;padding:10px 14px;max-width:380px;margin:auto;color:#1a1a2e;font-size:12px}
+  .header{text-align:center;margin-bottom:12px;padding-bottom:10px;border-bottom:3px double #e94560}
+  .header h1{font-size:17px;font-weight:900;color:#1a1a2e;line-height:1.4}
+  .header .sub{color:#e94560;font-size:11px;font-weight:700;margin-top:3px}
+  .header .addr{color:#888;font-size:10px;margin-top:2px}
+  .qr-section{text-align:center;border:2px dashed #e94560;border-radius:10px;padding:10px;margin:10px 0;background:#fff8f9}
+  .ticket-id{font-size:20px;font-weight:900;letter-spacing:4px;margin-top:5px;color:#e94560;font-family:monospace}
+  .section-title{background:#1a1a2e;color:white;border-radius:6px;padding:4px 10px;font-weight:700;font-size:11px;margin:9px 0 5px}
+  .row{display:flex;justify-content:space-between;padding:4px 2px;border-bottom:1px dashed #e5e7eb;align-items:flex-start;gap:8px}
+  .lbl{color:#666;font-size:11px;white-space:nowrap;flex-shrink:0}
+  .val{font-weight:700;font-size:11px;text-align:left;word-break:break-word}
+  .cost-box{text-align:center;background:#1a1a2e;color:white;border-radius:10px;padding:10px;margin:10px 0}
+  .cost-box .cost-label{font-size:11px;opacity:0.7}
+  .cost-box .cost-val{font-size:22px;font-weight:900;color:#e94560;margin:3px 0}
+  .cost-box .cost-currency{font-size:11px;opacity:0.7}
+  .footer{text-align:center;margin-top:12px;font-size:10px;color:#888;border-top:3px double #e94560;padding-top:8px}
+  .footer .thanks{font-size:13px;font-weight:900;color:#e94560;margin-bottom:4px}
+  .footer .owner{font-size:11px;color:#1a1a2e;font-weight:700}
+  .print-btn{display:block;width:100%;background:#e94560;color:white;border:none;border-radius:10px;padding:12px;font-weight:800;cursor:pointer;font-size:14px;margin-bottom:12px;font-family:inherit}
+  @media print{
+    .print-btn{display:none!important}
+    body{padding:4px}
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  }</style>
   </head><body>
-  <div class="header"><h1>🔧 مركز الصيانة</h1><p>وصل استلام جهاز للصيانة</p></div>
-  <div class="qr-section"><img src="${qr}" width="150" height="150" onerror="this.style.display='none'"/><div class="ticket-id">${o.ticketId}</div><div style="font-size:9px;color:#999;margin-top:3px">امسح الكود لمتابعة الطلب</div></div>
+  <button class="print-btn" onclick="window.print()">🖨️ طباعة الوصل</button>
+  <div class="header">
+    <h1>🔧 مكتب عبد الهادي</h1>
+    <div class="sub">للإنترنت وصيانة الهواتف</div>
+    <div class="addr">📞 07724353339 | علي أحمد كاظم</div>
+  </div>
+  <div class="qr-section">
+    <img src="${qr}" width="140" height="140" onerror="this.style.display='none'" style="border-radius:6px"/>
+    <div class="ticket-id">${o.ticketId}</div>
+    <div style="font-size:9px;color:#999;margin-top:2px">📱 امسح الكود لمتابعة طلبك</div>
+  </div>
   <div class="section-title">👤 معلومات الزبون</div>
   <div class="row"><span class="lbl">الاسم</span><span class="val">${o.customerName}</span></div>
   <div class="row"><span class="lbl">الهاتف</span><span class="val">${o.customerPhone}</span></div>
   <div class="section-title">📱 معلومات الجهاز</div>
   <div class="row"><span class="lbl">الجهاز</span><span class="val">${o.deviceBrand} ${o.deviceModel}</span></div>
-  <div class="row"><span class="lbl">اللون/السعة</span><span class="val">${o.deviceColor||"-"}</span></div>
-  <div class="row"><span class="lbl">IMEI</span><span class="val">${o.imei||"-"}</span></div>
+  ${o.deviceColor?`<div class="row"><span class="lbl">اللون/السعة</span><span class="val">${o.deviceColor}</span></div>`:''}
+  ${o.imei?`<div class="row"><span class="lbl">IMEI</span><span class="val">${o.imei}</span></div>`:''}
   <div class="section-title">⚠️ تفاصيل العطل</div>
   <div class="row"><span class="lbl">نوع العطل</span><span class="val">${o.problemType}</span></div>
   <div class="row"><span class="lbl">الوصف</span><span class="val">${o.problemDesc}</span></div>
-  <div class="row"><span class="lbl">الفني</span><span class="val">${o.technician||"-"}</span></div>
+  ${o.technician?`<div class="row"><span class="lbl">الفني</span><span class="val">${o.technician}</span></div>`:''}
   ${partsHtml}
-  <div class="section-title">💰 التكلفة والمواعيد</div>
-  <div class="cost-row"><span style="font-weight:700">تكلفة الإصلاح</span><span class="cost-val">${parseFloat(o.cost||0).toLocaleString()} IQD</span></div>
-  <div class="row"><span class="lbl">الاستلام</span><span class="val">${o.receivedDate}</span></div>
+  <div class="section-title">📅 المواعيد والحالة</div>
+  <div class="row"><span class="lbl">تاريخ الاستلام</span><span class="val">${o.receivedDate}</span></div>
   <div class="row"><span class="lbl">التسليم المتوقع</span><span class="val">${o.deliveryDate||"سيتم الإخبار"}</span></div>
   <div class="row"><span class="lbl">الحالة</span><span class="val">${o.status}</span></div>
+  <div class="cost-box">
+    <div class="cost-label">تكلفة الإصلاح</div>
+    <div class="cost-val">${parseFloat(o.cost||0).toLocaleString()}</div>
+    <div class="cost-currency">دينار عراقي (IQD)</div>
+  </div>
   ${photosHtml}
-  <div class="footer"><p>احتفظ بهذا الوصل لاستلام جهازك</p><p style="margin-top:5px;color:#e94560;font-weight:700">شكراً لثقتكم 🙏</p></div>
-  <div class="copy">© 2025 RepairPro | علي أحمد كاظم | 📞 07724353339</div>
-  <script>window.onload=()=>{setTimeout(()=>window.print(),500)}<\/script></body></html>`);
+  <div class="footer">
+    <div class="thanks">شكراً لثقتكم بنا 🙏</div>
+    <div style="font-size:10px;color:#666;margin-bottom:5px">احتفظ بهذا الوصل لاستلام جهازك</div>
+    <div class="owner">مكتب عبد الهادي للإنترنت وصيانة الهواتف</div>
+    <div style="font-size:10px;color:#888;margin-top:3px">علي أحمد كاظم | 📞 07724353339</div>
+    <div style="font-size:9px;color:#bbb;margin-top:4px">© 2025 RepairPro</div>
+  </div>
+  <script>window.onload=()=>{setTimeout(()=>window.print(),800)}<\/script></body></html>`);
   w.document.close();
 }
 
@@ -1099,24 +1243,31 @@ function openForm(order=null){
 }
 function closeForm(){document.getElementById("formModal").classList.add("hidden");editingId=null;formPhotos=[];formParts=[];}
 function editOrder(){openForm(selectedOrder);}
-function submitForm(){
+async function submitForm(){
   const data={customerName:document.getElementById("fName").value.trim(),customerPhone:document.getElementById("fPhone").value.trim(),deviceType:document.getElementById("fDeviceType").value,deviceBrand:document.getElementById("fBrand").value,deviceModel:document.getElementById("fModel").value.trim(),deviceColor:document.getElementById("fColor").value.trim(),imei:document.getElementById("fImei").value.trim(),deviceNotes:document.getElementById("fNotes").value.trim(),problemType:document.getElementById("fProblemType").value,problemDesc:document.getElementById("fProblemDesc").value.trim(),technician:document.getElementById("fTech").value.trim(),cost:document.getElementById("fCost").value,deliveryDate:document.getElementById("fDelivery").value,status:document.getElementById("fStatus").value,photos:formPhotos,parts:formParts};
   if(!data.customerName||!data.customerPhone||!data.deviceBrand||!data.deviceModel||!data.problemDesc||!data.cost){alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)");return;}
   if(editingId){
     const idx=currentOrders.findIndex(o=>o.ticketId===editingId);
     if(idx>=0){currentOrders[idx]={...currentOrders[idx],...data};if(selectedOrder?.ticketId===editingId)selectedOrder=currentOrders[idx];}
-    showToast("تم التحديث ✅");
+    showToast("⏳ جاري الحفظ...");
   } else {
     currentOrders.unshift({...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")});
-    showToast("تم إضافة الطلب 🎉");
+    showToast("⏳ جاري الحفظ...");
   }
-  saveOrders(currentOrders);closeForm();renderAll();checkLateOrders();
+  await saveOrders(currentOrders);
+  closeForm();renderAll();checkLateOrders();
+  showToast("✅ تم الحفظ والمزامنة 🔄");
   if(selectedOrder&&document.getElementById("detailPage").classList.contains("active"))renderDetail();
 }
-function deleteOrder(){
+async function deleteOrder(){
   if(!confirm("حذف هذا الطلب نهائياً؟"))return;
+  // Delete from Firestore
+  if(currentUser&&db){
+    try{await fsCol('orders').doc(selectedOrder.ticketId).delete();}catch(e){}
+  }
   currentOrders=currentOrders.filter(o=>o.ticketId!==selectedOrder.ticketId);
-  saveOrders(currentOrders);selectedOrder=null;goHome();renderAll();showToast("تم الحذف","error");
+  setCachedOrders(currentOrders);
+  selectedOrder=null;goHome();renderAll();showToast("تم الحذف","error");
 }
 
 // ===== TOAST =====
