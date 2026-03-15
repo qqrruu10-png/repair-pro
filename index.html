@@ -7,18 +7,34 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyACNeP_5JxBBereuGfCZeAA180V-U6zC18",
-  authDomain: "repairpro-cc736.firebaseapp.com",
-  projectId: "repairpro-cc736",
-  storageBucket: "repairpro-cc736.firebasestorage.app",
-  messagingSenderId: "701878280751",
-  appId: "1:701878280751:web:0e844d25c47a7467e11cda"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+// Initialize Firebase safely
+let db = null;
+function initFirebase(){
+  try{
+    const firebaseConfig = {
+      apiKey: "AIzaSyACNeP_5JxBBereuGfCZeAA180V-U6zC18",
+      authDomain: "repairpro-cc736.firebaseapp.com",
+      projectId: "repairpro-cc736",
+      storageBucket: "repairpro-cc736.firebasestorage.app",
+      messagingSenderId: "701878280751",
+      appId: "1:701878280751:web:0e844d25c47a7467e11cda"
+    };
+    if(typeof firebase !== 'undefined'){
+      if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+      db = firebase.firestore();
+      console.log("Firebase connected ✅");
+    } else {
+      console.warn("Firebase not loaded - using local storage only");
+    }
+  }catch(e){
+    console.warn("Firebase init error:", e);
+    db = null;
+  }
+}
+// Try init immediately, retry after page load if failed
+initFirebase();
+window.addEventListener('load', ()=>{ if(!db) initFirebase(); });
 </script>
 <meta name="mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
@@ -449,9 +465,55 @@ const setCachedOrders=o=>localStorage.setItem(getUserKey('o'),JSON.stringify(o))
 const getCachedParts=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('parts'))||"[]")}catch{return[]}};
 const setCachedParts=p=>localStorage.setItem(getUserKey('parts'),JSON.stringify(p));
 
-// USERS stored locally (no sensitive data in Firestore)
-const getUsers=()=>{try{return JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin","password":"1234","name":"المدير","email":"admin@repairpro.com","phone":"07724353339","role":"owner","verified":true,"regMode":"phone"}]')}catch{return[]}};
-const saveUsers=u=>localStorage.setItem("rp_users",JSON.stringify(u));
+// USERS stored in Firebase for cross-device sync
+const DEFAULT_ADMIN={username:"admin",password:"1234",name:"علي أحمد كاظم",email:"admin@repairpro.com",phone:"07724353339",role:"owner",verified:true,regMode:"phone"};
+
+function getCachedUsers(){
+  try{return JSON.parse(localStorage.getItem("rp_users")||JSON.stringify([DEFAULT_ADMIN]));}
+  catch{return[DEFAULT_ADMIN];}
+}
+function setCachedUsers(u){localStorage.setItem("rp_users",JSON.stringify(u));}
+
+async function getUsers(){
+  // Return cached first (fast)
+  const cached=getCachedUsers();
+  // Refresh from Firebase in background
+  refreshUsersFromCloud();
+  return cached;
+}
+
+async function refreshUsersFromCloud(){
+  try{
+    const snap=await db.collection("rp_users").get();
+    if(snap.empty)return;
+    const cloudUsers=snap.docs.map(d=>d.data());
+    // Merge with local (keep admin always)
+    const merged=[DEFAULT_ADMIN,...cloudUsers.filter(u=>u.username!=="admin")];
+    setCachedUsers(merged);
+  }catch(e){}
+}
+
+async function saveUsers(users){
+  setCachedUsers(users);
+  try{
+    const batch=db.batch();
+    users.filter(u=>u.username!=="admin").forEach(u=>{
+      batch.set(db.collection("rp_users").doc(u.username),u);
+    });
+    await batch.commit();
+  }catch(e){}
+}
+
+async function getUsersSync(){
+  // Try Firebase first, fallback to cache
+  try{
+    const snap=await db.collection("rp_users").get();
+    const cloudUsers=snap.docs.map(d=>d.data());
+    const merged=[DEFAULT_ADMIN,...cloudUsers.filter(u=>u.username!=="admin")];
+    setCachedUsers(merged);
+    return merged;
+  }catch(e){return getCachedUsers();}
+}
 const getSession=()=>{try{return JSON.parse(sessionStorage.getItem("rp_s")||"null")}catch{return null}};
 const saveSession=s=>sessionStorage.setItem("rp_s",JSON.stringify(s));
 
@@ -459,7 +521,10 @@ let _cnt=()=>parseInt(localStorage.getItem(getUserKey('c'))||"1000");
 const nextId=()=>{const n=_cnt()+1;localStorage.setItem(getUserKey('c'),n);return`REP-${n}`};
 
 // FIRESTORE SYNC
-function fsCol(col){ return db.collection(`users/${currentUser.username}/${col}`); }
+function fsCol(col){ 
+  if(!db) throw new Error("Firebase not available");
+  return db.collection(`users/${currentUser.username}/${col}`); 
+}
 
 async function saveOrders(orders){
   setCachedOrders(orders);
@@ -589,21 +654,19 @@ function resendOTP(){
   showToast("رمز جديد: "+generatedOTP,"info");
 }
 
-function verifyOTP(){
+async function verifyOTP(){
   const entered=getOTPValue();
   if(entered.length<6){showAuthError("أدخل الرمز كاملاً");return;}
   if(entered!==generatedOTP){showAuthError("رمز خاطئ ❌");return;}
-  
   if(otpPurpose==="register"){
     pendingRegData.verified=true;
-    const users=getUsers();
-    saveUsers([...users,pendingRegData]);
+    const users=getCachedUsers();
+    await saveUsers([...users,pendingRegData]);
     document.getElementById("authTabs").classList.remove("hidden");
     showAuthSuccess("✅ تم تفعيل حسابك! يمكنك الدخول الآن");
     switchTab("login");
     pendingRegData=null;generatedOTP=null;
   } else if(otpPurpose==="forgot"){
-    // Show reset password form
     document.getElementById("otpForm").classList.add("hidden");
     document.getElementById("authTabs").classList.remove("hidden");
     showResetPassForm();
@@ -623,7 +686,7 @@ function setRegMode(mode){
   document.getElementById("regByPhone").style.color=mode==="phone"?"white":"rgba(255,255,255,0.5)";
 }
 
-function doRegister(){
+async function doRegister(){
   const uname=document.getElementById("regUsername").value.trim();
   const email=regMode==="email"?document.getElementById("regEmail").value.trim():"";
   const phone=regMode==="phone"?document.getElementById("regPhone").value.trim():"";
@@ -635,7 +698,7 @@ function doRegister(){
   if(regMode==="phone"&&phone.length<10){showAuthError("رقم الهاتف غير صحيح");return;}
   if(pass.length<6){showAuthError("كلمة المرور 6 أحرف على الأقل");return;}
   if(pass!==conf){showAuthError("كلمة المرور غير متطابقة");return;}
-  const users=getUsers();
+  const users=await getUsersSync();
   if(users.find(x=>x.username===uname)){showAuthError("اسم المستخدم موجود مسبقاً");return;}
   if(email&&users.find(x=>x.email===email)){showAuthError("البريد مسجل مسبقاً");return;}
   if(phone&&users.find(x=>x.phone===phone)){showAuthError("رقم الهاتف مسجل مسبقاً");return;}
@@ -654,10 +717,10 @@ function showForgotPass(){
   document.getElementById("loginError").classList.add("hidden");
 }
 
-function doForgotPass(){
+async function doForgotPass(){
   const id=document.getElementById("forgotIdentifier").value.trim();
   if(!id){showAuthError("أدخل بريدك أو رقم هاتفك");return;}
-  const users=getUsers();
+  const users=await getUsersSync();
   const user=users.find(x=>x.email===id||x.phone===id||x.username===id);
   if(!user){showAuthError("لا يوجد حساب بهذه البيانات");return;}
   forgotUser=user;
@@ -670,9 +733,7 @@ function doForgotPass(){
 }
 
 function showResetPassForm(){
-  // Simple inline reset
   const card=document.querySelector(".login-card");
-  const oldContent=card.innerHTML;
   card.innerHTML=`
     <div style="text-align:center;margin-bottom:14px"><div style="font-size:30px">🔐</div><div style="color:white;font-weight:800;font-size:15px;margin-top:6px">إعادة تعيين كلمة المرور</div></div>
     <div id="resetError" class="error-msg hidden"></div>
@@ -682,15 +743,15 @@ function showResetPassForm(){
   `;
 }
 
-function doResetPass(){
+async function doResetPass(){
   const p1=document.getElementById("newPass1").value;
   const p2=document.getElementById("newPass2").value;
   const err=document.getElementById("resetError");
   if(p1.length<6){err.textContent="كلمة المرور 6 أحرف على الأقل";err.classList.remove("hidden");return;}
   if(p1!==p2){err.textContent="كلمة المرور غير متطابقة";err.classList.remove("hidden");return;}
-  const users=getUsers();
+  const users=getCachedUsers();
   const idx=users.findIndex(u=>u.username===forgotUser.username);
-  if(idx>=0){users[idx].password=p1;saveUsers(users);}
+  if(idx>=0){users[idx].password=p1;await saveUsers(users);}
   forgotUser=null;
   showLogin();
   showToast("✅ تم تغيير كلمة المرور! يمكنك الدخول الآن","success");
@@ -732,14 +793,51 @@ function switchTab(mode){
 }
 function showAuthError(msg){const e=document.getElementById("loginError");e.textContent=msg;e.classList.remove("hidden");}
 function showAuthSuccess(msg){const e=document.getElementById("loginSuccess");e.textContent=msg;e.classList.remove("hidden");}
-function doLogin(){
+async function doLogin(){
   const u=document.getElementById("loginUser").value.trim();
   const p=document.getElementById("loginPass").value;
-  const users=getUsers();
-  const user=users.find(x=>(x.username===u||x.email===u||x.phone===u)&&x.password===p);
-  if(!user){showAuthError("بيانات الدخول غلط ❌");return;}
-  if(!user.verified){showAuthError("الحساب غير مفعّل ⚠️");return;}
-  currentUser=user;saveSession(user);showApp();
+  showAuthError("");
+  document.getElementById("loginError").classList.add("hidden");
+  // Show loading
+  const btn=document.querySelector("#loginForm .login-btn");
+  btn.textContent="جاري التحقق...";btn.disabled=true;
+  try{
+    const users=await getUsersSync();
+    const user=users.find(x=>(x.username===u||x.email===u||x.phone===u)&&x.password===p);
+    btn.textContent="دخول ←";btn.disabled=false;
+    if(!user){showAuthError("بيانات الدخول غلط ❌");return;}
+    if(!user.verified){showAuthError("الحساب غير مفعّل ⚠️");return;}
+    currentUser=user;saveSession(user);
+    // Migrate old localStorage data to Firebase
+    migrateOldData();
+    showApp();
+  }catch(e){
+    btn.textContent="دخول ←";btn.disabled=false;
+    // Fallback to local
+    const users=getCachedUsers();
+    const user=users.find(x=>(x.username===u||x.email===u||x.phone===u)&&x.password===p);
+    if(!user){showAuthError("بيانات الدخول غلط ❌");return;}
+    currentUser=user;saveSession(user);showApp();
+  }
+}
+
+// Migrate old data from localStorage to Firebase
+async function migrateOldData(){
+  try{
+    // Check old keys
+    const oldKeys=[`rp_${currentUser.username}_o`,'rp_o'];
+    for(const key of oldKeys){
+      const old=localStorage.getItem(key);
+      if(old){
+        const orders=JSON.parse(old);
+        if(orders.length>0){
+          setCachedOrders(orders);
+          await saveOrders(orders);
+          showToast(`✅ تم نقل ${orders.length} طلب للسحابة 🔄`);
+        }
+      }
+    }
+  }catch(e){}
 }
 function doLogout(){if(unsubscribeOrders)unsubscribeOrders();saveSession(null);currentUser=null;showLogin();}
 
