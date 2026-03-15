@@ -152,7 +152,7 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
         <div style="text-align:center;margin-top:8px">
           <button onclick="showTrackingPage()" style="background:none;border:1px solid rgba(255,255,255,0.2);color:rgba(255,255,255,0.7);border-radius:9px;padding:7px 16px;cursor:pointer;font-size:11px">🔍 تتبع طلب (للزبائن)</button>
         </div>
-        <div style="text-align:center;margin-top:6px;color:rgba(255,255,255,0.3);font-size:10px">افتراضي: admin / 1234</div>
+        
       </div>
 
       <!-- REGISTER -->
@@ -1060,7 +1060,7 @@ function renderDetail(){
   const o=selectedOrder;
   const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
   const trackUrl=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
-  const qrUrl=`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(trackUrl)}&bgcolor=ffffff&color=1a1a2e&margin=6`;
+  const qrUrl=`https://quickchart.io/qr?text=${encodeURIComponent(trackUrl)}&size=150&margin=2&ecLevel=M`;
   let stepsHTML='';
   STEPS.forEach((s,i)=>{
     const done=i<=(sc.step||0)&&o.status!=="ملغى";
@@ -1139,7 +1139,7 @@ function deleteCurrentPhoto(){if(!confirm("حذف الصورة؟"))return;const 
 function printReceipt(){
   const o=selectedOrder;
   const trackLink=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
-  const qr=`https://api.qrserver.com/v1/create-qr-code/?size=160x160&data=${encodeURIComponent(trackLink)}&bgcolor=ffffff&color=1a1a2e&margin=8`;
+  const qr=`https://quickchart.io/qr?text=${encodeURIComponent(trackLink)}&size=160&margin=2&ecLevel=M`;
   const photos=o.photos||[];const parts=o.parts||[];
   const partsHtml=parts.length?`<div class="section-title">🔩 قطع الغيار</div>${parts.map(p=>`<div class="row"><span class="lbl">${p.name}</span><span class="val">${p.qty}x</span></div>`).join('')}`:'';
   const photosHtml=photos.length?`<div class="section-title" style="margin-top:12px">📷 صور الجهاز</div><div style="display:flex;gap:7px;flex-wrap:wrap">${photos.map(p=>`<img src="${p}" style="width:75px;height:75px;object-fit:cover;border-radius:8px;border:1px solid #eee"/>`).join('')}</div>`:'';

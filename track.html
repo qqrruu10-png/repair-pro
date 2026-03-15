@@ -145,7 +145,54 @@ function isLate(o){
   if(!o.deliveryDate||o.status==="تم التسليم"||o.status==="ملغى")return false;
   return daysDiff(o.deliveryDate)>0;
 }
-function getOrders(){try{return JSON.parse(localStorage.getItem("rp_o")||"[]")}catch{return[]}}
+// ===== FIREBASE =====
+const firebaseConfig = {
+  apiKey: "AIzaSyACNeP_5JxBBereuGfCZeAA180V-U6zC18",
+  authDomain: "repairpro-cc736.firebaseapp.com",
+  projectId: "repairpro-cc736",
+  storageBucket: "repairpro-cc736.firebasestorage.app",
+  messagingSenderId: "701878280751",
+  appId: "1:701878280751:web:0e844d25c47a7467e11cda"
+};
+
+// Load Firebase dynamically
+async function loadFirebase(){
+  return new Promise((resolve)=>{
+    if(window.firebase){resolve(window.firebase);return;}
+    const s1=document.createElement('script');
+    s1.src='https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js';
+    s1.onload=()=>{
+      const s2=document.createElement('script');
+      s2.src='https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js';
+      s2.onload=()=>{
+        if(!firebase.apps.length)firebase.initializeApp(firebaseConfig);
+        resolve(firebase);
+      };
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(s1);
+  });
+}
+
+// Search across ALL users in Firebase
+async function searchInFirebase(tid){
+  try{
+    const fb=await loadFirebase();
+    const db=fb.firestore();
+    // Get all users from localStorage (registered users list)
+    const users=JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin"}]');
+    for(const user of users){
+      try{
+        const doc=await db.collection(`users/${user.username}/orders`).doc(tid).get();
+        if(doc.exists){return doc.data();}
+      }catch{}
+    }
+    return null;
+  }catch(e){
+    console.warn('Firebase search error:',e);
+    return null;
+  }
+}
 
 // Auto-search from URL param
 window.onload=()=>{
@@ -157,7 +204,7 @@ window.onload=()=>{
   }
 };
 
-function search(){
+async function search(){
   const tid=document.getElementById("trackInput").value.trim().toUpperCase();
   if(!tid){document.getElementById("trackInput").focus();return;}
   
@@ -165,13 +212,12 @@ function search(){
   document.getElementById("resultCard").classList.add("hidden");
   document.getElementById("loadingArea").classList.remove("hidden");
   
-  setTimeout(()=>{
-    document.getElementById("loadingArea").classList.add("hidden");
-    const orders=getOrders();
-    const o=orders.find(x=>x.ticketId.toUpperCase()===tid);
-    if(!o){document.getElementById("notFound").classList.remove("hidden");return;}
-    renderResult(o);
-  },600);
+  // Search in Firebase
+  const o=await searchInFirebase(tid);
+  document.getElementById("loadingArea").classList.add("hidden");
+  
+  if(!o){document.getElementById("notFound").classList.remove("hidden");return;}
+  renderResult(o);
 }
 
 function renderResult(o){
