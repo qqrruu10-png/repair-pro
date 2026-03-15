@@ -350,7 +350,7 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <div id="photoPreviewForm" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
     <div class="form-section" style="background:#d1fae5;color:#065f46">⚠️ العطل والإصلاح</div>
     <label class="form-label">نوع العطل *</label>
-    <select class="form-input" id="fProblemType" onchange="updatePartsForProblem()">
+    <select class="form-input" id="fProblemType" onchange="updatePartsForProblem()" style="display:none">
       <option>شاشة مكسورة</option><option>بطارية</option><option>شحن</option>
       <option>كاميرا</option><option>مكبر صوت</option><option>ميكروفون</option>
       <option>سوفتوير</option><option>مياه</option><option>لا يشتغل</option><option>أخرى</option>
@@ -358,7 +358,6 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <label class="form-label">وصف العطل *</label>
     <textarea class="form-input" id="fProblemDesc" placeholder="اشرح المشكلة..." style="resize:none;height:70px"></textarea>
     <div class="form-section" style="background:#fce7f3;color:#9d174d">🔩 قطع الغيار</div>
-    <div id="suggestedParts" style="margin-bottom:10px"></div>
     <div style="display:flex;gap:7px;margin-bottom:10px">
       <input class="form-input" id="fPartName" placeholder="اسم القطعة" style="margin-bottom:0;flex:2"/>
       <input class="form-input" id="fPartQty" placeholder="عدد" type="number" style="margin-bottom:0;flex:1" value="1"/>
@@ -917,7 +916,7 @@ function renderStatsCards(){
     {l:"إصلاح",v:o.filter(x=>x.status==="قيد الإصلاح").length,c:"#3B82F6",i:"🔧"},
     {l:"جاهز",v:o.filter(x=>x.status==="جاهز للتسليم").length,c:"#10B981",i:"✅"},
     {l:"مسلّم",v:o.filter(x=>x.status==="تم التسليم").length,c:"#6B7280",i:"📦"},
-    {l:"إيراد",v:(rev/1000).toFixed(0)+"k IQD",c:"#e94560",i:"💰"}
+    {l:"إيراد IQD",v:rev.toLocaleString(),c:"#e94560",i:"💰"}
   ].map(s=>`<div class="stat-card"><div style="font-size:17px">${s.i}</div><div style="font-size:15px;font-weight:900;color:${s.c};margin-top:2px">${s.v}</div><div style="font-size:9px;color:#9ca3af;margin-top:1px">${s.l}</div></div>`).join('');
 }
 function renderFilters(){
@@ -1274,7 +1273,7 @@ function printReceipt(){
   <div class="header">
     <h1>🔧 مكتب عبد الهادي</h1>
     <div class="sub">للإنترنت وصيانة الهواتف</div>
-    <div class="addr">📞 07724353339 | علي أحمد كاظم</div>
+
   </div>
   <div class="qr-section">
     <img src="${qr}" width="140" height="140" onerror="this.style.display='none'" style="border-radius:6px"/>
@@ -1307,8 +1306,8 @@ function printReceipt(){
     <div class="thanks">شكراً لثقتكم بنا 🙏</div>
     <div style="font-size:10px;color:#666;margin-bottom:5px">احتفظ بهذا الوصل لاستلام جهازك</div>
     <div class="owner">مكتب عبد الهادي للإنترنت وصيانة الهواتف</div>
-    <div style="font-size:10px;color:#888;margin-top:3px">علي أحمد كاظم | 📞 07724353339</div>
-    <div style="font-size:9px;color:#bbb;margin-top:4px">© 2025 RepairPro</div>
+
+    <div style="font-size:9px;color:#bbb;margin-top:4px">© 2025 مكتب عبد الهادي</div>
   </div>
   <script>window.onload=()=>{setTimeout(()=>window.print(),800)}<\/script></body></html>`);
   w.document.close();

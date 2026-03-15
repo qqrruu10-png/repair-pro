@@ -214,7 +214,11 @@ async function search(){
   
   // Search in Firebase
   const o=await searchInFirebase(tid);
+  
+  // Hide loading FIRST
   document.getElementById("loadingArea").classList.add("hidden");
+  document.getElementById("notFound").classList.add("hidden");
+  document.getElementById("resultCard").classList.add("hidden");
   
   if(!o){document.getElementById("notFound").classList.remove("hidden");return;}
   renderResult(o);
