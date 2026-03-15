@@ -1156,7 +1156,7 @@ function openDetail(ticketId){
 function renderDetail(){
   const o=selectedOrder;
   const sc=STATUSES[o.status]||STATUSES["قيد الانتظار"];
-  const trackUrl=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
+  const trackUrl=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}&u=${currentUser.username}`;
   const qrUrl=`https://quickchart.io/qr?text=${encodeURIComponent(trackUrl)}&size=150&margin=2&ecLevel=M`;
   let stepsHTML='';
   STEPS.forEach((s,i)=>{
@@ -1235,7 +1235,7 @@ function deleteCurrentPhoto(){if(!confirm("حذف الصورة؟"))return;const 
 // ===== PRINT =====
 function printReceipt(){
   const o=selectedOrder;
-  const trackLink=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}`;
+  const trackLink=`https://qqrruu10-png.github.io/repair-pro/track.html?id=${o.ticketId}&u=${currentUser.username}`;
   const qr=`https://quickchart.io/qr?text=${encodeURIComponent(trackLink)}&size=160&margin=2&ecLevel=M`;
   const photos=o.photos||[];const parts=o.parts||[];
   const partsHtml=parts.length?`<div class="section-title">🔩 قطع الغيار</div>${parts.map(p=>`<div class="row"><span class="lbl">${p.name}</span><span class="val">${p.qty}x</span></div>`).join('')}`:'';

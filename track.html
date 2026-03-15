@@ -121,8 +121,8 @@ body{background:linear-gradient(135deg,#0f0c29,#1a1a2e,#16213e);min-height:100vh
   <div id="resultCard" class="result-card hidden"></div>
 
   <div class="footer">
-    <p>© 2025 <strong>RepairPro</strong></p>
-    <p style="margin-top:3px">تطوير: <strong>علي أحمد كاظم</strong> | 📞 <strong>07724353339</strong></p>
+    <p>© 2025 <strong>مكتب عبد الهادي</strong></p>
+    <p style="margin-top:3px">للإنترنت وصيانة الهواتف</p>
   </div>
 </div>
 
@@ -174,20 +174,24 @@ async function loadFirebase(){
   });
 }
 
-// Search across ALL users in Firebase
-async function searchInFirebase(tid){
+// Search ONLY in specific user's Firebase collection
+async function searchInFirebase(tid, username){
   try{
     const fb=await loadFirebase();
     const db=fb.firestore();
-    // Get all users from localStorage (registered users list)
-    const users=JSON.parse(localStorage.getItem("rp_users")||'[{"username":"admin"}]');
-    for(const user of users){
-      try{
-        const doc=await db.collection(`users/${user.username}/orders`).doc(tid).get();
-        if(doc.exists){return doc.data();}
-      }catch{}
+    
+    if(username){
+      // Direct search - most secure and fast
+      const doc=await db.collection(`users/${username}/orders`).doc(tid).get();
+      if(doc.exists) return doc.data();
+      return null;
     }
+    
+    // No username in URL - fallback to admin only
+    const doc=await db.collection(`users/admin/orders`).doc(tid).get();
+    if(doc.exists) return doc.data();
     return null;
+    
   }catch(e){
     console.warn('Firebase search error:',e);
     return null;
@@ -198,13 +202,20 @@ async function searchInFirebase(tid){
 window.onload=()=>{
   const params=new URLSearchParams(window.location.search);
   const tid=params.get("id")||params.get("ticket");
+  const username=params.get("u");
   if(tid){
     document.getElementById("trackInput").value=tid.toUpperCase();
-    search();
+    search(username);
   }
 };
 
-async function search(){
+async function search(username){
+  // Get username from URL if not passed
+  if(!username){
+    const params=new URLSearchParams(window.location.search);
+    username=params.get("u")||null;
+  }
+  
   const tid=document.getElementById("trackInput").value.trim().toUpperCase();
   if(!tid){document.getElementById("trackInput").focus();return;}
   
@@ -212,10 +223,8 @@ async function search(){
   document.getElementById("resultCard").classList.add("hidden");
   document.getElementById("loadingArea").classList.remove("hidden");
   
-  // Search in Firebase
-  const o=await searchInFirebase(tid);
+  const o=await searchInFirebase(tid, username);
   
-  // Hide loading FIRST
   document.getElementById("loadingArea").classList.add("hidden");
   document.getElementById("notFound").classList.add("hidden");
   document.getElementById("resultCard").classList.add("hidden");
