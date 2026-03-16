@@ -350,13 +350,14 @@ input,select,textarea,button{font-family:inherit;font-size:14px}
     <div id="photoPreviewForm" style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px"></div>
     <div class="form-section" style="background:#d1fae5;color:#065f46">⚠️ العطل والإصلاح</div>
     <label class="form-label">نوع العطل *</label>
-    <select class="form-input" id="fProblemType" onchange="updatePartsForProblem()" style="display:none">
+    <select class="form-input" id="fProblemType" onchange="updatePartsForProblem()">
       <option>شاشة مكسورة</option><option>بطارية</option><option>شحن</option>
       <option>كاميرا</option><option>مكبر صوت</option><option>ميكروفون</option>
       <option>سوفتوير</option><option>مياه</option><option>لا يشتغل</option><option>أخرى</option>
     </select>
     <label class="form-label">وصف العطل *</label>
     <textarea class="form-input" id="fProblemDesc" placeholder="اشرح المشكلة..." style="resize:none;height:70px"></textarea>
+    <div id="suggestedParts" style="margin-bottom:10px"></div>
     <div class="form-section" style="background:#fce7f3;color:#9d174d">🔩 قطع الغيار</div>
     <div style="display:flex;gap:7px;margin-bottom:10px">
       <input class="form-input" id="fPartName" placeholder="اسم القطعة" style="margin-bottom:0;flex:2"/>
@@ -1126,6 +1127,7 @@ function updatePartsForProblem(){
   const suggestions=PARTS_BY_PROBLEM[problem]||[];
   const invParts=getParts();
   const el=document.getElementById("suggestedParts");
+  if(!el)return;
   if(!suggestions.length){el.innerHTML='';return;}
   el.innerHTML=`<div style="font-size:11px;color:#9d174d;font-weight:700;margin-bottom:6px">💡 قطع مقترحة:</div>`+
     suggestions.map(s=>{
