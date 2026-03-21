@@ -532,7 +532,25 @@ function getUserKey(key){ return currentUser ? `rp_${currentUser.username}_${key
 
 // LOCAL CACHE (fast reads)
 const getCachedOrders=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('o'))||"[]")}catch{return[]}};
-const setCachedOrders=o=>localStorage.setItem(getUserKey('o'),JSON.stringify(o));
+const setCachedOrders=o=>{
+  try{
+    // Save without photos to save space
+    const slim=o.map(({photos,...rest})=>({...rest,photos:[]}));
+    localStorage.setItem(getUserKey('o'),JSON.stringify(slim));
+    // Save photos separately per order
+    o.forEach(order=>{
+      if(order.photos&&order.photos.length>0){
+        try{localStorage.setItem(getUserKey('ph_'+order.ticketId),JSON.stringify(order.photos));}catch{}
+      }
+    });
+  }catch(e){
+    console.warn('localStorage full, saving without photos');
+    try{
+      const noPhotos=o.map(({photos,...rest})=>({...rest,photos:[]}));
+      localStorage.setItem(getUserKey('o'),JSON.stringify(noPhotos));
+    }catch{}
+  }
+};
 const getCachedParts=()=>{try{return JSON.parse(localStorage.getItem(getUserKey('parts'))||"[]")}catch{return[]}};
 const setCachedParts=p=>localStorage.setItem(getUserKey('parts'),JSON.stringify(p));
 
@@ -1578,11 +1596,51 @@ function backToPartEdit(){
   document.getElementById("partBackBtn").style.display="none";
 }
 function capturePhoto(){document.getElementById("photoInput").click();}
-function handlePhoto(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{formPhotos.push(ev.target.result);renderFormPhotos();};reader.readAsDataURL(file);e.target.value='';}
+
+// ضغط الصورة قبل الحفظ لتوفير المساحة
+function compressImage(file,maxWidth=800,quality=0.55){
+  return new Promise(resolve=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let w=img.width,h=img.height;
+        if(w>maxWidth){h=Math.round(h*(maxWidth/w));w=maxWidth;}
+        canvas.width=w;canvas.height=h;
+        canvas.getContext('2d').drawImage(img,0,0,w,h);
+        resolve(canvas.toDataURL('image/jpeg',quality));
+      };
+      img.src=e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function handlePhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  compressImage(file).then(compressed=>{
+    formPhotos.push(compressed);renderFormPhotos();
+    showToast("📷 تم إضافة الصورة");
+  });
+  e.target.value='';
+}
 function renderFormPhotos(){document.getElementById("photoPreviewForm").innerHTML=formPhotos.map((p,i)=>`<div style="position:relative"><img src="${p}" style="width:65px;height:65px;object-fit:cover;border-radius:8px"/><button onclick="removeFormPhoto(${i})" style="position:absolute;top:-4px;right:-4px;background:#ef4444;color:white;border:none;border-radius:50%;width:18px;height:18px;cursor:pointer;font-size:10px">✕</button></div>`).join('');}
 function removeFormPhoto(i){formPhotos.splice(i,1);renderFormPhotos();}
 function addPhotoToOrder(){document.getElementById("addPhotoInput").click();}
-function handleAddPhoto(e){const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=ev=>{const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);if(idx>=0){if(!currentOrders[idx].photos)currentOrders[idx].photos=[];currentOrders[idx].photos.push(ev.target.result);selectedOrder=currentOrders[idx];saveOrders(currentOrders);renderDetail();showToast("تم إضافة الصورة 📷");}};reader.readAsDataURL(file);e.target.value='';}
+function handleAddPhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  compressImage(file).then(compressed=>{
+    const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);
+    if(idx>=0){
+      if(!currentOrders[idx].photos)currentOrders[idx].photos=[];
+      currentOrders[idx].photos.push(compressed);
+      selectedOrder=currentOrders[idx];
+      saveOrders(currentOrders);renderDetail();showToast("تم إضافة الصورة 📷");
+    }
+  });
+  e.target.value='';
+}
 function openPhotoViewer(idx){viewingPhotoIdx=idx;document.getElementById("photoViewerImg").src=selectedOrder.photos[idx];document.getElementById("photoViewer").classList.remove("hidden");}
 function closePhotoViewer(){document.getElementById("photoViewer").classList.add("hidden");}
 function deleteCurrentPhoto(){if(!confirm("حذف الصورة؟"))return;const idx=currentOrders.findIndex(o=>o.ticketId===selectedOrder.ticketId);if(idx>=0){currentOrders[idx].photos.splice(viewingPhotoIdx,1);selectedOrder=currentOrders[idx];saveOrders(currentOrders);closePhotoViewer();renderDetail();showToast("تم الحذف");}}
