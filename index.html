@@ -1766,9 +1766,39 @@ function openForm(order=null){
 function closeForm(){document.getElementById("formModal").classList.add("hidden");editingId=null;formPhotos=[];formParts=[];}
 function editOrder(){openForm(selectedOrder);}
 async function submitForm(doPrint=false){
-  const data={customerName:document.getElementById("fName").value.trim(),customerPhone:document.getElementById("fPhone").value.trim(),deviceType:document.getElementById("fDeviceType").value,deviceBrand:document.getElementById("fBrand").value,deviceModel:document.getElementById("fModel").value.trim(),deviceColor:document.getElementById("fColor").value.trim(),imei:document.getElementById("fImei").value.trim(),deviceNotes:document.getElementById("fNotes").value.trim(),problemType:document.getElementById("fProblemType").value,problemDesc:document.getElementById("fProblemDesc").value.trim(),technician:document.getElementById("fTech").value.trim(),cost:document.getElementById("fCost").value,deliveryDate:document.getElementById("fDelivery").value,status:document.getElementById("fStatus").value,photos:formPhotos,parts:formParts};
-  if(!data.customerName||!data.customerPhone||!data.deviceBrand||!data.deviceModel||!data.problemDesc||!data.cost){alert("⚠️ يرجى ملء جميع الحقول المطلوبة (*)");return;}
-  
+  const customerName=document.getElementById("fName").value.trim();
+  const customerPhone=document.getElementById("fPhone").value.trim();
+  const deviceBrand=document.getElementById("fBrand").value||document.getElementById("fModel").value.trim();
+  const deviceModel=document.getElementById("fModel").value.trim();
+  const problemDesc=document.getElementById("fProblemDesc").value.trim();
+  const cost=document.getElementById("fCost").value;
+
+  // Show specific error
+  if(!customerName){showToast("❌ أدخل اسم الزبون","error");return;}
+  if(!customerPhone){showToast("❌ أدخل رقم الهاتف","error");return;}
+  if(!deviceModel&&!deviceBrand){showToast("❌ أدخل موديل الجهاز","error");return;}
+  if(!problemDesc){showToast("❌ أدخل وصف العطل","error");return;}
+  if(!cost){showToast("❌ أدخل تكلفة الإصلاح","error");return;}
+
+  const data={
+    customerName,
+    customerPhone,
+    deviceType:document.getElementById("fDeviceType").value||"phone",
+    deviceBrand:document.getElementById("fBrand").value||deviceModel,
+    deviceModel:deviceModel||document.getElementById("fBrand").value,
+    deviceColor:document.getElementById("fColor").value.trim(),
+    imei:document.getElementById("fImei").value.trim(),
+    deviceNotes:document.getElementById("fNotes").value.trim(),
+    problemType:document.getElementById("fProblemType").value,
+    problemDesc,
+    technician:document.getElementById("fTech").value.trim(),
+    cost,
+    deliveryDate:document.getElementById("fDelivery").value,
+    status:document.getElementById("fStatus").value,
+    photos:formPhotos,
+    parts:formParts
+  };
+
   let newOrder=null;
   if(editingId){
     const idx=currentOrders.findIndex(o=>o.ticketId===editingId);
@@ -1777,15 +1807,15 @@ async function submitForm(doPrint=false){
     newOrder={...data,ticketId:nextId(),receivedDate:new Date().toLocaleDateString("ar-IQ")};
     currentOrders.unshift(newOrder);
   }
-  
-  // Save locally immediately (fast)
+
+  // Save locally immediately
   saveOrders(currentOrders);
   closeForm();
   renderAll();
   checkLateOrders();
   checkUncollectedReminders();
   showToast("✅ تم الحفظ 🎉");
-  
+
   if(doPrint && newOrder){
     selectedOrder=newOrder;
     setTimeout(()=>printReceipt(),300);
